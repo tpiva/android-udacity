@@ -1,6 +1,7 @@
 package com.example.android.sunshine.app;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -10,11 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 public class DetailActivity extends ActionBarActivity {
 
     private final String LOG_TAG = DetailActivity.class.getSimpleName();
+
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,11 @@ public class DetailActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.detail, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            mShareActionProvider = (ShareActionProvider)item.getActionProvider();
+        }
         return true;
     }
 
@@ -74,4 +83,14 @@ public class DetailActivity extends ActionBarActivity {
             return rootView;
         }
     }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                mShareActionProvider.setShareIntent(shareIntent);
+            }
+        }
+    }
+
 }
