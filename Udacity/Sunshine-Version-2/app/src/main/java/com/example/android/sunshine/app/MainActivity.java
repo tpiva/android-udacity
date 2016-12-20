@@ -54,18 +54,16 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void openPreferredLocationInMap() {
-        SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        String shareLocation = sharedPrefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        String location = Utility.getPreferredLocation(this);
 
-        Uri geolocation = Uri.parse("geo:0,0?").buildUpon().appendQueryParameter("q",shareLocation).build();
+        Uri geolocation = Uri.parse("geo:0,0?").buildUpon().appendQueryParameter("q",location).build();
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(geolocation);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
-            Log.d(LOG_TAG, "Couldn't call " + shareLocation + ", no receiving apps installed!");
+            Log.d(LOG_TAG, "Couldn't call " + location + ", no receiving apps installed!");
         }
     }
 }
