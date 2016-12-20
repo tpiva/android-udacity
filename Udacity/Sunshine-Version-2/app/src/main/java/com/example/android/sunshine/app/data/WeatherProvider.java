@@ -36,13 +36,9 @@ public class WeatherProvider extends ContentProvider {
     static final int LOCATION = 300;
 
     private static final SQLiteQueryBuilder sWeatherByLocationSettingQueryBuilder;
-    private static final SQLiteQueryBuilder sWeatherQueryBuilder;
-    private static final SQLiteQueryBuilder sLocationQueryBuilder;
 
     static{
         sWeatherByLocationSettingQueryBuilder = new SQLiteQueryBuilder();
-        sWeatherQueryBuilder = new SQLiteQueryBuilder();
-        sLocationQueryBuilder = new SQLiteQueryBuilder();
 
         //This is an inner join which looks like
         //weather INNER JOIN location ON weather.location_id = location._id
@@ -53,10 +49,6 @@ public class WeatherProvider extends ContentProvider {
                         "." + WeatherContract.WeatherEntry.COLUMN_LOC_KEY +
                         " = " + WeatherContract.LocationEntry.TABLE_NAME +
                         "." + WeatherContract.LocationEntry._ID);
-
-        sWeatherQueryBuilder.setTables(WeatherContract.WeatherEntry.TABLE_NAME);
-
-        sLocationQueryBuilder.setTables(WeatherContract.LocationEntry.TABLE_NAME);
     }
 
     //location.location_setting = ?
@@ -116,24 +108,26 @@ public class WeatherProvider extends ContentProvider {
         );
     }
 
-    private Cursor getWeather(String[] projection, String sortOrder) {
-        return sWeatherQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+    private Cursor getWeather(String[] projection, String selection, String[] selectionArgs, String sortOrder ) {
+        return mOpenHelper.getReadableDatabase().query(
+                WeatherContract.WeatherEntry.TABLE_NAME,
                 projection,
+                selection,
+                selectionArgs,
                 null,
                 null,
-                null,
-                null,
-                sortOrder);
+                sortOrder );
     }
 
-    private Cursor getLocation(String[] projection, String sortOrder) {
-        return sLocationQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+    private Cursor getLocation(String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        return mOpenHelper.getReadableDatabase().query(
+                WeatherContract.LocationEntry.TABLE_NAME,
                 projection,
+                selection,
+                selectionArgs,
                 null,
                 null,
-                null,
-                null,
-                sortOrder);
+                sortOrder );
     }
 
     /*
@@ -214,12 +208,12 @@ public class WeatherProvider extends ContentProvider {
             }
             // "weather"
             case WEATHER: {
-                retCursor = getWeather(projection,sortOrder);
+                retCursor = getWeather(projection,selection, selectionArgs, sortOrder);
                 break;
             }
             // "location"
             case LOCATION: {
-                retCursor = getLocation(projection,sortOrder);
+                retCursor = getLocation(projection,selection, selectionArgs, sortOrder);
                 break;
             }
 
