@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.android.sunshine.app.DetailActivity">
     <item
-       android:id="@+id/menu_item_share"
+       android:id="@+id/action_share"
         android:title="Share"
         app:showAsAction="always"
         android:actionProviderClass=

@@ -14,14 +14,17 @@ import android.view.MenuItem;
 public class MainActivity extends ActionBarActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String FORECASTFRAGMENT_TAG = "FFTG";
+    private String mLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mLocation = Utility.getPreferredLocation(this);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ForecastFragment())
+                    .add(R.id.container, new ForecastFragment(),FORECASTFRAGMENT_TAG)
                     .commit();
         }
     }
@@ -64,6 +67,20 @@ public class MainActivity extends ActionBarActivity {
             startActivity(intent);
         } else {
             Log.d(LOG_TAG, "Couldn't call " + location + ", no receiving apps installed!");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String currentLocation = Utility.getPreferredLocation(this);
+
+        if(currentLocation != null && !currentLocation.equals(mLocation)) {
+            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+            if(ff != null) {
+                ff.onLocationChanged();
+            }
+            mLocation = currentLocation;
         }
     }
 }
