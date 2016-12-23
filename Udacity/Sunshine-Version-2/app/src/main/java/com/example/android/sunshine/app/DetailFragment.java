@@ -45,7 +45,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
             WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
             WeatherContract.WeatherEntry.COLUMN_PRESSURE,
-            WeatherContract.WeatherEntry.COLUMN_DEGREES
+            WeatherContract.WeatherEntry.COLUMN_DEGREES,
+            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID
     };
 
     // these constants correspond to the projection defined above, and must change if the
@@ -59,17 +60,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int COL_WEATHER_WIND_SPEED = 6;
     private static final int COL_WEATHER_PRESSURE = 7;
     private static final int COL_WEATHER_DEGREES = 8;
+    private static final int COL_CONDITION_ID = 9;
 
-    private ImageView iconView;
-    private TextView dateView;
-    private TextView dayView;
-    private TextView descriptionView;
-    private TextView highTempView;
-    private TextView lowTempView;
-    private TextView humityView;
-    private TextView windTextView;
-    private TextView pressureTextView;
-
+    private ImageView mIconView;
+    private TextView mDateView;
+    private TextView mDayView;
+    private TextView mDescriptionView;
+    private TextView mHighTempView;
+    private TextView mLowTempView;
+    private TextView mHumityView;
+    private TextView mWindTextView;
+    private TextView mPressureTextView;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -79,15 +80,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
-        iconView = (ImageView) view.findViewById(R.id.detail_icon);
-        dateView = (TextView) view.findViewById(R.id.detail_date_textview);
-        dayView = (TextView) view.findViewById(R.id.detail_day_textview);
-        descriptionView = (TextView) view.findViewById(R.id.detailforecast_textview);
-        highTempView = (TextView) view.findViewById(R.id.detail_high_textview);
-        lowTempView = (TextView) view.findViewById(R.id.detail_low_textview);
-        humityView = (TextView) view.findViewById(R.id.detail_humity_textview);
-        windTextView = (TextView) view.findViewById(R.id.detail_wind_textview);
-        pressureTextView = (TextView) view.findViewById(R.id.detail_pressure_textview);
+        mIconView = (ImageView) view.findViewById(R.id.detail_icon);
+        mDateView = (TextView) view.findViewById(R.id.detail_date_textview);
+        mDayView = (TextView) view.findViewById(R.id.detail_day_textview);
+        mDescriptionView = (TextView) view.findViewById(R.id.detailforecast_textview);
+        mHighTempView = (TextView) view.findViewById(R.id.detail_high_textview);
+        mLowTempView = (TextView) view.findViewById(R.id.detail_low_textview);
+        mHumityView = (TextView) view.findViewById(R.id.detail_humity_textview);
+        mWindTextView = (TextView) view.findViewById(R.id.detail_wind_textview);
+        mPressureTextView = (TextView) view.findViewById(R.id.detail_pressure_textview);
 
         return view;
     }
@@ -148,6 +149,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Log.v(LOG_TAG, "In onLoadFinished");
         if (!data.moveToFirst()) { return; }
 
+        // Read weather icon ID from cursor
+        int weatherId = data.getInt(COL_CONDITION_ID);
+
         long date = data.getLong(COL_WEATHER_DATE);
         String dateString = Utility.getFormattedMonthDay(getActivity(), date);
         String dayString = Utility.getDayName(getActivity(), date);
@@ -170,15 +174,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         String pressure = getActivity().getString(R.string.format_pressure, data.getFloat(COL_WEATHER_PRESSURE));
 
-        iconView.setImageResource(R.drawable.ic_launcher);
-        dateView.setText(dateString);
-        dayView.setText(dayString);
-        descriptionView.setText(weatherDescription);
-        highTempView.setText(high);
-        lowTempView.setText(low);
-        humityView.setText(humity);
-        windTextView.setText(wind);
-        pressureTextView.setText(pressure);
+        mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
+        mDateView.setText(dateString);
+        mDayView.setText(dayString);
+        mDescriptionView.setText(weatherDescription);
+        mHighTempView.setText(high);
+        mLowTempView.setText(low);
+        mHumityView.setText(humity);
+        mWindTextView.setText(wind);
+        mPressureTextView.setText(pressure);
 
         // If onCreateOptionsMenu has already happened, we need to update the share intent now.
         if (mShareActionProvider != null) {
