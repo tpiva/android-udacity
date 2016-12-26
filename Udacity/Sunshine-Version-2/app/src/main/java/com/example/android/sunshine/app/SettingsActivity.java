@@ -67,6 +67,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public Intent getParentActivityIntent() {
-        return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 }
