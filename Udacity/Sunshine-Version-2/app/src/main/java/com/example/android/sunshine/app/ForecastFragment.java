@@ -65,6 +65,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private ListView mListView;
 
+    private boolean mUseTodayLayout;
+
     public ForecastFragment() {
     }
 
@@ -136,6 +138,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if(savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
             mPostion = savedInstanceState.getInt(SELECTED_KEY);
         }
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+
         return rootView;
     }
 
@@ -181,6 +185,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             outState.putInt(SELECTED_KEY, mPostion);
         }
         super.onSaveInstanceState(outState);
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+        if (mForecastAdapter != null) {
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
     }
 
     /**
