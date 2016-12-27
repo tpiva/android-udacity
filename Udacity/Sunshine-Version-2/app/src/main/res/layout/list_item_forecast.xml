@@ -29,7 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceLarge"
-            android:fontFamily="sans-serif-condensed"/>
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/list_item_forecast_textview"
@@ -43,12 +44,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="5">
+        android:layout_weight="5"
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/list_item_high_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textAppearance="?android:textAppearanceLarge"
             android:fontFamily="sans-serif-condensed"/>
 
@@ -56,6 +59,7 @@
             android:id="@+id/list_item_low_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textAppearance="?android:textAppearanceSmall"
             android:fontFamily="sans-serif-condensed"/>
     </LinearLayout>
