@@ -43,6 +43,7 @@
             android:exported="true"
             android:enabled="true"/>
         <service android:name=".service.SunshineService"/>
+        <receiver android:name=".service.SunshineService$AlarmReceiver"/>
     </application>
 
 </manifest>
