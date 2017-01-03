@@ -46,12 +46,11 @@
 
         </activity>
         <provider
-            android:authorities="com.example.android.sunshine.app"
+            android:authorities="@string/content_authority"
             android:name=".data.WeatherProvider"
             android:exported="true"
-            android:enabled="true"/>
-        <service android:name=".service.SunshineService"/>
-        <receiver android:name=".service.SunshineService$AlarmReceiver"/>
+            android:enabled="true"
+            android:syncable="true" />
 
         <!-- SyncAdapter's dummy authentication service -->
         <service
