@@ -8,7 +8,7 @@
     android:verticalSpacing="0dp"
     android:horizontalSpacing="0dp"
     android:stretchMode="columnWidth"
-    tools:context=".fragments.MovieGridFragment"
+    tools:context=".fragments.PopularMovieGridFragment"
     android:id="@+id/flavors_grid">
 
 </GridView>
