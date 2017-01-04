@@ -33,6 +33,12 @@ public class Utility {
                 .equals(context.getString(R.string.pref_units_metric));
     }
 
+    public static boolean isEnableNotification(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.pref_enable_notifications_key),
+                Boolean.getBoolean(context.getString(R.string.pref_enable_notifications_default)));
+    }
+
     /**
      * Helper method to convert the database representation of the date into something to display
      * to users.  As classy and polished a user experience as "20140102" is, we can do better.
