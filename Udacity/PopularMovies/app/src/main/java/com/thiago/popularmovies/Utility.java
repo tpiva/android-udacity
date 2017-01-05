@@ -1,5 +1,8 @@
 package com.thiago.popularmovies;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.text.ParseException;
@@ -23,5 +26,13 @@ public class Utility {
         }
 
         return null;
+    }
+
+    public static boolean isPopular(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(
+                context.getString(R.string.pref_sort_order_key),
+                context.getString(R.string.pref_popular_movies_popular))
+                .equals(context.getString(R.string.pref_popular_movies_popular));
     }
 }

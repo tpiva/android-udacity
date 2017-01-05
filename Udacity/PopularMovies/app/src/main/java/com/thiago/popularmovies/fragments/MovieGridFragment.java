@@ -9,6 +9,7 @@ import android.widget.GridView;
 
 import com.thiago.popularmovies.MovieAdapter;
 import com.thiago.popularmovies.R;
+import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.dto.Movie;
 import com.thiago.popularmovies.webservice.FetchMovies;
 
@@ -20,6 +21,13 @@ import java.util.ArrayList;
 
 public class MovieGridFragment extends Fragment {
 
+    private static final String SEARCH_POPULAR = "popular";
+    private static final String SEARCH_TOP_RATED = "toprated";
+
+    private static String mLastSearch;
+
+    private MovieAdapter mAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -27,12 +35,37 @@ public class MovieGridFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         GridView movieGrid = (GridView) rootView.findViewById(R.id.movies_grid);
 
-        MovieAdapter adapter = new MovieAdapter(getActivity(), new ArrayList<Movie>());
-        movieGrid.setAdapter(adapter);
+        mAdapter = new MovieAdapter(getActivity(), new ArrayList<Movie>());
+        movieGrid.setAdapter(mAdapter);
 
-        FetchMovies fetchMovies = new FetchMovies(adapter);
-        fetchMovies.execute();
+        // get last search, popular or to rated
+        mLastSearch = getLastSearch();
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateMovieList();
+    }
+
+    private void updateMovieList() {
+        if(mAdapter != null) {
+            // get actual search
+            String lastSearch = getLastSearch();
+            if(!lastSearch.equals(mLastSearch)) {
+                // clear adapter
+                mAdapter.clear();
+                mLastSearch = lastSearch;
+            }
+
+            FetchMovies fetchMovies = new FetchMovies(getActivity(), mAdapter);
+            fetchMovies.execute("1");
+        }
+    }
+
+    private String getLastSearch() {
+        return (Utility.isPopular(getActivity())) ? SEARCH_POPULAR : SEARCH_TOP_RATED;
     }
 }

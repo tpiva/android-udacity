@@ -1,5 +1,6 @@
 package com.thiago.popularmovies.webservice;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -27,26 +28,36 @@ import java.util.List;
  * Created by tmagalhaes on 04-Jan-17.
  */
 
-public class FetchMovies extends AsyncTask<Void, Void, List<Movie>> {
+public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
 
     private static final String LOG = FetchMovies.class.getSimpleName();
 
-    private static final String POPULAR_MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/popular?";
+    private static final String BASE_URL = "http://api.themoviedb.org/3";
+    private static final String POPULAR_MOVIE_BASE_URL = BASE_URL + "/movie/popular?";
+    private static final String TOP_RATED_MOVIE_BASE_URL = BASE_URL + "/movie/top_rated?";
     private static final String API_KEY_PARAM = "api_key";
+    private static final String PAGE_PARAM = "page";
 
-    private MovieAdapter adapter;
+    private MovieAdapter mAdapter;
+    private Context mContext;
 
-    public FetchMovies(MovieAdapter adapter) {
-        this.adapter = adapter;
+    public FetchMovies(Context context, MovieAdapter adapter) {
+        this.mContext = context;
+        this.mAdapter = adapter;
     }
 
     @Override
-    protected List<Movie> doInBackground(Void... voids) {
-        Log.d(LOG, "Initializing service of Popular Movie.");
+    protected List<Movie> doInBackground(String... args) {
+        Log.d(LOG, "Initializing task of Popular Movie.");
+
+        if(args == null) {
+            return null;
+        }
 
         try {
-            Uri buildUri = Uri.parse(POPULAR_MOVIE_BASE_URL).buildUpon()
-                    .appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY).build();
+            Uri buildUri = Uri.parse(Utility.isPopular(mContext) ? POPULAR_MOVIE_BASE_URL : TOP_RATED_MOVIE_BASE_URL)
+                    .buildUpon().appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
+                    .appendQueryParameter(PAGE_PARAM, args[0]).build();
 
             URL url = new URL(buildUri.toString());
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -166,7 +177,7 @@ public class FetchMovies extends AsyncTask<Void, Void, List<Movie>> {
 
     @Override
     protected void onPostExecute(List<Movie> movies) {
-        adapter.addAll(movies);
-        adapter.notifyDataSetChanged();
+        mAdapter.addAll(movies);
+        mAdapter.notifyDataSetChanged();
     }
 }
