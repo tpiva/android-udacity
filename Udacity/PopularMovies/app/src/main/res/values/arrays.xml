@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_sort_order_values">
+        <item>@string/pref_popular_movies_metric</item>
+        <item>@string/pref_top_rated_imperial</item>
+    </string-array>
+    <string-array name="pref_sort_order_options">
+        <item>@string/pref_popular_movies_label_metric</item>
+        <item>@string/pref_top_rated_label_imperial</item>
+    </string-array>
+</resources>

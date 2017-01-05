@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Pop Movies</string>
     <string name="action_settings">Settings</string>
+    <string name="pref_sort_order_key" translatable="false">sortOrder</string>
+    <string name="pref_sort_order_label">Sort Order</string>
+
+    <string name="pref_popular_movies_label_metric">Popular</string>
+    <string name="pref_top_rated_label_imperial">Top Rated</string>
+    <string name="pref_popular_movies_metric" translatable="false">popular</string>
+    <string name="pref_top_rated_imperial" translatable="false">topated</string>
 </resources>
