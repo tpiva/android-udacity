@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by tmagalhaes on 04-Jan-17.
  */
 
-public class PopularMovieGridFragment extends Fragment {
+public class MovieGridFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
