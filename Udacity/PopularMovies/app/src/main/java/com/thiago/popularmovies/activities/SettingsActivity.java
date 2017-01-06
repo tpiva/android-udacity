@@ -15,7 +15,7 @@ import com.thiago.popularmovies.R;
  * Created by tmagalhaes on 05-Jan-17.
  */
 
-public class Settings extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
+public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

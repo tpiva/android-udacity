@@ -1,12 +1,15 @@
 package com.thiago.popularmovies.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by tmagalhaes on 04-Jan-17.
  */
 
-public class Movie {
+public class Movie implements Parcelable{
     private String posterPath;
     private boolean adult;
     private String overview;
@@ -21,6 +24,36 @@ public class Movie {
     private int voteCount;
     private boolean video;
     private double voteAverage;
+
+    public Movie(){}
+
+    protected Movie(Parcel in) {
+        posterPath = in.readString();
+        adult = in.readByte() != 0;
+        overview = in.readString();
+        genreIds = in.createIntArray();
+        id = in.readInt();
+        originalTitle = in.readString();
+        originalLanguage = in.readString();
+        title = in.readString();
+        backdropPath = in.readString();
+        popularity = in.readDouble();
+        voteCount = in.readInt();
+        video = in.readByte() != 0;
+        voteAverage = in.readDouble();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public String getPosterPath() {
         return posterPath;
@@ -133,4 +166,28 @@ public class Movie {
     public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(posterPath);
+        parcel.writeByte((byte) (adult ? 1 : 0));
+        parcel.writeString(overview);
+        parcel.writeIntArray(genreIds);
+        parcel.writeInt(id);
+        parcel.writeString(originalTitle);
+        parcel.writeString(originalLanguage);
+        parcel.writeString(title);
+        parcel.writeString(backdropPath);
+        parcel.writeDouble(popularity);
+        parcel.writeInt(voteCount);
+        parcel.writeByte((byte) (video ? 1 : 0));
+        parcel.writeDouble(voteAverage);
+    }
+
+
 }

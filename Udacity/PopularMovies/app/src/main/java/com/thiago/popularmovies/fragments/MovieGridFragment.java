@@ -1,6 +1,7 @@
 package com.thiago.popularmovies.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.thiago.popularmovies.MovieAdapter;
 import com.thiago.popularmovies.R;
 import com.thiago.popularmovies.Utility;
+import com.thiago.popularmovies.activities.DetailActivity;
 import com.thiago.popularmovies.dto.Movie;
 import com.thiago.popularmovies.webservice.FetchMovies;
 
@@ -29,6 +32,8 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     private static final String SEARCH_TOP_RATED = "top_rated";
     private static final String LAST_SEARCH = "last_search";
     private static final String LAST_PAGE = "last_page";
+
+    public static final String DETAIL_MOVIE = "detail_movie";
 
     private static String mLastSearch;
     private static int mCurrentPage = 1;
@@ -50,10 +55,11 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
         if(savedInstanceState != null) {
             mLastSearch = savedInstanceState.getString(LAST_SEARCH);
             mCurrentPage = savedInstanceState.getInt(LAST_PAGE);
+        } else {
+            // get last search, popular or to rated
+            mLastSearch = getLastSearch();
+            mCurrentPage = 1;
         }
-
-        // get last search, popular or to rated
-        mLastSearch = getLastSearch();
 
         movieGrid.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -63,11 +69,21 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                Log.i("Teste", "firstVisibleItem " + firstVisibleItem + " visibleItemCount " + visibleItemCount + " totalItemCount " + totalItemCount);
                 if(firstVisibleItem + visibleItemCount == totalItemCount) {
                     mCurrentPage++;
                     updateMovieList();
                 }
+            }
+        });
+
+        movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Movie movie = (Movie)adapterView.getItemAtPosition(position);
+                // put on parcelable
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(DETAIL_MOVIE, movie);
+                startActivity(intent);
             }
         });
 

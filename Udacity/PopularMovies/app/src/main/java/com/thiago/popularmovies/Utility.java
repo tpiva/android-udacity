@@ -18,14 +18,15 @@ public class Utility {
     private static String LOG = Utility.class.getSimpleName();
 
     public static Date getFormatDate(String date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM");
+        Date releaseDate = null;
         try {
-            return simpleDateFormat.parse(date);
+            releaseDate = simpleDateFormat.parse(date);
         } catch (ParseException e) {
             Log.e(LOG, "ParseException",e);
         }
 
-        return null;
+        return releaseDate;
     }
 
     public static boolean isPopular(Context context) {
@@ -34,5 +35,10 @@ public class Utility {
                 context.getString(R.string.pref_sort_order_key),
                 context.getString(R.string.pref_popular_movies_popular))
                 .equals(context.getString(R.string.pref_popular_movies_popular));
+    }
+
+    public static String getYearOfReleaseDate(Date releaseDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+        return simpleDateFormat.format(releaseDate);
     }
 }

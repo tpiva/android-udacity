@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">Pop Movies</string>
     <string name="action_settings">Settings</string>
     <string name="pref_sort_order_key" translatable="false">sortOrder</string>
@@ -9,4 +9,6 @@
     <string name="pref_popular_movies_popular" translatable="false">popular</string>
     <string name="pref_top_rated_top_rated" translatable="false">topated</string>
     <string name="fetch_movies_loading">Loading...</string>
+
+    <string name="format_user_rating"><xliff:g id="vote_average">%1$1.0f</xliff:g>,<xliff:g id="vote_count">%2$04d</xliff:g></string>
 </resources>
