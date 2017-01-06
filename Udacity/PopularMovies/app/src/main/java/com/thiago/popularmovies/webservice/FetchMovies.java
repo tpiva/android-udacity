@@ -38,12 +38,12 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
     private static final String API_KEY_PARAM = "api_key";
     private static final String PAGE_PARAM = "page";
 
-    private MovieAdapter mAdapter;
     private Context mContext;
+    private MovieTaskCallback mUI;
 
-    public FetchMovies(Context context, MovieAdapter adapter) {
+    public FetchMovies(Context context, MovieTaskCallback ui) {
         this.mContext = context;
-        this.mAdapter = adapter;
+        this.mUI = ui;
     }
 
     @Override
@@ -176,8 +176,18 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
     }
 
     @Override
+    protected void onPreExecute() {
+        mUI.onPreExecute();
+    }
+
+    @Override
     protected void onPostExecute(List<Movie> movies) {
-        mAdapter.addAll(movies);
-        mAdapter.notifyDataSetChanged();
+        mUI.onPostExecute(movies);
+    }
+
+    public interface MovieTaskCallback {
+        void onPreExecute();
+
+        void onPostExecute(List<Movie> movies);
     }
 }
