@@ -10,5 +10,5 @@
     <string name="pref_top_rated_top_rated" translatable="false">topated</string>
     <string name="fetch_movies_loading">Loading...</string>
 
-    <string name="format_user_rating"><xliff:g id="vote_average">%1$1.0f</xliff:g>\u002F<xliff:g id="vote_count">%2$d</xliff:g></string>
+    <string name="format_user_rating">%1$1.0f / %2$s</string>
 </resources>

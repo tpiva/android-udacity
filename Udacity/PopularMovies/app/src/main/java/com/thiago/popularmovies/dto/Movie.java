@@ -41,6 +41,7 @@ public class Movie implements Parcelable{
         voteCount = in.readInt();
         video = in.readByte() != 0;
         voteAverage = in.readDouble();
+        releaseDate = new Date(in.readLong());
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -187,6 +188,7 @@ public class Movie implements Parcelable{
         parcel.writeInt(voteCount);
         parcel.writeByte((byte) (video ? 1 : 0));
         parcel.writeDouble(voteAverage);
+        parcel.writeLong(releaseDate.getTime());
     }
 
 

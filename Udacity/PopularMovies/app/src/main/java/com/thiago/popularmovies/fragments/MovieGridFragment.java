@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,16 +29,20 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
     private static final String SEARCH_POPULAR = "popular";
     private static final String SEARCH_TOP_RATED = "top_rated";
-    private static final String LAST_SEARCH = "last_search";
-    private static final String LAST_PAGE = "last_page";
 
     public static final String DETAIL_MOVIE = "detail_movie";
 
-    private static String mLastSearch;
-    private static int mCurrentPage = 1;
+    private String mLastSearch;
+    private int mCurrentPage = 1;
+    private boolean mIsFetching = false;
 
     private MovieAdapter mAdapter;
     private ProgressDialog mProgressDialog;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,16 +54,6 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
         mAdapter = new MovieAdapter(getActivity(), new ArrayList<Movie>());
         movieGrid.setAdapter(mAdapter);
 
-        // check if is recreate
-        if(savedInstanceState != null) {
-            mLastSearch = savedInstanceState.getString(LAST_SEARCH);
-            mCurrentPage = savedInstanceState.getInt(LAST_PAGE);
-        } else {
-            // get last search, popular or to rated
-            mLastSearch = getLastSearch();
-            mCurrentPage = 1;
-        }
-
         movieGrid.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -69,9 +62,9 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if(firstVisibleItem + visibleItemCount == totalItemCount) {
-                    mCurrentPage++;
+                if(!mIsFetching && (firstVisibleItem + visibleItemCount == totalItemCount)) {
                     updateMovieList();
+                    mCurrentPage++;
                 }
             }
         });
@@ -88,14 +81,6 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(LAST_PAGE, mCurrentPage);
-        outState.putString(LAST_SEARCH,mLastSearch);
-
-        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -127,6 +112,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     @Override
     public void onPreExecute() {
         if(mProgressDialog == null) {
+            mIsFetching = true;
             mProgressDialog = new ProgressDialog(getActivity());
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgressDialog.setMessage(getActivity().getString(R.string.fetch_movies_loading));
@@ -136,6 +122,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
     @Override
     public void onPostExecute(List<Movie> movies) {
+        mIsFetching = false;
         mProgressDialog.dismiss();
         mAdapter.addAll(movies);
         mAdapter.notifyDataSetChanged();

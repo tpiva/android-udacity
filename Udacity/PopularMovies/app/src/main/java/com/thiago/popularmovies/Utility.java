@@ -18,7 +18,7 @@ public class Utility {
     private static String LOG = Utility.class.getSimpleName();
 
     public static Date getFormatDate(String date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date releaseDate = null;
         try {
             releaseDate = simpleDateFormat.parse(date);

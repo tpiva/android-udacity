@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,8 +58,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
                     android:textColor="@color/lightGray"
-                    android:fontFamily="sans-serif-smallcaps"
-                    android:text="2016"/>
+                    android:fontFamily="sans-serif-smallcaps"/>
 
                 <TextView
                     android:id="@+id/detail_movie_item_duration"
@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@android:style/TextAppearance.Small"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darkGray"
                     android:fontFamily="serif"/>
             </LinearLayout>
 
