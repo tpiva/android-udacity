@@ -2,6 +2,9 @@ package com.thiago.popularmovies;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -40,5 +43,11 @@ public class Utility {
     public static String getYearOfReleaseDate(Date releaseDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
         return simpleDateFormat.format(releaseDate);
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 }

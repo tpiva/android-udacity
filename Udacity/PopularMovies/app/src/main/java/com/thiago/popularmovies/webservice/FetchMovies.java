@@ -51,7 +51,11 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         Log.d(LOG, "Initializing task of Popular Movie.");
 
         if(args == null) {
-            return null;
+            return new ArrayList<>();
+        }
+
+        if(!Utility.isOnline(mContext)) {
+            return new ArrayList<>();
         }
 
         try {
