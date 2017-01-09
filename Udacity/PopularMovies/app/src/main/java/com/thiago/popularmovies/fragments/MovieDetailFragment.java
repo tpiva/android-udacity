@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.thiago.popularmovies.R;
-import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.dto.Movie;
 
 /**
@@ -29,7 +28,7 @@ public class MovieDetailFragment extends Fragment {
     private TextView mSynopsis;
 
     public MovieDetailFragment(){
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
     }
 
     @Nullable
@@ -58,12 +57,12 @@ public class MovieDetailFragment extends Fragment {
     private void fillMovieDetails(Movie movie) {
         mTitleView.setText(movie.getOriginalTitle());
 
-        Picasso.with(getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).fit().into(mPosterView);
+        Picasso.with(getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).into(mPosterView);
 
         //String year = Utility.getYearOfReleaseDate(movie.getReleaseDate());
         //mYearView.setText(year);
 
-        String formatUserRating = String.format(getActivity().getString(R.string.format_user_rating),movie.getVoteAverage(), movie.getVoteCount());
+        String formatUserRating = getActivity().getString((R.string.format_user_rating),movie.getVoteAverage(), movie.getVoteCount());
         mUserRatingView.setText(formatUserRating);
 
         mUserRatingView.setText(String.valueOf(movie.getVoteAverage()));
