@@ -61,21 +61,22 @@
                     android:fontFamily="sans-serif-smallcaps"/>
 
                 <TextView
-                    android:id="@+id/detail_movie_item_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/darkGray"
-                    android:text="120min"
-                    android:fontFamily="serif"/>
-
-                <TextView
                     android:id="@+id/detail_movie_item_user_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="@color/darkGray"
                     android:fontFamily="serif"/>
+
+                <ToggleButton
+                    android:id="@+id/detail_button_favorites"
+                    android:layout_marginTop="6dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/toggle_selector"
+                    android:layout_gravity="left"
+                    android:textOff=""
+                    android:textOn=""/>
             </LinearLayout>
 
         </LinearLayout>
@@ -92,5 +93,6 @@
             android:textColor="@color/darkGray"/>
 
     </LinearLayout>
+
 
 </ScrollView>

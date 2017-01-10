@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
 import com.thiago.popularmovies.R;
@@ -24,9 +25,9 @@ public class MovieDetailFragment extends Fragment {
     private TextView mTitleView;
     private ImageView mPosterView;
     private TextView mYearView;
-    private TextView mDurationView;
     private TextView mUserRatingView;
     private TextView mSynopsis;
+    private ToggleButton mFavoriteTg;
 
     @Nullable
     @Override
@@ -42,9 +43,9 @@ public class MovieDetailFragment extends Fragment {
         mTitleView = (TextView) view.findViewById(R.id.detail_movie_item_title);
         mPosterView = (ImageView) view.findViewById(R.id.detail_movie_item_poster);
         mYearView = (TextView) view.findViewById(R.id.detail_movie_item_year);
-        mDurationView = (TextView) view.findViewById(R.id.detail_movie_item_duration);
         mUserRatingView = (TextView) view.findViewById(R.id.detail_movie_item_user_rating);
         mSynopsis = (TextView) view.findViewById(R.id.detail_movie_item_synopsis);
+        mFavoriteTg = (ToggleButton) view.findViewById(R.id.detail_button_favorites);
 
         fillMovieDetails(currentMovie);
 
