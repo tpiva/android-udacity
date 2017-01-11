@@ -29,29 +29,22 @@ import java.util.List;
 
 public class MovieGridFragment extends Fragment implements FetchMovies.MovieTaskCallback {
 
+    private static final String LOG = MovieGridFragment.class.getSimpleName();
+
     private static final String SEARCH_POPULAR = "popular";
     private static final String SEARCH_TOP_RATED = "top_rated";
-    private static final String LAST_SEARCH = "last_search";
-    private static final String LAST_PAGE = "last_page";
 
     public static final String DETAIL_MOVIE = "detail_movie";
-    private static final String CURRENT_POSITION = "current_position";
-    private static final String MOVIE_ARRAY_LIST = "movies";
 
     private String mLastSearch;
     private int mCurrentPage = 1;
-    private int mPosition = GridView.INVALID_POSITION;
-    private boolean mIsFetching = false;
+    private int mOldPage = 0;
+    private static boolean mFetching = false;
 
     private MovieAdapter mAdapter;
     private ProgressDialog mProgressDialog;
 
-    private ArrayList<Movie> mMovies;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private List<Movie> mMovies;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,27 +57,11 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
             GridView movieGrid = (GridView) rootView.findViewById(R.id.movies_grid);
 
-            if(savedInstanceState != null) {
-                mLastSearch = savedInstanceState.getString(LAST_SEARCH);
-                mCurrentPage = savedInstanceState.getInt(LAST_PAGE);
-                if(savedInstanceState.containsKey(MOVIE_ARRAY_LIST)) {
-                    mMovies = savedInstanceState.getParcelableArrayList(MOVIE_ARRAY_LIST);
-                    mPosition = savedInstanceState.getInt(CURRENT_POSITION);
-                }
-            } else {
-                // get last search, popular or to rated
-                mLastSearch = getLastSearch();
-                mCurrentPage = 1;
-                // instance of mMovies
+            if(mMovies == null) {
                 mMovies = new ArrayList<>();
             }
-
             mAdapter = new MovieAdapter(getActivity(), mMovies);
             movieGrid.setAdapter(mAdapter);
-
-            if(mPosition != GridView.INVALID_POSITION) {
-                movieGrid.smoothScrollToPosition(mPosition);
-            }
 
             movieGrid.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
@@ -94,9 +71,9 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
                 @Override
                 public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    if(!mIsFetching && (firstVisibleItem + visibleItemCount == totalItemCount)) {
+                    if(!mFetching && (firstVisibleItem + visibleItemCount == totalItemCount)) {
                         updateMovieList();
-                        mCurrentPage++;
+                        mOldPage = mCurrentPage++;
                     }
                 }
             });
@@ -104,8 +81,6 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
             movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    // get lastest position
-                    mPosition = position;
                     Movie movie = (Movie)adapterView.getItemAtPosition(position);
                     // put on parcelable
                     Intent intent = new Intent(getActivity(), DetailActivity.class);
@@ -119,22 +94,13 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(LAST_PAGE, mCurrentPage);
-        outState.putString(LAST_SEARCH,mLastSearch);
-        outState.putParcelableArrayList(MOVIE_ARRAY_LIST, mMovies);
-        outState.putInt(CURRENT_POSITION, mPosition);
-        super.onSaveInstanceState(outState);
-        setRetainInstance(true);
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         updateMovieList();
     }
 
     private void updateMovieList() {
+        Log.i(LOG, "mCurrentPage " + mCurrentPage);
         if(mAdapter != null) {
             // get actual search
             String lastSearch = getLastSearch();
@@ -145,8 +111,11 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
                 mCurrentPage = 1;
             }
 
-            FetchMovies fetchMovies = new FetchMovies(getActivity(), this);
-            fetchMovies.execute(String.valueOf(mCurrentPage));
+            if(!mFetching && mOldPage != mCurrentPage) {
+                mFetching = true;
+                FetchMovies fetchMovies = new FetchMovies(getActivity(), this);
+                fetchMovies.execute(String.valueOf(mCurrentPage));
+            }
         }
     }
 
@@ -157,7 +126,6 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     @Override
     public void onPreExecute() {
         if(mProgressDialog == null) {
-            mIsFetching = true;
             mProgressDialog = new ProgressDialog(getActivity());
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgressDialog.setMessage(getActivity().getString(R.string.fetch_movies_loading));
@@ -168,13 +136,12 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
     @Override
     public void onPostExecute(List<Movie> movies) {
-        mIsFetching = false;
         mProgressDialog.dismiss();
-        mAdapter.addAll(movies);
-        mAdapter.notifyDataSetChanged();
-
-        if(mMovies != null) {
-            mMovies.addAll(movies);
+        if(mFetching && mMovies != null) {
+            mMovies = movies;
+            mAdapter.addAll(mMovies);
+            mAdapter.notifyDataSetChanged();
+            mFetching = false;
         }
     }
 }
