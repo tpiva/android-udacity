@@ -5,8 +5,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.thiago.popularmovies.BuildConfig;
-import com.thiago.popularmovies.ReviewMovieAdapter;
-import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.dto.ReviewItem;
 
 import org.json.JSONException;
