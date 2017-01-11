@@ -77,7 +77,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
 
         // instance of review list and adapter
         mTrailerItens = new ArrayList<>();
-        mTrailerAdapter = new TrailerMovieAdapter(mTrailerItens);
+        mTrailerAdapter = new TrailerMovieAdapter(getActivity(), mTrailerItens);
         mRecyclerView.setAdapter(mTrailerAdapter);
 
         fillMovieDetails(currentMovie);
