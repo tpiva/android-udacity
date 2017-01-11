@@ -7,31 +7,31 @@ import android.os.Parcelable;
  * Created by tmagalhaes on 10-Jan-17.
  */
 
-public class Review implements Parcelable{
+public class ReviewItem implements Parcelable{
 
     private String id;
     private String author;
     private String content;
     private String url;
 
-    public Review(){}
+    public ReviewItem(){}
 
-    protected Review(Parcel in) {
+    protected ReviewItem(Parcel in) {
         id = in.readString();
         author = in.readString();
         content = in.readString();
         url = in.readString();
     }
 
-    public static final Creator<Review> CREATOR = new Creator<Review>() {
+    public static final Creator<ReviewItem> CREATOR = new Creator<ReviewItem>() {
         @Override
-        public Review createFromParcel(Parcel in) {
-            return new Review(in);
+        public ReviewItem createFromParcel(Parcel in) {
+            return new ReviewItem(in);
         }
 
         @Override
-        public Review[] newArray(int size) {
-            return new Review[size];
+        public ReviewItem[] newArray(int size) {
+            return new ReviewItem[size];
         }
     };
 

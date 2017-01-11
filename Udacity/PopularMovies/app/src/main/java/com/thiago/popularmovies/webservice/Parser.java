@@ -2,8 +2,8 @@ package com.thiago.popularmovies.webservice;
 
 import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.dto.Movie;
-import com.thiago.popularmovies.dto.Review;
-import com.thiago.popularmovies.dto.Video;
+import com.thiago.popularmovies.dto.ReviewItem;
+import com.thiago.popularmovies.dto.VideoItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,9 +100,9 @@ public class Parser {
         return movies;
     }
 
-    protected static ArrayList<Video> getVideoFromJson(String responseStream) throws JSONException {
+    protected static ArrayList<VideoItem> getVideoFromJson(String responseStream) throws JSONException {
 
-        ArrayList<Video> videos = new ArrayList<>();
+        ArrayList<VideoItem> videoItems = new ArrayList<>();
 
         final String OWN_ID = "id";
         final String OWN_ISO_639_1 = "iso_639_1";
@@ -120,41 +120,41 @@ public class Parser {
         for(int i = 0; i < resultsJson.length(); i++) {
             JSONObject result = resultsJson.getJSONObject(i);
 
-            Video video = new Video();
+            VideoItem videoItem = new VideoItem();
 
             String id = result.getString(OWN_ID);
-            video.setId(id);
+            videoItem.setId(id);
 
             String iso6391 = result.getString(OWN_ISO_639_1);
-            video.setIso6391(iso6391);
+            videoItem.setIso6391(iso6391);
 
             String iso31661 = result.getString(OWN_ISO_3166_1);
-            video.setIso31661(iso31661);
+            videoItem.setIso31661(iso31661);
 
             String key = result.getString(OWN_KEY);
-            video.setKey(key);
+            videoItem.setKey(key);
 
             String name = result.getString(OWN_NAME);
-            video.setName(name);
+            videoItem.setName(name);
 
             String site = result.getString(OWN_SITE);
-            video.setSite(site);
+            videoItem.setSite(site);
 
             Integer size = result.getInt(OWN_SIZE);
-            video.setSite(site);
+            videoItem.setSite(site);
 
             String type = result.getString(OWN_TYPE);
-            video.setType(type);
+            videoItem.setType(type);
 
-            videos.add(video);
+            videoItems.add(videoItem);
         }
 
-        return videos;
+        return videoItems;
     }
 
-    protected static ArrayList<Review> getReviewFromJson(String responseStream) throws JSONException {
+    protected static ArrayList<ReviewItem> getReviewFromJson(String responseStream) throws JSONException {
 
-        ArrayList<Review> reviews = new ArrayList<>();
+        ArrayList<ReviewItem> reviewItems = new ArrayList<>();
 
         final String OWN_ID = "id";
         final String OWN_AUTHOR = "author";
@@ -168,22 +168,22 @@ public class Parser {
         for(int i = 0; i < resultsJson.length(); i++) {
             JSONObject result = resultsJson.getJSONObject(i);
 
-            Review review = new Review();
+            ReviewItem reviewItem = new ReviewItem();
             String id = result.getString(OWN_ID);
-            review.setId(id);
+            reviewItem.setId(id);
 
             String author = result.getString(OWN_AUTHOR);
-            review.setAuthor(author);
+            reviewItem.setAuthor(author);
 
             String content = result.getString(OWN_CONTENT);
-            review.setContent(content);
+            reviewItem.setContent(content);
 
             String url = result.getString(OWN_URL);
-            review.setUrl(url);
+            reviewItem.setUrl(url);
 
-            reviews.add(review);
+            reviewItems.add(reviewItem);
         }
 
-        return reviews;
+        return reviewItems;
     }
 }
