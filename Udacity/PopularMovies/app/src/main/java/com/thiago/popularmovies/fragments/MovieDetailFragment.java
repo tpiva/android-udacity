@@ -15,10 +15,13 @@ import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
 import com.thiago.popularmovies.R;
+import com.thiago.popularmovies.TrailerMovieAdapter;
 import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.dto.Movie;
 import com.thiago.popularmovies.dto.ReviewItem;
+import com.thiago.popularmovies.dto.TrailerItem;
 import com.thiago.popularmovies.webservice.FetchReviews;
+import com.thiago.popularmovies.webservice.FetchTrailers;
 
 import java.util.ArrayList;
 
@@ -39,7 +42,8 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
     private LinearLayout mReviewLayout;
     private TextView mReviewTitle;
 
-    private ArrayList<ReviewItem> reviewItems;
+    private ArrayList<TrailerItem> mTrailerItens;
+    private TrailerMovieAdapter mTrailerAdapter;
 
     @Nullable
     @Override
@@ -60,17 +64,21 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         mFavoriteTg = (ToggleButton) view.findViewById(R.id.detail_button_favorites);
         mReviewLayout = (LinearLayout) view.findViewById(R.id.detail_movie_view_reviews);
         mReviewTitle = (TextView) view.findViewById(R.id.detail_title_reviews);
-
-//        mRecyclerView = (RecyclerView) view.findViewById(R.id.detail_movie_item_recycle_view_reviews);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.detail_movie_item_recycle_view_trailers);
 
         // set params of RecyclerView
-//        RecyclerViewmRecyclerView.setHasFixedSize(true);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
+                getActivity(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+        );
+        mRecyclerView.setLayoutManager(layoutManager);
 
         // instance of review list and adapter
-//        reviewItems = new ArrayList<>();
-//        mReviewAdapter = new ReviewMovieAdapter(getActivity(),reviewItems);
-//        mRecyclerView.setAdapter(mReviewAdapter);
+        mTrailerItens = new ArrayList<>();
+        mTrailerAdapter = new TrailerMovieAdapter(mTrailerItens);
+        mRecyclerView.setAdapter(mTrailerAdapter);
 
         fillMovieDetails(currentMovie);
         foundReviewsAndVideos(currentMovie);
@@ -95,6 +103,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
 
     private void foundReviewsAndVideos(Movie currentMovie) {
         if(currentMovie != null) {
+            new FetchTrailers(mTrailerAdapter).execute(currentMovie.getId());
             new FetchReviews(this).execute(currentMovie.getId(), 1);
         }
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
@@ -92,20 +93,22 @@
             android:fontFamily="serif"
             android:textColor="@color/darkGray"/>
 
-        <!--<FrameLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:layout_marginTop="10dp">
 
-            &lt;!&ndash; A RecyclerView with some commonly used attributes &ndash;&gt;
+            <!-- A RecyclerView with some commonly used attributes -->
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/detail_movie_item_recycle_view_reviews"
-                android:scrollbars="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </FrameLayout>-->
+                android:id="@+id/detail_movie_item_recycle_view_trailers"
+                android:scrollbars="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:reverseLayout="true"/>
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/detail_movie_view_reviews"

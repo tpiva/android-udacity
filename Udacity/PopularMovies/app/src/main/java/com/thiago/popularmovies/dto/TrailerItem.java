@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by tmagalhaes on 09-Jan-17.
  */
 
-public class VideoItem implements Parcelable{
+public class TrailerItem implements Parcelable{
     private String id;
     private String iso6391;
     private String iso31661;
@@ -17,9 +17,9 @@ public class VideoItem implements Parcelable{
     private Integer size;
     private String type;
 
-    public VideoItem(){}
+    public TrailerItem(){}
 
-    protected VideoItem(Parcel in) {
+    protected TrailerItem(Parcel in) {
         id = in.readString();
         iso6391 = in.readString();
         iso31661 = in.readString();
@@ -29,15 +29,15 @@ public class VideoItem implements Parcelable{
         type = in.readString();
     }
 
-    public static final Creator<VideoItem> CREATOR = new Creator<VideoItem>() {
+    public static final Creator<TrailerItem> CREATOR = new Creator<TrailerItem>() {
         @Override
-        public VideoItem createFromParcel(Parcel in) {
-            return new VideoItem(in);
+        public TrailerItem createFromParcel(Parcel in) {
+            return new TrailerItem(in);
         }
 
         @Override
-        public VideoItem[] newArray(int size) {
-            return new VideoItem[size];
+        public TrailerItem[] newArray(int size) {
+            return new TrailerItem[size];
         }
     };
 

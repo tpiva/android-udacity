@@ -3,7 +3,7 @@ package com.thiago.popularmovies.webservice;
 import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.dto.Movie;
 import com.thiago.popularmovies.dto.ReviewItem;
-import com.thiago.popularmovies.dto.VideoItem;
+import com.thiago.popularmovies.dto.TrailerItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,9 +100,9 @@ public class Parser {
         return movies;
     }
 
-    protected static ArrayList<VideoItem> getVideoFromJson(String responseStream) throws JSONException {
+    protected static ArrayList<TrailerItem> getVideoFromJson(String responseStream) throws JSONException {
 
-        ArrayList<VideoItem> videoItems = new ArrayList<>();
+        ArrayList<TrailerItem> trailerItems = new ArrayList<>();
 
         final String OWN_ID = "id";
         final String OWN_ISO_639_1 = "iso_639_1";
@@ -120,36 +120,36 @@ public class Parser {
         for(int i = 0; i < resultsJson.length(); i++) {
             JSONObject result = resultsJson.getJSONObject(i);
 
-            VideoItem videoItem = new VideoItem();
+            TrailerItem trailerItem = new TrailerItem();
 
             String id = result.getString(OWN_ID);
-            videoItem.setId(id);
+            trailerItem.setId(id);
 
             String iso6391 = result.getString(OWN_ISO_639_1);
-            videoItem.setIso6391(iso6391);
+            trailerItem.setIso6391(iso6391);
 
             String iso31661 = result.getString(OWN_ISO_3166_1);
-            videoItem.setIso31661(iso31661);
+            trailerItem.setIso31661(iso31661);
 
             String key = result.getString(OWN_KEY);
-            videoItem.setKey(key);
+            trailerItem.setKey(key);
 
             String name = result.getString(OWN_NAME);
-            videoItem.setName(name);
+            trailerItem.setName(name);
 
             String site = result.getString(OWN_SITE);
-            videoItem.setSite(site);
+            trailerItem.setSite(site);
 
             Integer size = result.getInt(OWN_SIZE);
-            videoItem.setSite(site);
+            trailerItem.setSite(site);
 
             String type = result.getString(OWN_TYPE);
-            videoItem.setType(type);
+            trailerItem.setType(type);
 
-            videoItems.add(videoItem);
+            trailerItems.add(trailerItem);
         }
 
-        return videoItems;
+        return trailerItems;
     }
 
     protected static ArrayList<ReviewItem> getReviewFromJson(String responseStream) throws JSONException {

@@ -5,7 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.thiago.popularmovies.BuildConfig;
-import com.thiago.popularmovies.dto.VideoItem;
+import com.thiago.popularmovies.TrailerMovieAdapter;
+import com.thiago.popularmovies.dto.TrailerItem;
 
 import org.json.JSONException;
 
@@ -21,16 +22,22 @@ import java.util.ArrayList;
  * Created by tmagalhaes on 11-Jan-17.
  */
 
-public class FetchVideos extends AsyncTask<Integer, Void, ArrayList<VideoItem>> {
+public class FetchTrailers extends AsyncTask<Integer, Void, ArrayList<TrailerItem>> {
 
-    private static final String TAG = FetchVideos.class.getSimpleName();
+    private static final String TAG = FetchTrailers.class.getSimpleName();
 
     private static final String VIDEOS_PATH = "/videos";
 
-    @Override
-    protected ArrayList<VideoItem> doInBackground(Integer... params) {
+    private TrailerMovieAdapter mAdapter;
 
-        ArrayList<VideoItem> videos = new ArrayList<>();
+    public FetchTrailers(TrailerMovieAdapter adapter) {
+        this.mAdapter = adapter;
+    }
+
+    @Override
+    protected ArrayList<TrailerItem> doInBackground(Integer... params) {
+
+        ArrayList<TrailerItem> videos = new ArrayList<>();
 
         StringBuilder sb = new StringBuilder();
         sb.append(FetchMovies.BASE_URL).append(FetchMovies.MOVIE_PATH).append(params[0]).append(VIDEOS_PATH).append("?");
@@ -68,5 +75,10 @@ public class FetchVideos extends AsyncTask<Integer, Void, ArrayList<VideoItem>> 
         }
 
         return videos;
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<TrailerItem> trailerItems) {
+        mAdapter.updateData(trailerItems);
     }
 }
