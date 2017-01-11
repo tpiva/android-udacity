@@ -29,10 +29,10 @@ public class FetchReviews extends AsyncTask<Integer, Void, ArrayList<ReviewItem>
 
     private static final String REVIEWS_PATH = "/reviews";
 
-    private ReviewMovieAdapter mReviewAdapter;
+    private FetchReviewsCallback mUi;
 
-    public FetchReviews(ReviewMovieAdapter adapter) {
-        this.mReviewAdapter = adapter;
+    public FetchReviews(FetchReviewsCallback ui) {
+        this.mUi = ui;
     }
 
     @Override
@@ -79,7 +79,17 @@ public class FetchReviews extends AsyncTask<Integer, Void, ArrayList<ReviewItem>
     }
 
     @Override
+    protected void onPreExecute() {
+        mUi.onPreExecute();
+    }
+
+    @Override
     protected void onPostExecute(ArrayList<ReviewItem> reviewItems) {
-        mReviewAdapter.updateData(reviewItems);
+        mUi.onPostExecute(reviewItems);
+    }
+
+    public interface FetchReviewsCallback {
+        void onPreExecute();
+        void onPostExecute(ArrayList<ReviewItem> reviewItems);
     }
 }

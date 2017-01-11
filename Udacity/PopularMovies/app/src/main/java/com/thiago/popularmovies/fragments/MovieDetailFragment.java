@@ -9,12 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
 import com.thiago.popularmovies.R;
-import com.thiago.popularmovies.ReviewMovieAdapter;
 import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.dto.Movie;
 import com.thiago.popularmovies.dto.ReviewItem;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Created by tmagalhaes on 06-Jan-17.
  */
 
-public class MovieDetailFragment extends Fragment {
+public class MovieDetailFragment extends Fragment implements FetchReviews.FetchReviewsCallback{
 
     private static final String URL_LOAD_IMAGE = "http://image.tmdb.org/t/p/w185/";
     private TextView mTitleView;
@@ -36,9 +36,10 @@ public class MovieDetailFragment extends Fragment {
     private TextView mSynopsis;
     private ToggleButton mFavoriteTg;
     private RecyclerView mRecyclerView;
+    private LinearLayout mReviewLayout;
+    private TextView mReviewTitle;
 
     private ArrayList<ReviewItem> reviewItems;
-    private ReviewMovieAdapter mReviewAdapter;
 
     @Nullable
     @Override
@@ -57,16 +58,19 @@ public class MovieDetailFragment extends Fragment {
         mUserRatingView = (TextView) view.findViewById(R.id.detail_movie_item_user_rating);
         mSynopsis = (TextView) view.findViewById(R.id.detail_movie_item_synopsis);
         mFavoriteTg = (ToggleButton) view.findViewById(R.id.detail_button_favorites);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.detail_movie_item_recycle_view_reviews);
+        mReviewLayout = (LinearLayout) view.findViewById(R.id.detail_movie_view_reviews);
+        mReviewTitle = (TextView) view.findViewById(R.id.detail_title_reviews);
+
+//        mRecyclerView = (RecyclerView) view.findViewById(R.id.detail_movie_item_recycle_view_reviews);
 
         // set params of RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        RecyclerViewmRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // instance of review list and adapter
-        reviewItems = new ArrayList<>();
-        mReviewAdapter = new ReviewMovieAdapter(getActivity(),reviewItems);
-        mRecyclerView.setAdapter(mReviewAdapter);
+//        reviewItems = new ArrayList<>();
+//        mReviewAdapter = new ReviewMovieAdapter(getActivity(),reviewItems);
+//        mRecyclerView.setAdapter(mReviewAdapter);
 
         fillMovieDetails(currentMovie);
         foundReviewsAndVideos(currentMovie);
@@ -90,9 +94,41 @@ public class MovieDetailFragment extends Fragment {
     }
 
     private void foundReviewsAndVideos(Movie currentMovie) {
-        if(currentMovie != null && mReviewAdapter != null) {
-            new FetchReviews(mReviewAdapter).execute(currentMovie.getId(), 1);
+        if(currentMovie != null) {
+            new FetchReviews(this).execute(currentMovie.getId(), 1);
         }
     }
 
+    private void fillReviews(ArrayList<ReviewItem> reviewItems) {
+        if(mReviewLayout != null && (reviewItems != null && !reviewItems.isEmpty())) {
+            mReviewTitle.setVisibility(View.VISIBLE);
+
+            for(ReviewItem item : reviewItems) {
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_movie_review, null);
+                TextView contentTextView = (TextView) view.findViewById(R.id.list_item_movie_review_content);
+                TextView authorTextView = (TextView) view.findViewById(R.id.list_item_movie_review_author);
+                TextView linkTextView = (TextView) view.findViewById(R.id.list_item_movie_review_link);
+
+                contentTextView.setText(item.getContent().trim());
+                authorTextView.setText(getActivity().getString(R.string.format_review_author,item.getAuthor()));
+                linkTextView.setText(getActivity().getString(R.string.format_review_link,item.getUrl()));
+
+                if(view != null) {
+                    mReviewLayout.addView(view);
+                }
+            }
+        } else {
+            mReviewTitle.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onPreExecute() {
+        //TODO progress dialog
+    }
+
+    @Override
+    public void onPostExecute(ArrayList<ReviewItem> reviewItems) {
+        fillReviews(reviewItems);
+    }
 }
