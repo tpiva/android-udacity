@@ -3,9 +3,11 @@
     <string-array name="pref_sort_order_values">
         <item>@string/pref_popular_movies_popular</item>
         <item>@string/pref_top_rated_top_rated</item>
+        <item>@string/pref_top_rated_favorites</item>
     </string-array>
     <string-array name="pref_sort_order_options">
         <item>@string/pref_popular_movies_label_popular</item>
         <item>@string/pref_top_rated_label_top_rated</item>
+        <item>@string/pref_top_rated_label_favorites</item>
     </string-array>
 </resources>
