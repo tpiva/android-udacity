@@ -1,5 +1,9 @@
 package com.thiago.popularmovies.fragments;
 
+import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,12 +22,14 @@ import com.squareup.picasso.Picasso;
 import com.thiago.popularmovies.R;
 import com.thiago.popularmovies.TrailerMovieAdapter;
 import com.thiago.popularmovies.Utility;
+import com.thiago.popularmovies.data.MovieContract;
 import com.thiago.popularmovies.dto.Movie;
 import com.thiago.popularmovies.dto.ReviewItem;
 import com.thiago.popularmovies.dto.TrailerItem;
 import com.thiago.popularmovies.webservice.FetchReviews;
 import com.thiago.popularmovies.webservice.FetchTrailers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -42,8 +49,30 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
     private LinearLayout mReviewLayout;
     private TextView mReviewTitle;
 
+    private ProgressDialog mProgressDialog;
+
     private ArrayList<TrailerItem> mTrailerItens;
     private TrailerMovieAdapter mTrailerAdapter;
+
+    private static final String[] MOVIE_COLUMNS = {
+            MovieContract.TABLE_NAME + "." + MovieContract._ID,
+            MovieContract.COLUMN_OVERVIEW,
+            MovieContract.COLUMN_RELEASE_DATE,
+            MovieContract.COLUMN_ORIGINAL_TITLE,
+            MovieContract.COLUMN_VOTE_AVERAGE,
+            MovieContract.COLUMN_VOTE_COUNT,
+            MovieContract.COLUMN_POSTER,
+            MovieContract.COLUMN_MOVIE_ID
+    };
+
+    static final int COL_MOVIE_ID = 0;
+    static final int COL_MOVIE_OVERVIEW = 1;
+    static final int COL_MOVIE_RELEASE_DATE = 2;
+    static final int COL_MOVIE_ORIGINAL_TITLE = 3;
+    static final int COL_MOVIE_VOTE_AVERAGE = 4;
+    static final int COL_MOVIE_VOTE_COUNT = 5;
+    static final int COL_MOVIE_POSTER = 6;
+    static final int COL_MOVIE_MOVIE_ID = 7;
 
     @Nullable
     @Override
@@ -80,6 +109,21 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         mTrailerAdapter = new TrailerMovieAdapter(getActivity(), mTrailerItens);
         mRecyclerView.setAdapter(mTrailerAdapter);
 
+//        final ContentValues contentValues = createContentValues(currentMovie);
+        mFavoriteTg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    // add
+//                    getActivity()
+//                            .getContentResolver()
+//                            .insert(MovieContract.CONTENT_URI, contentValues );
+                } else {
+                    // remove
+                }
+            }
+        });
+
         fillMovieDetails(currentMovie);
         foundReviewsAndVideos(currentMovie);
 
@@ -94,7 +138,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         String year = Utility.getYearOfReleaseDate(movie.getReleaseDate());
         mYearView.setText(year);
 
-        String formatUserRating = getActivity().getString((R.string.format_user_rating),movie.getVoteAverage(), String.valueOf(movie.getVoteCount()));
+        String formatUserRating = getActivity().getString((R.string.format_user_rating),movie.getVoteAverage());
         mUserRatingView.setText(formatUserRating);
 
         mUserRatingView.setText(String.valueOf(movie.getVoteAverage()));
@@ -133,11 +177,34 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
 
     @Override
     public void onPreExecute() {
-        //TODO progress dialog
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage(getActivity().getString(R.string.fetch_movies_loading));
+        mProgressDialog.show();
     }
 
     @Override
     public void onPostExecute(ArrayList<ReviewItem> reviewItems) {
+        mProgressDialog.dismiss();
         fillReviews(reviewItems);
+    }
+
+    private ContentValues createContentValues(Movie movie) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = Picasso.with(getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(MovieContract.COLUMN_OVERVIEW, movie.getOverview());
+        values.put(MovieContract.COLUMN_RELEASE_DATE, Utility.getStringOfDate(movie.getReleaseDate()));
+        values.put(MovieContract.COLUMN_ORIGINAL_TITLE, movie.getOriginalTitle());
+        values.put(MovieContract.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
+        values.put(MovieContract.COLUMN_VOTE_COUNT, movie.getVoteCount());
+        values.put(MovieContract.COLUMN_POSTER, Utility.getByteFromBitmap(bitmap) );
+        values.put(MovieContract.COLUMN_MOVIE_ID, movie.getId());
+
+        return values;
     }
 }

@@ -12,9 +12,11 @@
     <string name="pref_top_rated_favorites" translatable="false">favorites</string>
     <string name="fetch_movies_loading">Loading...</string>
 
-    <string name="format_user_rating">%1$1.0f / %2$s</string>
+    <string name="format_user_rating">%1$1.0f / 10</string>
     <string name="connection_not_found">Not possible to found movies. Please check network connection.</string>
     <string name="format_review_author">Author: %1$s</string>
     <string name="format_review_link">Review link: %1$s</string>
     <string name="reviews">REVIEWS:</string>
+
+    <string name="content_authority">com.thiago.popularmovies</string>
 </resources>
