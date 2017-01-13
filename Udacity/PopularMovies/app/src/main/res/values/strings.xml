@@ -9,7 +9,7 @@
     <string name="pref_top_rated_label_favorites">Favorites</string>
     <string name="pref_popular_movies_popular" translatable="false">popular</string>
     <string name="pref_top_rated_top_rated" translatable="false">topated</string>
-    <string name="pref_top_rated_favorites" translatable="false">favorites</string>
+    <string name="pref_movies_favorites" translatable="false">favorites</string>
     <string name="fetch_movies_loading">Loading...</string>
 
     <string name="format_user_rating">%1$1.0f / 10</string>

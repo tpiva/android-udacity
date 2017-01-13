@@ -3,7 +3,6 @@ package com.thiago.popularmovies.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import com.thiago.popularmovies.MovieAdapter;
 import com.thiago.popularmovies.R;
 import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.activities.DetailActivity;
+import com.thiago.popularmovies.data.FetchDB;
 import com.thiago.popularmovies.dto.Movie;
 import com.thiago.popularmovies.webservice.FetchMovies;
 
@@ -27,12 +27,13 @@ import java.util.List;
  * Created by tmagalhaes on 04-Jan-17.
  */
 
-public class MovieGridFragment extends Fragment implements FetchMovies.MovieTaskCallback {
+public class MovieGridFragment extends Fragment implements FetchMovies.MovieTaskCallback, FetchDB.FetchDbCallback {
 
     private static final String LOG = MovieGridFragment.class.getSimpleName();
 
     private static final String SEARCH_POPULAR = "popular";
     private static final String SEARCH_TOP_RATED = "top_rated";
+    protected static final String SEARCH_FAVORITES = "favorites";
 
     public static final String DETAIL_MOVIE = "detail_movie";
 
@@ -71,7 +72,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
                 @Override
                 public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    if(!mFetching && (firstVisibleItem + visibleItemCount == totalItemCount)) {
+                    if(!SEARCH_FAVORITES.equalsIgnoreCase(mLastSearch) && !mFetching && (firstVisibleItem + visibleItemCount == totalItemCount)) {
                         updateMovieList();
                         mOldPage = mCurrentPage++;
                     }
@@ -113,14 +114,27 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
             if(!mFetching && mOldPage != mCurrentPage) {
                 mFetching = true;
-                FetchMovies fetchMovies = new FetchMovies(getActivity(), this);
-                fetchMovies.execute(String.valueOf(mCurrentPage));
+                if(SEARCH_FAVORITES.equalsIgnoreCase(mLastSearch)) {
+                    // load from db
+                    FetchDB fetchDB = new FetchDB(getActivity(), this);
+                    fetchDB.execute();
+                } else {
+                    FetchMovies fetchMovies = new FetchMovies(getActivity(), this);
+                    fetchMovies.execute(String.valueOf(mCurrentPage));
+                }
             }
         }
     }
 
     private String getLastSearch() {
-        return (Utility.isPopular(getActivity())) ? SEARCH_POPULAR : SEARCH_TOP_RATED;
+        String lastSearchPref = Utility.getSortOrder(getActivity());
+        if (SEARCH_FAVORITES.equalsIgnoreCase(lastSearchPref)) {
+            return  SEARCH_FAVORITES;
+        } else if (SEARCH_POPULAR.equalsIgnoreCase(lastSearchPref)) {
+            return SEARCH_POPULAR;
+        } else {
+            return SEARCH_TOP_RATED;
+        }
     }
 
     @Override

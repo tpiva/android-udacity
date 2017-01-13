@@ -55,6 +55,13 @@ public class Utility {
                 .equals(context.getString(R.string.pref_popular_movies_popular));
     }
 
+    public static String getSortOrder(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(
+                context.getString(R.string.pref_sort_order_key),
+                context.getString(R.string.pref_popular_movies_popular));
+    }
+
     public static String getYearOfReleaseDate(Date releaseDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
         return simpleDateFormat.format(releaseDate);

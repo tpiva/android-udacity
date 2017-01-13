@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MovieDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     static final String DATABASE_NAME = "popMovies.db";
 
@@ -28,7 +28,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 + MovieContract.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, "
                 + MovieContract.COLUMN_VOTE_AVERAGE + " REAL NOT NULL, "
                 + MovieContract.COLUMN_VOTE_COUNT + " REAL NOT NULL, "
-                + MovieContract.COLUMN_POSTER + " BLOB NOT NULL );";
+                + MovieContract.COLUMN_POSTER + " BLOB NOT NULL, UNIQUE ("
+                + MovieContract.COLUMN_MOVIE_ID + ") ON CONFLICT REPLACE );" ;
 
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_MOVIE);
     }

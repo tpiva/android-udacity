@@ -24,6 +24,7 @@ public class Movie implements Parcelable{
     private int voteCount;
     private boolean video;
     private double voteAverage;
+    private byte[] posterImage;
 
     public Movie(){}
 
@@ -42,6 +43,7 @@ public class Movie implements Parcelable{
         video = in.readByte() != 0;
         voteAverage = in.readDouble();
         releaseDate = new Date(in.readLong());
+        posterImage = in.createByteArray();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -168,6 +170,14 @@ public class Movie implements Parcelable{
         this.voteAverage = voteAverage;
     }
 
+    public byte[] getPosterImage() {
+        return posterImage;
+    }
+
+    public void setPosterImage(byte[] posterImage) {
+        this.posterImage = posterImage;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -189,6 +199,7 @@ public class Movie implements Parcelable{
         parcel.writeByte((byte) (video ? 1 : 0));
         parcel.writeDouble(voteAverage);
         parcel.writeLong(releaseDate.getTime());
+        parcel.writeByteArray(posterImage);
     }
 
 

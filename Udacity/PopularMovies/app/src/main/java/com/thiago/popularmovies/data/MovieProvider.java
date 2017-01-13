@@ -27,8 +27,8 @@ public class MovieProvider extends ContentProvider {
     static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-        uriMatcher.addURI(MovieContract.CONTENT_AUTHORITY, MovieContract.TABLE_NAME, MOVIE);
-        uriMatcher.addURI(MovieContract.CONTENT_AUTHORITY, MovieContract.TABLE_NAME + "/*", MOVIE_WITH_MOVIE_ID);
+        uriMatcher.addURI(MovieContract.CONTENT_AUTHORITY, MovieContract.PATH_MOVIE, MOVIE);
+        uriMatcher.addURI(MovieContract.CONTENT_AUTHORITY, MovieContract.PATH_MOVIE + "/*", MOVIE_WITH_MOVIE_ID);
 
         return uriMatcher;
     }
@@ -93,7 +93,7 @@ public class MovieProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
 
         Uri returnUri = null;
-        if(match == MOVIE_WITH_MOVIE_ID) {
+        if(match == MOVIE) {
             long _id = db.insert(MovieContract.TABLE_NAME, null, contentValues);
             if(_id != -1) {
                 returnUri = MovieContract.buildMovieUri(_id);
@@ -117,6 +117,7 @@ public class MovieProvider extends ContentProvider {
         if(rowsModified != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
+        db.close();
         return rowsModified;
     }
 

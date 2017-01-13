@@ -2,8 +2,11 @@ package com.thiago.popularmovies.fragments;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,6 +42,7 @@ import java.util.ArrayList;
 public class MovieDetailFragment extends Fragment implements FetchReviews.FetchReviewsCallback{
 
     private static final String URL_LOAD_IMAGE = "http://image.tmdb.org/t/p/w185/";
+
     private TextView mTitleView;
     private ImageView mPosterView;
     private TextView mYearView;
@@ -54,25 +58,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
     private ArrayList<TrailerItem> mTrailerItens;
     private TrailerMovieAdapter mTrailerAdapter;
 
-    private static final String[] MOVIE_COLUMNS = {
-            MovieContract.TABLE_NAME + "." + MovieContract._ID,
-            MovieContract.COLUMN_OVERVIEW,
-            MovieContract.COLUMN_RELEASE_DATE,
-            MovieContract.COLUMN_ORIGINAL_TITLE,
-            MovieContract.COLUMN_VOTE_AVERAGE,
-            MovieContract.COLUMN_VOTE_COUNT,
-            MovieContract.COLUMN_POSTER,
-            MovieContract.COLUMN_MOVIE_ID
-    };
-
-    static final int COL_MOVIE_ID = 0;
-    static final int COL_MOVIE_OVERVIEW = 1;
-    static final int COL_MOVIE_RELEASE_DATE = 2;
-    static final int COL_MOVIE_ORIGINAL_TITLE = 3;
-    static final int COL_MOVIE_VOTE_AVERAGE = 4;
-    static final int COL_MOVIE_VOTE_COUNT = 5;
-    static final int COL_MOVIE_POSTER = 6;
-    static final int COL_MOVIE_MOVIE_ID = 7;
+    private Movie currentMovie;
 
     @Nullable
     @Override
@@ -80,7 +66,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         Bundle arguments = getArguments();
-        Movie currentMovie = null;
+        currentMovie = null;
         if(arguments != null) {
             currentMovie = arguments.getParcelable(MovieGridFragment.DETAIL_MOVIE);
         }
@@ -109,43 +95,55 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         mTrailerAdapter = new TrailerMovieAdapter(getActivity(), mTrailerItens);
         mRecyclerView.setAdapter(mTrailerAdapter);
 
-//        final ContentValues contentValues = createContentValues(currentMovie);
+        if(MovieGridFragment.SEARCH_FAVORITES.equals(Utility.getSortOrder(getActivity()))) {
+            // set checked toogle button
+            mFavoriteTg.setChecked(true);
+        }
+
         mFavoriteTg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
-                    // add
-//                    getActivity()
-//                            .getContentResolver()
-//                            .insert(MovieContract.CONTENT_URI, contentValues );
+                        new HelpFavorites().execute(1);
                 } else {
-                    // remove
+                    //delete
+                    getContext().getContentResolver()
+                            .delete(MovieContract.CONTENT_URI,
+                                    MovieContract.COLUMN_MOVIE_ID + " = ?", new String[]{String.valueOf(currentMovie.getId())});
                 }
             }
         });
 
-        fillMovieDetails(currentMovie);
-        foundReviewsAndVideos(currentMovie);
+        fillMovieDetails();
+        foundReviewsAndVideos();
 
         return view;
     }
 
-    private void fillMovieDetails(Movie movie) {
-        mTitleView.setText(movie.getOriginalTitle());
+    private void fillMovieDetails() {
+        mTitleView.setText(currentMovie.getOriginalTitle());
 
-        Picasso.with(getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).into(mPosterView);
+        if(Utility.getSortOrder(getActivity()).equalsIgnoreCase(MovieGridFragment.SEARCH_FAVORITES)) {
+            if(currentMovie.getPosterImage() != null) {
+                mPosterView.setImageBitmap(
+                        BitmapFactory.decodeByteArray(currentMovie.getPosterImage(), 0, currentMovie.getPosterImage().length));
+            }
+        } else {
+            Picasso.with(getContext()).load(URL_LOAD_IMAGE + currentMovie.getPosterPath()).into(mPosterView);
+        }
 
-        String year = Utility.getYearOfReleaseDate(movie.getReleaseDate());
+
+        String year = Utility.getYearOfReleaseDate(currentMovie.getReleaseDate());
         mYearView.setText(year);
 
-        String formatUserRating = getActivity().getString((R.string.format_user_rating),movie.getVoteAverage());
+        String formatUserRating = getActivity().getString((R.string.format_user_rating),currentMovie.getVoteAverage());
         mUserRatingView.setText(formatUserRating);
 
-        mUserRatingView.setText(String.valueOf(movie.getVoteAverage()));
-        mSynopsis.setText(movie.getOverview());
+        mUserRatingView.setText(String.valueOf(currentMovie.getVoteAverage()));
+        mSynopsis.setText(currentMovie.getOverview());
     }
 
-    private void foundReviewsAndVideos(Movie currentMovie) {
+    private void foundReviewsAndVideos() {
         if(currentMovie != null) {
             new FetchTrailers(mTrailerAdapter).execute(currentMovie.getId());
             new FetchReviews(this).execute(currentMovie.getId(), 1);
@@ -188,23 +186,38 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         fillReviews(reviewItems);
     }
 
-    private ContentValues createContentValues(Movie movie) {
-        Bitmap bitmap = null;
-        try {
-            bitmap = Picasso.with(getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).get();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    private class HelpFavorites extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            if(params[0] == 1) {
+                // insert
+                getContext().getContentResolver()
+                        .insert(MovieContract.CONTENT_URI, createContentValues(currentMovie));
+            }
+
+            return null;
         }
 
-        ContentValues values = new ContentValues();
-        values.put(MovieContract.COLUMN_OVERVIEW, movie.getOverview());
-        values.put(MovieContract.COLUMN_RELEASE_DATE, Utility.getStringOfDate(movie.getReleaseDate()));
-        values.put(MovieContract.COLUMN_ORIGINAL_TITLE, movie.getOriginalTitle());
-        values.put(MovieContract.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
-        values.put(MovieContract.COLUMN_VOTE_COUNT, movie.getVoteCount());
-        values.put(MovieContract.COLUMN_POSTER, Utility.getByteFromBitmap(bitmap) );
-        values.put(MovieContract.COLUMN_MOVIE_ID, movie.getId());
+        private ContentValues createContentValues(Movie movie) {
+            Bitmap bitmap = null;
+            try {
+                bitmap = Picasso.with(getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        return values;
+            ContentValues values = new ContentValues();
+            values.put(MovieContract.COLUMN_OVERVIEW, movie.getOverview());
+            values.put(MovieContract.COLUMN_RELEASE_DATE, Utility.getStringOfDate(movie.getReleaseDate()));
+            values.put(MovieContract.COLUMN_ORIGINAL_TITLE, movie.getOriginalTitle());
+            values.put(MovieContract.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
+            values.put(MovieContract.COLUMN_VOTE_COUNT, movie.getVoteCount());
+            values.put(MovieContract.COLUMN_POSTER, Utility.getByteFromBitmap(bitmap) );
+            values.put(MovieContract.COLUMN_MOVIE_ID, movie.getId());
+
+            return values;
+        }
     }
 }
