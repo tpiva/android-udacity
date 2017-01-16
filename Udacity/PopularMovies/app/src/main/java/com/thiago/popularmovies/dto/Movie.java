@@ -25,6 +25,7 @@ public class Movie implements Parcelable{
     private boolean video;
     private double voteAverage;
     private byte[] posterImage;
+    private boolean isMarkAsFavorite;
 
     public Movie(){}
 
@@ -44,6 +45,7 @@ public class Movie implements Parcelable{
         voteAverage = in.readDouble();
         releaseDate = new Date(in.readLong());
         posterImage = in.createByteArray();
+        isMarkAsFavorite = in.readByte() != 0;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -178,6 +180,14 @@ public class Movie implements Parcelable{
         this.posterImage = posterImage;
     }
 
+    public boolean isMarkAsFavorite() {
+        return isMarkAsFavorite;
+    }
+
+    public void setMarkAsFavorite(boolean markAsFavorite) {
+        isMarkAsFavorite = markAsFavorite;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -200,6 +210,7 @@ public class Movie implements Parcelable{
         parcel.writeDouble(voteAverage);
         parcel.writeLong(releaseDate.getTime());
         parcel.writeByteArray(posterImage);
+        parcel.writeByte((byte) (isMarkAsFavorite ? 1 : 0));
     }
 
 

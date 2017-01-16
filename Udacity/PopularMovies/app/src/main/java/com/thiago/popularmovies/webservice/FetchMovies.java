@@ -1,6 +1,8 @@
 package com.thiago.popularmovies.webservice;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.util.Log;
 import com.thiago.popularmovies.BuildConfig;
 import com.thiago.popularmovies.MovieAdapter;
 import com.thiago.popularmovies.Utility;
+import com.thiago.popularmovies.data.MovieContract;
 import com.thiago.popularmovies.dto.Movie;
 
 import org.json.JSONArray;
@@ -60,9 +63,10 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         }
 
         try {
+            String page = args[0];
             Uri buildUri = Uri.parse(Utility.isPopular(mContext) ? POPULAR_MOVIE_BASE_URL : TOP_RATED_MOVIE_BASE_URL)
                     .buildUpon().appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
-                    .appendQueryParameter(PAGE_PARAM, args[0]).build();
+                    .appendQueryParameter(PAGE_PARAM, page).build();
 
             URL url = new URL(buildUri.toString());
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -86,7 +90,18 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
             if (buffer.length() == 0) {
                 return null;
             }
-            return Parser.getMoviesFromJson(buffer.toString());
+
+            List<Movie> movies = Parser.getMoviesFromJson(buffer.toString());
+            List<Integer> currentMovies = getFavorites();
+
+            // check movies that save as favorites.
+            for(Movie movie : movies) {
+                if(currentMovies.contains(movie.getId())) {
+                    movie.setMarkAsFavorite(true);
+                }
+            }
+
+            return movies;
         } catch (MalformedURLException e) {
             Log.e(LOG,"MalformedURLException", e);
         } catch (IOException e) {
@@ -112,5 +127,42 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         void onPreExecute();
 
         void onPostExecute(List<Movie> movies);
+    }
+
+    private List<Integer> getFavorites() {
+        final String[] MOVIE_COLUMNS = {
+                MovieContract.TABLE_NAME + "." + MovieContract._ID,
+                MovieContract.COLUMN_OVERVIEW,
+                MovieContract.COLUMN_RELEASE_DATE,
+                MovieContract.COLUMN_ORIGINAL_TITLE,
+                MovieContract.COLUMN_VOTE_AVERAGE,
+                MovieContract.COLUMN_VOTE_COUNT,
+                MovieContract.COLUMN_POSTER,
+                MovieContract.COLUMN_MOVIE_ID
+        };
+
+        final int COL_MOVIE_ID = 0;
+        final int COL_MOVIE_OVERVIEW = 1;
+        final int COL_MOVIE_RELEASE_DATE = 2;
+        final int COL_MOVIE_ORIGINAL_TITLE = 3;
+        final int COL_MOVIE_VOTE_AVERAGE = 4;
+        final int COL_MOVIE_VOTE_COUNT = 5;
+        final int COL_MOVIE_POSTER = 6;
+        final int COL_MOVIE_MOVIE_ID = 7;
+
+        List<Integer> currentMovies = new ArrayList<>();
+        Cursor cursor = mContext.getContentResolver().query(
+            MovieContract.CONTENT_URI,
+                MOVIE_COLUMNS,
+                null,
+                null,
+                null);
+
+        if(cursor.moveToFirst()) {
+            while(cursor.moveToNext()) {
+                currentMovies.add(cursor.getInt(COL_MOVIE_MOVIE_ID));
+            }
+        }
+        return currentMovies;
     }
 }

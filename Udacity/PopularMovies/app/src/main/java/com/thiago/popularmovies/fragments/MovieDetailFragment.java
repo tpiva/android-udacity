@@ -93,7 +93,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         mTrailerAdapter = new TrailerMovieAdapter(getActivity(), mTrailerItens);
         mRecyclerView.setAdapter(mTrailerAdapter);
 
-        if(MovieGridFragment.SEARCH_FAVORITES.equals(Utility.getSortOrder(getActivity()))) {
+        if(currentMovie.isMarkAsFavorite()) {
             // set checked toogle button
             mFavoriteTg.setChecked(true);
         }
@@ -102,6 +102,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
+                    currentMovie.setMarkAsFavorite(true);
                         new HelpFavorites().execute(1);
                 } else {
                     //delete
