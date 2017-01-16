@@ -2,10 +2,8 @@ package com.thiago.popularmovies.fragments;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -177,6 +175,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
     public void onPreExecute() {
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage(getActivity().getString(R.string.fetch_movies_loading));
+        mProgressDialog.setCancelable(false);
         mProgressDialog.show();
     }
 

@@ -58,6 +58,10 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
             GridView movieGrid = (GridView) rootView.findViewById(R.id.movies_grid);
 
+            if(savedInstanceState != null && mAdapter != null) {
+                mAdapter.clear();
+            }
+
             if(mMovies == null) {
                 mMovies = new ArrayList<>();
             }
@@ -143,7 +147,10 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
             mProgressDialog = new ProgressDialog(getActivity());
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgressDialog.setMessage(getActivity().getString(R.string.fetch_movies_loading));
-            mProgressDialog.setCanceledOnTouchOutside(true);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+        } else {
+            mProgressDialog.setCancelable(false);
             mProgressDialog.show();
         }
     }
