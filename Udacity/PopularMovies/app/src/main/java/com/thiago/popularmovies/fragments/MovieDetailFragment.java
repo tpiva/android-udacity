@@ -108,7 +108,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
                 } else {
                     //delete
                     getContext().getContentResolver()
-                            .delete(MovieContract.CONTENT_URI,
+                            .delete(MovieContract.buildMovieIdUri(currentMovie.getId()),
                                     MovieContract.COLUMN_MOVIE_ID + " = ?", new String[]{String.valueOf(currentMovie.getId())});
                 }
             }
@@ -144,7 +144,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
     }
 
     private void foundReviewsAndVideos() {
-        if(currentMovie != null) {
+        if(currentMovie != null && Utility.isOnline(getActivity())) {
             new FetchTrailers(mTrailerAdapter).execute(currentMovie.getId());
             new FetchReviews(this).execute(currentMovie.getId(), 1);
         }
