@@ -39,7 +39,6 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
     private String mLastSearch;
     private int mCurrentPage = 1;
-    private int mOldPage = 0;
     private static boolean mFetching = false;
 
     private MovieAdapter mAdapter;
@@ -78,7 +77,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
                 public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                     if(!SEARCH_FAVORITES.equalsIgnoreCase(mLastSearch) && !mFetching && (firstVisibleItem + visibleItemCount == totalItemCount)) {
                         updateMovieList();
-                        mOldPage = mCurrentPage++;
+                        mCurrentPage++;
                     }
                 }
             });
@@ -104,6 +103,10 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
         updateMovieList();
     }
 
+    public void changedSearchOrder() {
+        updateMovieList();
+    }
+
     private void updateMovieList() {
         Log.i(LOG, "mCurrentPage " + mCurrentPage);
         if(mAdapter != null) {
@@ -116,7 +119,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
                 mCurrentPage = 1;
             }
 
-            if(!mFetching && mOldPage != mCurrentPage) {
+            if(!mFetching) {
                 mFetching = true;
                 if(SEARCH_FAVORITES.equalsIgnoreCase(mLastSearch)) {
                     // load from db

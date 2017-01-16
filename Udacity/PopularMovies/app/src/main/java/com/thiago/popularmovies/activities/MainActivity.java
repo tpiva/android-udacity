@@ -1,14 +1,19 @@
 package com.thiago.popularmovies.activities;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.thiago.popularmovies.R;
+import com.thiago.popularmovies.Utility;
+import com.thiago.popularmovies.fragments.MovieGridFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    private String mSearchOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,4 +45,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String currentSearchOrder = Utility.getSortOrder(this);
+        if(currentSearchOrder != null && !currentSearchOrder.equalsIgnoreCase(mSearchOrder)) {
+            MovieGridFragment fragment = (MovieGridFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_movie_grid);
+            if(fragment != null) {
+                fragment.changedSearchOrder();
+            }
+            mSearchOrder = currentSearchOrder;
+        }
+    }
 }
