@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:layout_gravity="left"
-        android:layout_marginBottom="20dp">
+        card_view:cardUseCompatPadding="true"
+        card_view:cardElevation="6dp"
+        card_view:contentPadding="16dp"
+        card_view:cardCornerRadius="3dp"
+        card_view:cardBackgroundColor="@color/colorPrimary">
 
-        <TextView
-            android:id="@+id/list_item_movie_review_content"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="@android:style/TextAppearance.Small"
-            android:textColor="@color/darkGray"
-            android:fontFamily="serif"/>
-
-        <TextView
-            android:id="@+id/list_item_movie_review_author"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Small"
-            android:textColor="@color/lightGray"
-            android:fontFamily="serif"/>
+            android:layout_gravity="left">
 
-        <TextView
-            android:id="@+id/list_item_movie_review_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Small"
-            android:textColor="@color/lightGray"
-            android:fontFamily="serif"/>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/list_item_movie_review_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@android:style/TextAppearance.Small"
+                    android:textColor="@color/darkGray"
+                    android:fontFamily="serif"/>
+
+                <TextView
+                    android:id="@+id/list_item_movie_review_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Small"
+                    android:textColor="@color/lightGray"
+                    android:fontFamily="serif"/>
+
+                <TextView
+                    android:id="@+id/list_item_movie_review_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textIsSelectable="true"
+                    android:textAppearance="@android:style/TextAppearance.Small"
+                    android:textColor="@color/lightGray"
+                    android:fontFamily="serif"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

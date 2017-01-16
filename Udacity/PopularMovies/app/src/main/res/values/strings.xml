@@ -14,9 +14,9 @@
 
     <string name="format_user_rating">%1$1.0f / 10</string>
     <string name="connection_not_found">Not possible to found movies. Please check network connection.</string>
-    <string name="format_review_author">Author: %1$s</string>
-    <string name="format_review_link">Review link: %1$s</string>
-    <string name="reviews">REVIEWS:</string>
+    <string name="format_review_author"><i>Author:</i> %1$s</string>
+    <string name="format_review_link"><i>Review link:</i> %1$s</string>
+    <string name="reviews"><i>Reviews:</i></string>
 
     <string name="content_authority">com.thiago.popularmovies</string>
     <string name="settings_activity_name">Settings</string>

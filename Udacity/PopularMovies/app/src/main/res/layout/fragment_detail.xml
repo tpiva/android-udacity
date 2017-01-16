@@ -93,12 +93,18 @@
             android:fontFamily="serif"
             android:textColor="@color/darkGray"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:elevation="4dp"
+            android:background="@color/lightGray" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:layout_marginTop="10dp">
+            android:paddingRight="16dp">
 
             <!-- A RecyclerView with some commonly used attributes -->
             <android.support.v7.widget.RecyclerView
@@ -110,14 +116,20 @@
                 app:reverseLayout="true"/>
         </FrameLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:background="@color/lightGray"
+            android:elevation="4dp"/>
+
         <LinearLayout
             android:id="@+id/detail_movie_view_reviews"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:layout_marginTop="10dp">
+            android:paddingRight="16dp">
 
             <TextView
                 android:id="@+id/detail_title_reviews"
