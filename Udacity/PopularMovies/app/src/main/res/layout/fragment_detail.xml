@@ -100,11 +100,21 @@
             android:elevation="4dp"
             android:background="@color/lightGray" />
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/detail_title_videos"
+                android:text="@string/trailers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:fontFamily="serif"
+                android:textColor="@color/lightGray"/>
 
             <!-- A RecyclerView with some commonly used attributes -->
             <android.support.v7.widget.RecyclerView
@@ -114,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:reverseLayout="true"/>
-        </FrameLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
