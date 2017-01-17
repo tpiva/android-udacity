@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
  * Created by tmagalhaes on 06-Jan-17.
  */
 
-public class MovieDetailFragment extends Fragment implements FetchReviews.FetchReviewsCallback{
+public class MovieDetailFragment extends Fragment implements FetchReviews.FetchReviewsCallback, FetchTrailers.FetchTrailerCallback{
 
     private static final String URL_LOAD_IMAGE = "http://image.tmdb.org/t/p/w185/";
 
@@ -50,6 +51,8 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
     private RecyclerView mRecyclerView;
     private LinearLayout mReviewLayout;
     private TextView mReviewTitle;
+    private TextView mVideoTitle;
+    private View mViewSecondLine;
 
     private ProgressDialog mProgressDialog;
 
@@ -78,6 +81,8 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         mReviewLayout = (LinearLayout) view.findViewById(R.id.detail_movie_view_reviews);
         mReviewTitle = (TextView) view.findViewById(R.id.detail_title_reviews);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.detail_movie_item_recycle_view_trailers);
+        mVideoTitle = (TextView) view.findViewById(R.id.detail_title_videos);
+        mViewSecondLine = view.findViewById(R.id.detail_second_line);
 
         // set params of RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -93,7 +98,8 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         mTrailerAdapter = new TrailerMovieAdapter(getActivity(), mTrailerItens);
         mRecyclerView.setAdapter(mTrailerAdapter);
 
-        if(currentMovie.isMarkAsFavorite()) {
+        if((MovieGridFragment.SEARCH_FAVORITES.equalsIgnoreCase(Utility.getSortOrder(getActivity())))
+                || currentMovie.isMarkAsFavorite()) {
             // set checked toogle button
             mFavoriteTg.setChecked(true);
         }
@@ -144,8 +150,17 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
 
     private void foundReviewsAndVideos() {
         if(currentMovie != null && Utility.isOnline(getActivity())) {
-            new FetchTrailers(mTrailerAdapter).execute(currentMovie.getId());
+            // check if view and title is invisible
+            if(!mVideoTitle.isShown() && !mViewSecondLine.isShown()) {
+                mViewSecondLine.setVisibility(View.VISIBLE);
+                mVideoTitle.setVisibility(View.VISIBLE);
+            }
+            new FetchTrailers(mTrailerAdapter, this).execute(currentMovie.getId());
             new FetchReviews(this).execute(currentMovie.getId(), 1);
+        } else {
+            // remove second view and text of trailers
+            mVideoTitle.setVisibility(View.INVISIBLE);
+            mViewSecondLine.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -186,8 +201,20 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         fillReviews(reviewItems);
     }
 
+    @Override
+    public void onFetchCompleted(ArrayList<TrailerItem> trailerItems) {
+        if(trailerItems == null || (trailerItems != null && trailerItems.isEmpty())) {
+            if(mViewSecondLine.isShown() && mVideoTitle.isShown()) {
+                mVideoTitle.setVisibility(View.INVISIBLE);
+                mViewSecondLine.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
 
     private class HelpFavorites extends AsyncTask<Integer, Void, Void> {
+
+        private final String TAG = HelpFavorites.class.getName();
 
         @Override
         protected Void doInBackground(Integer... params) {
@@ -205,7 +232,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
             try {
                 bitmap = Picasso.with(getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).get();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG,"IOException",e);
             }
 
             ContentValues values = new ContentValues();

@@ -10,6 +10,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
 import com.thiago.popularmovies.R;
+import com.thiago.popularmovies.Utility;
 
 /**
  * Created by tmagalhaes on 05-Jan-17.
@@ -56,6 +57,12 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             int prefIndex = listPreference.findIndexOfValue(stringValue);
             if (prefIndex >= 0) {
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
+            }
+
+            if(!Utility.isOnline(this)) {
+                // no connection, disable it
+                listPreference.setEnabled(false);
+                return false;
             }
         } else {
             // For other preferences, set the summary to the value's simple string representation.

@@ -50,49 +50,48 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = null;
-        if(!Utility.isOnline(getActivity())) {
-            rootView = inflater.inflate(R.layout.fragment_main_empty, container, false);
-        } else {
-            rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            GridView movieGrid = (GridView) rootView.findViewById(R.id.movies_grid);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        GridView movieGrid = (GridView) rootView.findViewById(R.id.movies_grid);
 
-            if(savedInstanceState != null && mAdapter != null) {
-                mAdapter.clear();
-            }
-
-            if(mMovies == null) {
-                mMovies = new ArrayList<>();
-            }
-            mAdapter = new MovieAdapter(getActivity(), mMovies);
-            movieGrid.setAdapter(mAdapter);
-
-            movieGrid.setOnScrollListener(new AbsListView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(AbsListView absListView, int i) {
-
-                }
-
-                @Override
-                public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    if(!SEARCH_FAVORITES.equalsIgnoreCase(mLastSearch) && !mFetching && (firstVisibleItem + visibleItemCount == totalItemCount)) {
-                        updateMovieList();
-                        mCurrentPage++;
-                    }
-                }
-            });
-
-            movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    Movie movie = (Movie)adapterView.getItemAtPosition(position);
-                    // put on parcelable
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-                    intent.putExtra(DETAIL_MOVIE, movie);
-                    startActivity(intent);
-                }
-            });
+        if (savedInstanceState != null && mAdapter != null) {
+            mAdapter.clear();
         }
+
+        if (mMovies == null) {
+            mMovies = new ArrayList<>();
+        }
+
+        mAdapter = new MovieAdapter(getActivity(), mMovies);
+        movieGrid.setAdapter(mAdapter);
+
+        movieGrid.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (!SEARCH_FAVORITES.equalsIgnoreCase(mLastSearch)
+                        && !mFetching
+                        && (firstVisibleItem + visibleItemCount == totalItemCount)) {
+                    updateMovieList();
+                    mCurrentPage++;
+                }
+            }
+        });
+
+        movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Movie movie = (Movie) adapterView.getItemAtPosition(position);
+                // put on parcelable
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(DETAIL_MOVIE, movie);
+                startActivity(intent);
+            }
+        });
+
 
         return rootView;
     }

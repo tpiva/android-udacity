@@ -30,8 +30,11 @@ public class FetchTrailers extends AsyncTask<Integer, Void, ArrayList<TrailerIte
 
     private TrailerMovieAdapter mAdapter;
 
-    public FetchTrailers(TrailerMovieAdapter adapter) {
+    private FetchTrailerCallback mUI;
+
+    public FetchTrailers(TrailerMovieAdapter adapter, FetchTrailerCallback ui) {
         this.mAdapter = adapter;
+        this.mUI = ui;
     }
 
     @Override
@@ -80,5 +83,10 @@ public class FetchTrailers extends AsyncTask<Integer, Void, ArrayList<TrailerIte
     @Override
     protected void onPostExecute(ArrayList<TrailerItem> trailerItems) {
         mAdapter.updateData(trailerItems);
+        mUI.onFetchCompleted(trailerItems);
+    }
+
+    public interface FetchTrailerCallback {
+        void onFetchCompleted(ArrayList<TrailerItem> trailerItems);
     }
 }
