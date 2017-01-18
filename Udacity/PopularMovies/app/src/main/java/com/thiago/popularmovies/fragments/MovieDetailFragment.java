@@ -98,8 +98,9 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         mTrailerAdapter = new TrailerMovieAdapter(getActivity(), mTrailerItens);
         mRecyclerView.setAdapter(mTrailerAdapter);
 
-        if((MovieGridFragment.SEARCH_FAVORITES.equalsIgnoreCase(Utility.getSortOrder(getActivity())))
-                || currentMovie.isMarkAsFavorite()) {
+        if(currentMovie != null &&
+                ((MovieGridFragment.SEARCH_FAVORITES.equalsIgnoreCase(Utility.getSortOrder(getActivity())))
+                || currentMovie.isMarkAsFavorite())) {
             // set checked toogle button
             mFavoriteTg.setChecked(true);
         }
@@ -119,8 +120,10 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
             }
         });
 
-        fillMovieDetails();
-        foundReviewsAndVideos();
+        if(currentMovie != null) {
+            fillMovieDetails();
+            foundReviewsAndVideos();
+        }
 
         return view;
     }
@@ -136,7 +139,6 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         } else {
             Picasso.with(getContext()).load(URL_LOAD_IMAGE + currentMovie.getPosterPath()).into(mPosterView);
         }
-
 
         String year = Utility.getYearOfReleaseDate(currentMovie.getReleaseDate());
         mYearView.setText(year);

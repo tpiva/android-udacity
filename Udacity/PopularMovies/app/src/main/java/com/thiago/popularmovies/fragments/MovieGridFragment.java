@@ -1,7 +1,6 @@
 package com.thiago.popularmovies.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.GridView;
 import com.thiago.popularmovies.MovieAdapter;
 import com.thiago.popularmovies.R;
 import com.thiago.popularmovies.Utility;
-import com.thiago.popularmovies.activities.DetailActivity;
 import com.thiago.popularmovies.data.FetchDB;
 import com.thiago.popularmovies.dto.Movie;
 import com.thiago.popularmovies.webservice.FetchMovies;
@@ -40,6 +38,8 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     private String mLastSearch;
     private int mCurrentPage = 1;
     private static boolean mFetching = false;
+    private boolean misFirstTime = false;
+    private boolean misTwoPane = false;
 
     private MovieAdapter mAdapter;
     private ProgressDialog mProgressDialog;
@@ -85,10 +85,8 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Movie movie = (Movie) adapterView.getItemAtPosition(position);
-                // put on parcelable
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra(DETAIL_MOVIE, movie);
-                startActivity(intent);
+                ((Callback) getActivity())
+                        .onItemSelected(movie);
             }
         });
 
@@ -99,6 +97,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     @Override
     public void onStart() {
         super.onStart();
+        misFirstTime = true;
         updateMovieList();
     }
 
@@ -119,6 +118,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     }
 
     public void changedSearchOrder() {
+        misFirstTime = true;
         updateMovieList();
     }
 
@@ -181,6 +181,20 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
             mAdapter.addAll(mMovies);
             mAdapter.notifyDataSetChanged();
             mFetching = false;
+
+            if(misFirstTime && misTwoPane) {
+                ((Callback) getActivity())
+                        .onItemSelected(mMovies.get(0));
+                misFirstTime = false;
+            }
         }
+    }
+
+    public void setMisTwoPane(boolean misTwoPane) {
+        this.misTwoPane = misTwoPane;
+    }
+
+    public interface Callback {
+        void onItemSelected(Movie movie);
     }
 }
