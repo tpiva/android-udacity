@@ -102,6 +102,22 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
         updateMovieList();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        // clear instance variables and adapter
+        if(mAdapter != null) {
+            mAdapter.clear();
+        }
+
+        if(mMovies != null) {
+            mMovies.clear();
+        }
+
+        mFetching = false;
+        mCurrentPage = 1;
+    }
+
     public void changedSearchOrder() {
         updateMovieList();
     }
