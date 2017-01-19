@@ -1,164 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:background="@color/colorTitleMovieDetails">
+        <ImageView
+            android:id="@+id/detail_movie_item_poster"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+    </FrameLayout>
 
-        <TextView
-            android:id="@+id/detail_movie_item_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="16dp"
-            android:gravity="top|center"
-            android:textSize="32sp"
-            android:textColor="@color/white"
-            android:fontFamily="sans-serif-smallcaps"
-            android:background="@color/colorTitleMovieDetails"/>
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:layout_weight="2">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/detail_movie_item_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="16dp">
-                <ImageView
-                    android:id="@+id/detail_movie_item_poster"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitStart"
-                    android:adjustViewBounds="true"/>
-            </FrameLayout>
+                android:layout_gravity="center_horizontal"
+                android:padding="16dp"
+                android:gravity="top|center"
+                android:textSize="32sp"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-smallcaps"
+                android:background="@color/colorTitleMovieDetails"/>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/detail_movie_item_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textColor="@color/lightGray"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="sans-serif-smallcaps"/>
-
-                <TextView
-                    android:id="@+id/detail_movie_item_user_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Small"
-                    android:textColor="@color/darkGray"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="serif"/>
-
-                <ToggleButton
-                    android:id="@+id/detail_button_favorites"
-                    android:layout_marginTop="6dp"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/toggle_selector"
-                    android:layout_gravity="center_horizontal"
-                    android:textOff=""
-                    android:textOn=""/>
-
-                <TextView
-                    android:id="@+id/detail_movie_item_synopsis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:textAppearance="@android:style/TextAppearance.Small"
-                    android:fontFamily="serif"
-                    android:textColor="@color/darkGray"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="left"
-                    android:elevation="4dp"
-                    android:background="@color/lightGray" />
+                android:layout_marginTop="6dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
-                        android:id="@+id/detail_title_videos"
-                        android:text="@string/trailers"
+                        android:id="@+id/detail_movie_item_year"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:fontFamily="serif"
+                        android:textSize="24sp"
                         android:textColor="@color/lightGray"
-                        android:visibility="invisible"/>
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="sans-serif-smallcaps"/>
 
-                    <!-- A RecyclerView with some commonly used attributes -->
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/detail_movie_item_recycle_view_trailers"
-                        android:scrollbars="horizontal"
+                    <TextView
+                        android:id="@+id/detail_movie_item_user_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@android:style/TextAppearance.Small"
+                        android:textColor="@color/darkGray"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="serif"/>
+
+                    <ToggleButton
+                        android:id="@+id/detail_button_favorites"
+                        android:layout_marginTop="6dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/toggle_selector"
+                        android:layout_gravity="center_horizontal"
+                        android:textOff=""
+                        android:textOn=""/>
+
+                    <TextView
+                        android:id="@+id/detail_movie_item_synopsis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:textAppearance="@android:style/TextAppearance.Small"
+                        android:fontFamily="serif"
+                        android:textColor="@color/darkGray"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="left"
+                        android:elevation="4dp"
+                        android:background="@color/lightGray" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        app:reverseLayout="true"/>
-                </LinearLayout>
+                        android:layout_gravity="left"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp">
 
-                <View
-                    android:id="@+id/detail_second_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="10dp"
-                    android:background="@color/lightGray"
-                    android:elevation="4dp"
-                    android:layout_gravity="left"
-                    android:visibility="invisible"/>
+                        <TextView
+                            android:id="@+id/detail_title_videos"
+                            android:text="@string/trailers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:fontFamily="serif"
+                            android:textColor="@color/lightGray"
+                            android:visibility="invisible"/>
 
-                <LinearLayout
-                    android:id="@+id/detail_movie_view_reviews"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                        <!-- A RecyclerView with some commonly used attributes -->
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/detail_movie_item_recycle_view_trailers"
+                            android:scrollbars="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:reverseLayout="true"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/detail_title_reviews"
-                        android:text="@string/reviews"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:fontFamily="serif"
-                        android:textColor="@color/lightGray"
+                    <View
+                        android:id="@+id/detail_second_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="10dp"
+                        android:background="@color/lightGray"
+                        android:elevation="4dp"
+                        android:layout_gravity="left"
                         android:visibility="invisible"/>
 
+                    <LinearLayout
+                        android:id="@+id/detail_movie_view_reviews"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp">
+
+                        <TextView
+                            android:id="@+id/detail_title_reviews"
+                            android:text="@string/reviews"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:fontFamily="serif"
+                            android:textColor="@color/lightGray"
+                            android:visibility="invisible"/>
+
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
-
-</ScrollView>
+</LinearLayout>
