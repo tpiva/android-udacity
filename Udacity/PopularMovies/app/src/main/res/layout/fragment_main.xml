@@ -8,7 +8,7 @@
     android:verticalSpacing="0dp"
     android:horizontalSpacing="0dp"
     android:stretchMode="columnWidth"
-    style="@style/MovieGridStyle"
+    android:background="@color/black"
     tools:context=".fragments.MovieGridFragment"
     android:id="@+id/movies_grid">
 

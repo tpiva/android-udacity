@@ -75,11 +75,7 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
         if(currentSearchOrder != null && !currentSearchOrder.equalsIgnoreCase(mSearchOrder)) {
             MovieGridFragment fragment = (MovieGridFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_movie_grid);
             if(fragment != null) {
-                if(mTwoPane) {
-                    //TODO shows current movie.
-                } else {
-                    fragment.changedSearchOrder();
-                }
+                fragment.changedSearchOrder();
             }
             mSearchOrder = currentSearchOrder;
         }
@@ -96,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.movie_detail_container, fragment, DETAIL_FRAGMENT_TAG)
+                    .addToBackStack(null)
                     .commit();
         } else {
         // put on parcelable

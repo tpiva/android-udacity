@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#424242</color>
-    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorPrimary">#E53935</color>
+    <color name="colorPrimaryDark">#B71C1C</color>
     <color name="colorAccent">#4fc3f7</color>
-    <color name="colorTitleMovieDetails">#2196F3</color>
+    <color name="colorTitleMovieDetails">#424242</color>
     <color name="white">#fafafa</color>
     <color name="darkGray">#9e9e9e</color>
     <color name="lightGray">#bdbdbd</color>
     <color name="black">#212121</color>
+    <color name="cardviewDetailReview">#424242</color>
 </resources>
