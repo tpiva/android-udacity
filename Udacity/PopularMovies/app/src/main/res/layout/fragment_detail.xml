@@ -39,9 +39,9 @@
                 android:padding="16dp">
                 <ImageView
                     android:id="@+id/detail_movie_item_poster"
-                    android:layout_width="250dp"
-                    android:layout_height="200dp"
-                    android:scaleType="fitStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
                     android:adjustViewBounds="true"/>
             </FrameLayout>
 
@@ -59,12 +59,14 @@
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
                     android:textColor="@color/lightGray"
+                    android:layout_gravity="center"
                     android:fontFamily="sans-serif-smallcaps"/>
 
                 <TextView
                     android:id="@+id/detail_movie_item_user_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="@color/darkGray"
                     android:fontFamily="serif"/>
@@ -74,8 +76,8 @@
                     android:layout_marginTop="6dp"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/toggle_selector"
-                    android:layout_gravity="left"
                     android:textOff=""
                     android:textOn=""/>
             </LinearLayout>
