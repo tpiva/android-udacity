@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textAppearance="@android:style/TextAppearance.Small"
-                    android:textColor="@color/darkGray"
+                    android:textColor="@color/white"
                     android:fontFamily="serif"/>
 
                 <TextView
@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@android:style/TextAppearance.Small"
-                    android:textColor="@color/lightGray"
+                    android:textColor="@color/lightTextsCardView"
                     android:fontFamily="serif"/>
 
                 <TextView
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:textIsSelectable="true"
                     android:textAppearance="@android:style/TextAppearance.Small"
-                    android:textColor="@color/lightGray"
+                    android:textColor="@color/lightTextsCardView"
                     android:fontFamily="serif"/>
         </LinearLayout>
 
