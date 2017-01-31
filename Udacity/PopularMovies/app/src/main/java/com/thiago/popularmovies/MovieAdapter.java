@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
-import com.thiago.popularmovies.dto.Movie;
+import com.thiago.popularmovies.dto.MovieItem;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ import java.util.List;
  * Created by tmagalhaes on 05-Jan-17.
  */
 
-public class MovieAdapter extends ArrayAdapter<Movie>{
+public class MovieAdapter extends ArrayAdapter<MovieItem>{
 
     private static final String URL_LOAD_IMAGE = "http://image.tmdb.org/t/p/w185/";
 
-    public MovieAdapter(Activity context, List<Movie> movies) {
+    public MovieAdapter(Activity context, List<MovieItem> movies) {
         super(context, 0, movies);
     }
 
@@ -34,7 +34,7 @@ public class MovieAdapter extends ArrayAdapter<Movie>{
                     R.layout.grid_item_movie, parent, false);
         }
 
-        Movie currentMovie = getItem(position);
+        MovieItem currentMovie = getItem(position);
 
         ImageView poster = (ImageView) convertView.findViewById(R.id.grid_item_movie_image);
         if(currentMovie.getPosterPath() == null

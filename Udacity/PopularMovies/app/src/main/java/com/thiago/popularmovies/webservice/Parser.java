@@ -1,7 +1,7 @@
 package com.thiago.popularmovies.webservice;
 
 import com.thiago.popularmovies.Utility;
-import com.thiago.popularmovies.dto.Movie;
+import com.thiago.popularmovies.dto.MovieItem;
 import com.thiago.popularmovies.dto.ReviewItem;
 import com.thiago.popularmovies.dto.TrailerItem;
 
@@ -20,8 +20,8 @@ public class Parser {
 
     private static final String OWN_RESULTS = "results";
 
-    protected static List<Movie> getMoviesFromJson(String responseStream) throws JSONException {
-        List<Movie> movies = new ArrayList<>();
+    protected static List<MovieItem> getMoviesFromJson(String responseStream) throws JSONException {
+        List<MovieItem> movies = new ArrayList<>();
 
         // results fields
         final String OWN_POST_PATH = "poster_path";
@@ -45,8 +45,8 @@ public class Parser {
 
         for(int i = 0; i < resultsJson.length(); i++) {
             JSONObject result = resultsJson.getJSONObject(i);
-            // create an new Movie
-            Movie movie = new Movie();
+            // create an new MovieItem
+            MovieItem movie = new MovieItem();
 
             String postPath = result.getString(OWN_POST_PATH);
             movie.setPosterPath(postPath);

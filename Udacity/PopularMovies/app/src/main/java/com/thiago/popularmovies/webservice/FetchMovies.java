@@ -1,21 +1,17 @@
 package com.thiago.popularmovies.webservice;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.thiago.popularmovies.BuildConfig;
-import com.thiago.popularmovies.MovieAdapter;
 import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.data.MovieContract;
-import com.thiago.popularmovies.dto.Movie;
+import com.thiago.popularmovies.dto.MovieItem;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +27,7 @@ import java.util.List;
  * Created by tmagalhaes on 04-Jan-17.
  */
 
-public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
+public class FetchMovies extends AsyncTask<String, Void, List<MovieItem>> {
 
     private static final String LOG = FetchMovies.class.getSimpleName();
 
@@ -51,8 +47,8 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
     }
 
     @Override
-    protected List<Movie> doInBackground(String... args) {
-        Log.d(LOG, "Initializing task of Popular Movie.");
+    protected List<MovieItem> doInBackground(String... args) {
+        Log.d(LOG, "Initializing task of Popular MovieItem.");
 
         if(args == null) {
             return new ArrayList<>();
@@ -91,11 +87,11 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
                 return null;
             }
 
-            List<Movie> movies = Parser.getMoviesFromJson(buffer.toString());
+            List<MovieItem> movies = Parser.getMoviesFromJson(buffer.toString());
             List<Integer> currentMovies = getFavorites();
 
             // check movies that save as favorites.
-            for(Movie movie : movies) {
+            for(MovieItem movie : movies) {
                 if(currentMovies.contains(movie.getId())) {
                     movie.setMarkAsFavorite(true);
                 }
@@ -119,14 +115,14 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
     }
 
     @Override
-    protected void onPostExecute(List<Movie> movies) {
+    protected void onPostExecute(List<MovieItem> movies) {
         mUI.onPostExecute(movies);
     }
 
     public interface MovieTaskCallback {
         void onPreExecute();
 
-        void onPostExecute(List<Movie> movies);
+        void onPostExecute(List<MovieItem> movies);
     }
 
     private List<Integer> getFavorites() {

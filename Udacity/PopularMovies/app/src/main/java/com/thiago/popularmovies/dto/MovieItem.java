@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by tmagalhaes on 04-Jan-17.
  */
 
-public class Movie implements Parcelable{
+public class MovieItem implements Parcelable{
     private String posterPath;
     private boolean adult;
     private String overview;
@@ -27,9 +27,9 @@ public class Movie implements Parcelable{
     private byte[] posterImage;
     private boolean isMarkAsFavorite;
 
-    public Movie(){}
+    public MovieItem(){}
 
-    protected Movie(Parcel in) {
+    protected MovieItem(Parcel in) {
         posterPath = in.readString();
         adult = in.readByte() != 0;
         overview = in.readString();
@@ -48,15 +48,15 @@ public class Movie implements Parcelable{
         isMarkAsFavorite = in.readByte() != 0;
     }
 
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+    public static final Creator<MovieItem> CREATOR = new Creator<MovieItem>() {
         @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
+        public MovieItem createFromParcel(Parcel in) {
+            return new MovieItem(in);
         }
 
         @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
+        public MovieItem[] newArray(int size) {
+            return new MovieItem[size];
         }
     };
 

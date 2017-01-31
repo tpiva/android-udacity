@@ -1,7 +1,6 @@
 package com.thiago.popularmovies.activities;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,7 +8,7 @@ import android.view.MenuItem;
 
 import com.thiago.popularmovies.R;
 import com.thiago.popularmovies.Utility;
-import com.thiago.popularmovies.dto.Movie;
+import com.thiago.popularmovies.dto.MovieItem;
 import com.thiago.popularmovies.fragments.MovieDetailFragment;
 import com.thiago.popularmovies.fragments.MovieGridFragment;
 
@@ -82,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
     }
 
     @Override
-    public void onItemSelected(Movie movie) {
+    public void onItemSelected(MovieItem movie) {
         if (mTwoPane) {
             Bundle arguments = new Bundle();
             arguments.putParcelable(MovieGridFragment.DETAIL_MOVIE, movie);

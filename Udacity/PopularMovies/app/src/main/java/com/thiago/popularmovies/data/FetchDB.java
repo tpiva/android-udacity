@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 
 import com.thiago.popularmovies.Utility;
-import com.thiago.popularmovies.dto.Movie;
+import com.thiago.popularmovies.dto.MovieItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * Created by tmagalhaes on 13-Jan-17.
  */
 
-public class FetchDB extends AsyncTask<Void, Void, List<Movie>>{
+public class FetchDB extends AsyncTask<Void, Void, List<MovieItem>>{
 
     private static final String[] MOVIE_COLUMNS = {
             MovieContract.TABLE_NAME + "." + MovieContract._ID,
@@ -47,9 +47,9 @@ public class FetchDB extends AsyncTask<Void, Void, List<Movie>>{
 
 
     @Override
-    protected List<Movie> doInBackground(Void... params) {
+    protected List<MovieItem> doInBackground(Void... params) {
 
-        List<Movie> movies = new ArrayList<>();
+        List<MovieItem> movies = new ArrayList<>();
 
         Cursor cursor = mContext.getContentResolver().query(
                 MovieContract.CONTENT_URI,
@@ -60,7 +60,7 @@ public class FetchDB extends AsyncTask<Void, Void, List<Movie>>{
 
         if(cursor.moveToFirst()) {
             do {
-                Movie movie = new Movie();
+                MovieItem movie = new MovieItem();
                 movie.setId(cursor.getInt(COL_MOVIE_MOVIE_ID));
                 movie.setOverview(cursor.getString(COL_MOVIE_OVERVIEW));
                 movie.setReleaseDate(Utility.getFormatDate(cursor.getString(COL_MOVIE_RELEASE_DATE)));
@@ -82,13 +82,13 @@ public class FetchDB extends AsyncTask<Void, Void, List<Movie>>{
     }
 
     @Override
-    protected void onPostExecute(List<Movie> movies) {
+    protected void onPostExecute(List<MovieItem> movies) {
         mUi.onPostExecute(movies);
     }
 
     public interface FetchDbCallback {
         void onPreExecute();
 
-        void onPostExecute(List<Movie> movies);
+        void onPostExecute(List<MovieItem> movies);
     }
 }

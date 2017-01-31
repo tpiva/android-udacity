@@ -25,7 +25,7 @@ import com.thiago.popularmovies.R;
 import com.thiago.popularmovies.TrailerMovieAdapter;
 import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.data.MovieContract;
-import com.thiago.popularmovies.dto.Movie;
+import com.thiago.popularmovies.dto.MovieItem;
 import com.thiago.popularmovies.dto.ReviewItem;
 import com.thiago.popularmovies.dto.TrailerItem;
 import com.thiago.popularmovies.webservice.FetchReviews;
@@ -59,7 +59,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
     private ArrayList<TrailerItem> mTrailerItens;
     private TrailerMovieAdapter mTrailerAdapter;
 
-    private Movie currentMovie;
+    private MovieItem currentMovie;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -235,7 +235,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
             return null;
         }
 
-        private ContentValues createContentValues(Movie movie) {
+        private ContentValues createContentValues(MovieItem movie) {
             Bitmap bitmap = null;
             try {
                 bitmap = Picasso.with(getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).get();

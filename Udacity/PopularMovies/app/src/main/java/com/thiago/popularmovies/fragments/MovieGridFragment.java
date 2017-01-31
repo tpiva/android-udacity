@@ -15,7 +15,7 @@ import com.thiago.popularmovies.MovieAdapter;
 import com.thiago.popularmovies.R;
 import com.thiago.popularmovies.Utility;
 import com.thiago.popularmovies.data.FetchDB;
-import com.thiago.popularmovies.dto.Movie;
+import com.thiago.popularmovies.dto.MovieItem;
 import com.thiago.popularmovies.webservice.FetchMovies;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     private MovieAdapter mAdapter;
     private ProgressDialog mProgressDialog;
 
-    private List<Movie> mMovies;
+    private List<MovieItem> mMovies;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,7 +84,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
         movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Movie movie = (Movie) adapterView.getItemAtPosition(position);
+                MovieItem movie = (MovieItem) adapterView.getItemAtPosition(position);
                 ((Callback) getActivity())
                         .onItemSelected(movie);
             }
@@ -174,7 +174,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     }
 
     @Override
-    public void onPostExecute(List<Movie> movies) {
+    public void onPostExecute(List<MovieItem> movies) {
         mProgressDialog.dismiss();
         if(mFetching && mMovies != null) {
             mMovies = movies;
@@ -195,6 +195,6 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
     }
 
     public interface Callback {
-        void onItemSelected(Movie movie);
+        void onItemSelected(MovieItem movie);
     }
 }

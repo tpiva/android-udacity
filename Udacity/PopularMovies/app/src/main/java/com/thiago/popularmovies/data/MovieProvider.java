@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import com.thiago.popularmovies.dto.Movie;
-
 /**
  * Created by tmagalhaes on 12-Jan-17.
  */
