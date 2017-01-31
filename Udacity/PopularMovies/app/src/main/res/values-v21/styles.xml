@@ -9,4 +9,8 @@
         <item name="android:textColorSecondary">@color/lightTexts</item>
     </style>
 
+    <style name="ExpandedTitleTheme" parent="AppTheme">
+        <item name="android:textColor">@android:color/transparent</item>
+        <item name="android:textSize">0sp</item>
+    </style>
 </resources>

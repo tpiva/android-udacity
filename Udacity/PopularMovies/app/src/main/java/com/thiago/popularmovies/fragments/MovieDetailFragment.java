@@ -7,7 +7,11 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.view.CollapsibleActionView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,7 +46,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
 
     private static final String URL_LOAD_IMAGE = "http://image.tmdb.org/t/p/w185/";
 
-    private TextView mTitleView;
+    private CollapsingToolbarLayout mTitle;
     private ImageView mPosterView;
     private TextView mYearView;
     private TextView mUserRatingView;
@@ -78,7 +82,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
             currentMovie = arguments.getParcelable(MovieGridFragment.DETAIL_MOVIE);
         }
 
-        mTitleView = (TextView) view.findViewById(R.id.detail_movie_item_title);
+        mTitle = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_movie_post_layout);
         mPosterView = (ImageView) view.findViewById(R.id.detail_movie_item_poster);
         mYearView = (TextView) view.findViewById(R.id.detail_movie_item_year);
         mUserRatingView = (TextView) view.findViewById(R.id.detail_movie_item_user_rating);
@@ -135,7 +139,8 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
     }
 
     private void fillMovieDetails() {
-        mTitleView.setText(currentMovie.getOriginalTitle());
+        mTitle.setTitle(currentMovie.getOriginalTitle());
+        mTitle.setCollapsedTitleTextColor(ContextCompat.getColor(getActivity(), R.color.white));
 
         if(Utility.getSortOrder(getActivity()).equalsIgnoreCase(MovieGridFragment.SEARCH_FAVORITES)) {
             if(currentMovie.getPosterImage() != null) {
