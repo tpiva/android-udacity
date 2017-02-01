@@ -46,6 +46,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
 
     private static final String URL_LOAD_IMAGE = "http://image.tmdb.org/t/p/w185/";
 
+    private TextView mTitleViewLand;
     private CollapsingToolbarLayout mTitle;
     private ImageView mPosterView;
     private TextView mYearView;
@@ -83,6 +84,7 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         }
 
         mTitle = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_movie_post_layout);
+        mTitleViewLand = (TextView) view.findViewById(R.id.detail_movie_item_title);
         mPosterView = (ImageView) view.findViewById(R.id.detail_movie_item_poster);
         mYearView = (TextView) view.findViewById(R.id.detail_movie_item_year);
         mUserRatingView = (TextView) view.findViewById(R.id.detail_movie_item_user_rating);
@@ -139,8 +141,12 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
     }
 
     private void fillMovieDetails() {
-        mTitle.setTitle(currentMovie.getOriginalTitle());
-        mTitle.setCollapsedTitleTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+        if(mTitle != null) {
+            mTitle.setTitle(currentMovie.getOriginalTitle());
+            mTitle.setCollapsedTitleTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+        } else if(mTitleViewLand != null) {
+            mTitleViewLand.setText(currentMovie.getOriginalTitle());
+        }
 
         if(Utility.getSortOrder(getActivity()).equalsIgnoreCase(MovieGridFragment.SEARCH_FAVORITES)) {
             if(currentMovie.getPosterImage() != null) {
