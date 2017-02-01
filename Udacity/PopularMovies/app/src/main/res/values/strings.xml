@@ -1,4 +1,4 @@
-<resources xmlns:xliff="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Pop Movies</string>
     <string name="action_settings">Settings</string>
     <string name="pref_sort_order_key" translatable="false">sortOrder</string>
@@ -10,10 +10,8 @@
     <string name="pref_popular_movies_popular" translatable="false">popular</string>
     <string name="pref_top_rated_top_rated" translatable="false">topated</string>
     <string name="pref_movies_favorites" translatable="false">favorites</string>
-    <string name="fetch_movies_loading">Loading...</string>
+    <string name="fetch_movies_loading">Loading…</string>
 
-    <string name="format_user_rating">%1$1.0f / 10</string>
-    <string name="connection_not_found">Not possible to found movies. Please check network connection.</string>
     <string name="format_review_author"><i>Author:</i> %1$s</string>
     <string name="format_review_link"><i>Review link:</i> %1$s</string>
     <string name="format_rating"><i>Rating:</i> %1$s / 10</string>

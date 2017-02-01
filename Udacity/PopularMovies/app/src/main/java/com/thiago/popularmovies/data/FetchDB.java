@@ -58,7 +58,7 @@ public class FetchDB extends AsyncTask<Void, Void, List<MovieItem>>{
                 null,
                 null);
 
-        if(cursor.moveToFirst()) {
+        if(cursor != null && cursor.moveToFirst()) {
             do {
                 MovieItem movie = new MovieItem();
                 movie.setId(cursor.getInt(COL_MOVIE_MOVIE_ID));

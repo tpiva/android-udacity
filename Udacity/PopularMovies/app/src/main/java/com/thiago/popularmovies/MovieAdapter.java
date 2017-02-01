@@ -28,7 +28,7 @@ public class MovieAdapter extends ArrayAdapter<MovieItem>{
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.grid_item_movie, parent, false);
@@ -37,7 +37,7 @@ public class MovieAdapter extends ArrayAdapter<MovieItem>{
         MovieItem currentMovie = getItem(position);
 
         ImageView poster = (ImageView) convertView.findViewById(R.id.grid_item_movie_image);
-        if(currentMovie.getPosterPath() == null
+        if(currentMovie != null && currentMovie.getPosterPath() == null
                 || (currentMovie.getPosterPath() != null && "".equalsIgnoreCase(currentMovie.getPosterPath()))) {
             if(currentMovie.getPosterImage() != null) {
                 byte[] imageAsByte = currentMovie.getPosterImage();

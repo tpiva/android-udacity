@@ -154,11 +154,13 @@ public class FetchMovies extends AsyncTask<String, Void, List<MovieItem>> {
                 null,
                 null);
 
-        if(cursor.moveToFirst()) {
+        if(cursor != null && cursor.moveToFirst()) {
             while(cursor.moveToNext()) {
                 currentMovies.add(cursor.getInt(COL_MOVIE_MOVIE_ID));
             }
         }
+
+        cursor.close();
         return currentMovies;
     }
 }

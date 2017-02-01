@@ -141,7 +141,7 @@ public class Parser {
             trailerItem.setSite(site);
 
             Integer size = result.getInt(OWN_SIZE);
-            trailerItem.setSite(site);
+            trailerItem.setSize(size);
 
             String type = result.getString(OWN_TYPE);
             trailerItem.setType(type);

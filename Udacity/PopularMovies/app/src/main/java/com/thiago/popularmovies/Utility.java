@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -42,9 +41,8 @@ public class Utility {
     public static byte[] getByteFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-        byte[] convertImage = bos.toByteArray();
 
-        return convertImage;
+        return bos.toByteArray();
     }
 
     public static boolean isPopular(Context context) {
