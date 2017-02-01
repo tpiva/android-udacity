@@ -16,6 +16,9 @@
     <string name="connection_not_found">Not possible to found movies. Please check network connection.</string>
     <string name="format_review_author"><i>Author:</i> %1$s</string>
     <string name="format_review_link"><i>Review link:</i> %1$s</string>
+    <string name="format_rating"><i>Rating:</i> %1$s / 10</string>
+    <string name="format_date_release"><i>Release year:</i> %1$s</string>
+    <string name="format_synopsis"><i>Synopsis:</i> %1$s</string>
     <string name="reviews"><i>Reviews:</i></string>
     <string name="trailers"><i>Trailers:</i></string>
 

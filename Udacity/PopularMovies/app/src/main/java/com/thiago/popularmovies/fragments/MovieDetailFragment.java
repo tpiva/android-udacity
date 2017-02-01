@@ -152,13 +152,11 @@ public class MovieDetailFragment extends Fragment implements FetchReviews.FetchR
         }
 
         String year = Utility.getYearOfReleaseDate(currentMovie.getReleaseDate());
-        mYearView.setText(year);
+        mYearView.setText(getActivity().getString(R.string.format_date_release,year));
 
-        String formatUserRating = getActivity().getString((R.string.format_user_rating),currentMovie.getVoteAverage());
-        mUserRatingView.setText(formatUserRating);
+        mUserRatingView.setText(getActivity().getString(R.string.format_rating, String.valueOf(currentMovie.getVoteAverage())));
 
-        mUserRatingView.setText(String.valueOf(currentMovie.getVoteAverage()));
-        mSynopsis.setText(currentMovie.getOverview());
+        mSynopsis.setText(getActivity().getString(R.string.format_synopsis, currentMovie.getOverview()));
     }
 
     private void foundReviewsAndVideos() {
