@@ -8,11 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by tmagalhaes on 12-Jan-17.
  */
 
-public class MovieDbHelper extends SQLiteOpenHelper {
+class MovieDbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 3;
 
-    static final String DATABASE_NAME = "popMovies.db";
+    private static final String DATABASE_NAME = "popMovies.db";
 
     public MovieDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

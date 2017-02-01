@@ -37,14 +37,16 @@ public class MovieAdapter extends ArrayAdapter<MovieItem>{
         MovieItem currentMovie = getItem(position);
 
         ImageView poster = (ImageView) convertView.findViewById(R.id.grid_item_movie_image);
-        if(currentMovie != null && currentMovie.getPosterPath() == null
-                || (currentMovie.getPosterPath() != null && "".equalsIgnoreCase(currentMovie.getPosterPath()))) {
-            if(currentMovie.getPosterImage() != null) {
-                byte[] imageAsByte = currentMovie.getPosterImage();
-                poster.setImageBitmap(BitmapFactory.decodeByteArray(imageAsByte, 0, imageAsByte.length));
+        if (currentMovie != null) {
+            if(currentMovie.getPosterPath() == null
+                    || (currentMovie.getPosterPath() != null && "".equalsIgnoreCase(currentMovie.getPosterPath()))) {
+                if(currentMovie.getPosterImage() != null) {
+                    byte[] imageAsByte = currentMovie.getPosterImage();
+                    poster.setImageBitmap(BitmapFactory.decodeByteArray(imageAsByte, 0, imageAsByte.length));
+                }
+            } else {
+                Picasso.with(getContext()).load(URL_LOAD_IMAGE + currentMovie.getPosterPath()).fit().into(poster);
             }
-        } else {
-            Picasso.with(getContext()).load(URL_LOAD_IMAGE + currentMovie.getPosterPath()).fit().into(poster);
         }
         return convertView;
     }

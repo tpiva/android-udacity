@@ -31,12 +31,12 @@ public class FetchMovies extends AsyncTask<String, Void, List<MovieItem>> {
 
     private static final String LOG = FetchMovies.class.getSimpleName();
 
-    protected static final String BASE_URL = "http://api.themoviedb.org/3";
+    static final String BASE_URL = "http://api.themoviedb.org/3";
     private static final String POPULAR_MOVIE_BASE_URL = BASE_URL + "/movie/popular?";
     private static final String TOP_RATED_MOVIE_BASE_URL = BASE_URL + "/movie/top_rated?";
-    protected static final String API_KEY_PARAM = "api_key";
-    protected static final String PAGE_PARAM = "page";
-    protected static final String MOVIE_PATH = "/movie/";
+    static final String API_KEY_PARAM = "api_key";
+    static final String PAGE_PARAM = "page";
+    static final String MOVIE_PATH = "/movie/";
 
     private Context mContext;
     private MovieTaskCallback mUI;
@@ -71,7 +71,7 @@ public class FetchMovies extends AsyncTask<String, Void, List<MovieItem>> {
 
             // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             if (inputStream == null) {
                 // Nothing to do.
                 return null;
@@ -160,7 +160,9 @@ public class FetchMovies extends AsyncTask<String, Void, List<MovieItem>> {
             }
         }
 
-        cursor.close();
+        if(cursor != null) {
+            cursor.close();
+        }
         return currentMovies;
     }
 }

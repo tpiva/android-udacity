@@ -18,7 +18,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:scaleType="fitCenter"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:contentDescription="Movie Poster" />
     </FrameLayout>
 
     <ScrollView
@@ -77,7 +78,7 @@
                                 android:id="@+id/detail_movie_item_year"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left"
+                                android:layout_gravity="start"
                                 android:fontFamily="sans-serif-smallcaps"
                                 android:textAppearance="@android:style/TextAppearance.Small"
                                 android:textColor="@color/white" />
@@ -86,7 +87,7 @@
                                 android:id="@+id/detail_movie_item_user_rating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left"
+                                android:layout_gravity="start"
                                 android:fontFamily="sans-serif-smallcaps"
                                 android:textAppearance="@android:style/TextAppearance.Small"
                                 android:textColor="@color/white" />
@@ -96,7 +97,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-smallcaps"
-                                android:layout_gravity="left"
+                                android:layout_gravity="start"
                                 android:textAppearance="@android:style/TextAppearance.Small"
                                 android:textColor="@color/white" />
 
@@ -116,7 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_margin="10dp"
-                        android:layout_gravity="left"
+                        android:layout_gravity="start"
                         android:elevation="4dp"
                         android:background="@color/lightTexts" />
 
@@ -124,7 +125,7 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
+                        android:layout_gravity="start"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 
@@ -155,7 +156,7 @@
                         android:layout_margin="10dp"
                         android:background="@color/lightTexts"
                         android:elevation="4dp"
-                        android:layout_gravity="left"
+                        android:layout_gravity="start"
                         android:visibility="invisible"/>
 
                     <LinearLayout
@@ -163,7 +164,7 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
+                        android:layout_gravity="start"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 

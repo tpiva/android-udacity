@@ -16,11 +16,11 @@ import java.util.List;
  * Created by tmagalhaes on 09-Jan-17.
  */
 
-public class Parser {
+class Parser {
 
     private static final String OWN_RESULTS = "results";
 
-    protected static List<MovieItem> getMoviesFromJson(String responseStream) throws JSONException {
+    static List<MovieItem> getMoviesFromJson(String responseStream) throws JSONException {
         List<MovieItem> movies = new ArrayList<>();
 
         // results fields
@@ -100,7 +100,7 @@ public class Parser {
         return movies;
     }
 
-    protected static ArrayList<TrailerItem> getVideoFromJson(String responseStream) throws JSONException {
+    static ArrayList<TrailerItem> getVideoFromJson(String responseStream) throws JSONException {
 
         ArrayList<TrailerItem> trailerItems = new ArrayList<>();
 
@@ -152,7 +152,7 @@ public class Parser {
         return trailerItems;
     }
 
-    protected static ArrayList<ReviewItem> getReviewFromJson(String responseStream) throws JSONException {
+    static ArrayList<ReviewItem> getReviewFromJson(String responseStream) throws JSONException {
 
         ArrayList<ReviewItem> reviewItems = new ArrayList<>();
 

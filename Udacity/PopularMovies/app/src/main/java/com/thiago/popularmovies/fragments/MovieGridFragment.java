@@ -31,7 +31,7 @@ public class MovieGridFragment extends Fragment implements FetchMovies.MovieTask
 
     private static final String SEARCH_POPULAR = "popular";
     private static final String SEARCH_TOP_RATED = "top_rated";
-    protected static final String SEARCH_FAVORITES = "favorites";
+    static final String SEARCH_FAVORITES = "favorites";
 
     public static final String DETAIL_MOVIE = "detail_movie";
 

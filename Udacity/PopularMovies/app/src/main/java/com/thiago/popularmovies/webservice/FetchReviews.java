@@ -50,7 +50,7 @@ public class FetchReviews extends AsyncTask<Integer, Void, ArrayList<ReviewItem>
 
             // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             if (inputStream == null) {
                 // Nothing to do.
                 return null;
@@ -67,9 +67,7 @@ public class FetchReviews extends AsyncTask<Integer, Void, ArrayList<ReviewItem>
             }
 
             reviews = Parser.getReviewFromJson(buffer.toString());
-        } catch (IOException e) {
-            Log.e(TAG, e.getLocalizedMessage(), e);
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
         }
 
