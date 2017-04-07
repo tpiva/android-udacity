@@ -1,11 +1,12 @@
-package com.thiago.popularmovies.webservice;
+package com.popmovies.android.popmovies.webservice;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.thiago.popularmovies.BuildConfig;
-import com.thiago.popularmovies.dto.ReviewItem;
+
+import com.popmovies.android.popmovies.BuildConfig;
+import com.popmovies.android.popmovies.bo.ReviewItem;
 
 import org.json.JSONException;
 

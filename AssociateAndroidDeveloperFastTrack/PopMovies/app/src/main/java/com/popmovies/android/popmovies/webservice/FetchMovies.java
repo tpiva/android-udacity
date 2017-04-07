@@ -1,21 +1,15 @@
-package com.thiago.popularmovies.webservice;
+package com.popmovies.android.popmovies.webservice;
 
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.thiago.popularmovies.BuildConfig;
-import com.thiago.popularmovies.MovieAdapter;
-import com.thiago.popularmovies.Utility;
-import com.thiago.popularmovies.data.MovieContract;
-import com.thiago.popularmovies.dto.Movie;
+import com.popmovies.android.popmovies.BuildConfig;
+import com.popmovies.android.popmovies.Utility;
+import com.popmovies.android.popmovies.bo.Movie;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -92,14 +86,14 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
             }
 
             List<Movie> movies = Parser.getMoviesFromJson(buffer.toString());
-            List<Integer> currentMovies = getFavorites();
-
-            // check movies that save as favorites.
-            for(Movie movie : movies) {
-                if(currentMovies.contains(movie.getId())) {
-                    movie.setMarkAsFavorite(true);
-                }
-            }
+//            List<Integer> currentMovies = getFavorites();
+//
+//            // check movies that save as favorites.
+//            for(Movie movie : movies) {
+//                if(currentMovies.contains(movie.getId())) {
+//                    movie.setMarkAsFavorite(true);
+//                }
+//            }
 
             return movies;
         } catch (MalformedURLException e) {
@@ -129,40 +123,40 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         void onPostExecute(List<Movie> movies);
     }
 
-    private List<Integer> getFavorites() {
-        final String[] MOVIE_COLUMNS = {
-                MovieContract.TABLE_NAME + "." + MovieContract._ID,
-                MovieContract.COLUMN_OVERVIEW,
-                MovieContract.COLUMN_RELEASE_DATE,
-                MovieContract.COLUMN_ORIGINAL_TITLE,
-                MovieContract.COLUMN_VOTE_AVERAGE,
-                MovieContract.COLUMN_VOTE_COUNT,
-                MovieContract.COLUMN_POSTER,
-                MovieContract.COLUMN_MOVIE_ID
-        };
-
-        final int COL_MOVIE_ID = 0;
-        final int COL_MOVIE_OVERVIEW = 1;
-        final int COL_MOVIE_RELEASE_DATE = 2;
-        final int COL_MOVIE_ORIGINAL_TITLE = 3;
-        final int COL_MOVIE_VOTE_AVERAGE = 4;
-        final int COL_MOVIE_VOTE_COUNT = 5;
-        final int COL_MOVIE_POSTER = 6;
-        final int COL_MOVIE_MOVIE_ID = 7;
-
-        List<Integer> currentMovies = new ArrayList<>();
-        Cursor cursor = mContext.getContentResolver().query(
-            MovieContract.CONTENT_URI,
-                MOVIE_COLUMNS,
-                null,
-                null,
-                null);
-
-        if(cursor.moveToFirst()) {
-            while(cursor.moveToNext()) {
-                currentMovies.add(cursor.getInt(COL_MOVIE_MOVIE_ID));
-            }
-        }
-        return currentMovies;
-    }
+//    private List<Integer> getFavorites() {
+//        final String[] MOVIE_COLUMNS = {
+//                MovieContract.TABLE_NAME + "." + MovieContract._ID,
+//                MovieContract.COLUMN_OVERVIEW,
+//                MovieContract.COLUMN_RELEASE_DATE,
+//                MovieContract.COLUMN_ORIGINAL_TITLE,
+//                MovieContract.COLUMN_VOTE_AVERAGE,
+//                MovieContract.COLUMN_VOTE_COUNT,
+//                MovieContract.COLUMN_POSTER,
+//                MovieContract.COLUMN_MOVIE_ID
+//        };
+//
+//        final int COL_MOVIE_ID = 0;
+//        final int COL_MOVIE_OVERVIEW = 1;
+//        final int COL_MOVIE_RELEASE_DATE = 2;
+//        final int COL_MOVIE_ORIGINAL_TITLE = 3;
+//        final int COL_MOVIE_VOTE_AVERAGE = 4;
+//        final int COL_MOVIE_VOTE_COUNT = 5;
+//        final int COL_MOVIE_POSTER = 6;
+//        final int COL_MOVIE_MOVIE_ID = 7;
+//
+//        List<Integer> currentMovies = new ArrayList<>();
+//        Cursor cursor = mContext.getContentResolver().query(
+//            MovieContract.CONTENT_URI,
+//                MOVIE_COLUMNS,
+//                null,
+//                null,
+//                null);
+//
+//        if(cursor.moveToFirst()) {
+//            while(cursor.moveToNext()) {
+//                currentMovies.add(cursor.getInt(COL_MOVIE_MOVIE_ID));
+//            }
+//        }
+//        return currentMovies;
+//    }
 }

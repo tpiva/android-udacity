@@ -1,9 +1,9 @@
-package com.thiago.popularmovies.webservice;
+package com.popmovies.android.popmovies.webservice;
 
-import com.thiago.popularmovies.Utility;
-import com.thiago.popularmovies.dto.Movie;
-import com.thiago.popularmovies.dto.ReviewItem;
-import com.thiago.popularmovies.dto.TrailerItem;
+import com.popmovies.android.popmovies.Utility;
+import com.popmovies.android.popmovies.bo.Movie;
+import com.popmovies.android.popmovies.bo.ReviewItem;
+import com.popmovies.android.popmovies.bo.TrailerItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,12 +1,11 @@
-package com.thiago.popularmovies.webservice;
+package com.popmovies.android.popmovies.webservice;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.thiago.popularmovies.BuildConfig;
-import com.thiago.popularmovies.TrailerMovieAdapter;
-import com.thiago.popularmovies.dto.TrailerItem;
+import com.popmovies.android.popmovies.BuildConfig;
+import com.popmovies.android.popmovies.bo.TrailerItem;
 
 import org.json.JSONException;
 
@@ -28,12 +27,12 @@ public class FetchTrailers extends AsyncTask<Integer, Void, ArrayList<TrailerIte
 
     private static final String VIDEOS_PATH = "/videos";
 
-    private TrailerMovieAdapter mAdapter;
+//    private TrailerMovieAdapter mAdapter;
 
     private FetchTrailerCallback mUI;
 
-    public FetchTrailers(TrailerMovieAdapter adapter, FetchTrailerCallback ui) {
-        this.mAdapter = adapter;
+    public FetchTrailers(/*TrailerMovieAdapter adapter,*/ FetchTrailerCallback ui) {
+//        this.mAdapter = adapter;
         this.mUI = ui;
     }
 
@@ -82,7 +81,7 @@ public class FetchTrailers extends AsyncTask<Integer, Void, ArrayList<TrailerIte
 
     @Override
     protected void onPostExecute(ArrayList<TrailerItem> trailerItems) {
-        mAdapter.updateData(trailerItems);
+//        mAdapter.updateData(trailerItems);
         mUI.onFetchCompleted(trailerItems);
     }
 
