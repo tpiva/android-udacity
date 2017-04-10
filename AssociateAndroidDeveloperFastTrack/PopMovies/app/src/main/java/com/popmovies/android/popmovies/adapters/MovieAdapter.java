@@ -19,7 +19,7 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
 
     public static final String URL_LOAD_IMAGE = "http://image.tmdb.org/t/p/w185/";
-    private List<Movie> movieList;
+    private List<Movie> mMovieList;
 
     private final OnItemClickListener mListener;
 
@@ -35,16 +35,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        holder.bind(movieList.get(position));
+        holder.bind(mMovieList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        if(movieList == null) {
+        if(mMovieList == null) {
             return 0;
         }
 
-        return movieList.size();
+        return mMovieList.size();
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -63,12 +63,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         @Override
         public void onClick(View v) {
-            mListener.onClicked(movieList.get(getAdapterPosition()));
+            mListener.onClicked(mMovieList.get(getAdapterPosition()));
         }
     }
 
-    public void setMovieList(List<Movie> movieList) {
-        this.movieList = movieList;
+    public void setmMovieList(List<Movie> mMovieList) {
+        this.mMovieList = mMovieList;
         notifyDataSetChanged();
     }
 

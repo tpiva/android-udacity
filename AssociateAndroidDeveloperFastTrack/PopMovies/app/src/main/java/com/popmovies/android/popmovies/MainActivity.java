@@ -27,16 +27,18 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
 
     public static final String POPULAR_MOVIE_SEARCH = "popular_movie";
     private static final String TOP_RATED_MOVIE_SEARCH = "top_rated_movie";
+    public static final int NUMBER_COLUMNS_LANDSCAPE = 3;
+    public static final int NUMBER_COLUMNS_PORTRAIT = 2;
 
     private ProgressBar mLoadingProgressBar;
     private MovieAdapter mAdapter;
 
-    private int pageCount = 1;
+    private int mPageCount = 1;
     private boolean isFetching = false;
 
     private ArrayList<Movie> mCurrentMovies = new ArrayList<>();
 
-    private String currentSearchType = POPULAR_MOVIE_SEARCH;
+    private String mCurrentSearchType = POPULAR_MOVIE_SEARCH;
 
     private GridLayoutManager mGridLayoutManager;
 
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         int orientation = getResources().getConfiguration().orientation;
 
         mGridLayoutManager = new GridLayoutManager(this,
-                orientation == Configuration.ORIENTATION_LANDSCAPE ?  3 : 2);
+                orientation == Configuration.ORIENTATION_LANDSCAPE ? NUMBER_COLUMNS_LANDSCAPE : NUMBER_COLUMNS_PORTRAIT);
 
         mMoviesGridRecycleView.setLayoutManager(mGridLayoutManager);
         mAdapter = new MovieAdapter(this);
@@ -66,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
                     int firstVisible = mGridLayoutManager.findFirstVisibleItemPosition();
 
                     if ((firstVisible + visibleItens) >= totalItens && !isFetching) {
-                        pageCount++;
-                        fecthMovies();
+                        mPageCount++;
+                        fetchMovies();
                     }
                 }
             }
@@ -75,11 +77,11 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
 
         if(savedInstanceState != null) {
             mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
-            mAdapter.setMovieList(mCurrentMovies);
+            mAdapter.setmMovieList(mCurrentMovies);
 
             mMoviesGridRecycleView.getLayoutManager().scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
         } else {
-            fecthMovies();
+            fetchMovies();
         }
 
     }
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         showContent();
         if (movies != null) {
             mCurrentMovies.addAll(movies);
-            mAdapter.setMovieList(mCurrentMovies);
+            mAdapter.setmMovieList(mCurrentMovies);
         }
     }
 
@@ -108,9 +110,9 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         mLoadingProgressBar.setVisibility(View.INVISIBLE);
     }
 
-    private void fecthMovies() {
+    private void fetchMovies() {
         FetchMovies fetchMovies = new FetchMovies(this, this);
-        fetchMovies.execute(currentSearchType, String.valueOf(pageCount));
+        fetchMovies.execute(mCurrentSearchType, String.valueOf(mPageCount));
     }
 
     @Override
@@ -133,11 +135,11 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         boolean isChangedSearch = false;
         switch (id) {
             case R.id.action_popular:
-                currentSearchType = POPULAR_MOVIE_SEARCH;
+                mCurrentSearchType = POPULAR_MOVIE_SEARCH;
                 isChangedSearch = true;
                 break;
             case R.id.action_top_rated:
-                currentSearchType = TOP_RATED_MOVIE_SEARCH;
+                mCurrentSearchType = TOP_RATED_MOVIE_SEARCH;
                 isChangedSearch = true;
                 break;
         }
@@ -153,15 +155,15 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
     private void reset() {
         mCurrentMovies.clear();
         mAdapter.notifyDataSetChanged();
-        pageCount = 1;
-        fecthMovies();
+        mPageCount = 1;
+        fetchMovies();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(CURRENT_LIST, mCurrentMovies);
-        outState.putString(CURRENT_SEARCH, currentSearchType);
-        outState.putInt(CURRENT_PAGE, pageCount);
+        outState.putString(CURRENT_SEARCH, mCurrentSearchType);
+        outState.putInt(CURRENT_PAGE, mPageCount);
         super.onSaveInstanceState(outState);
     }
 
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        currentSearchType = savedInstanceState.getString(CURRENT_SEARCH);
-        pageCount = savedInstanceState.getInt(CURRENT_PAGE);
+        mCurrentSearchType = savedInstanceState.getString(CURRENT_SEARCH);
+        mPageCount = savedInstanceState.getInt(CURRENT_PAGE);
     }
 }
