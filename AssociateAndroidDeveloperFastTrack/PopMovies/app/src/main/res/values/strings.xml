@@ -1,24 +1,11 @@
 <resources>
     <string name="app_name">PopMovies</string>
-    <string name="action_settings">Settings</string>
-    <string name="pref_sort_order_key" translatable="false">sortOrder</string>
-    <string name="pref_sort_order_label">Sort Order</string>
 
-    <string name="pref_popular_movies_label_popular">Popular</string>
-    <string name="pref_top_rated_label_top_rated">Top Rated</string>
-    <string name="pref_top_rated_label_favorites">Favorites</string>
-    <string name="pref_popular_movies_popular" translatable="false">popular</string>
-    <string name="pref_top_rated_top_rated" translatable="false">topated</string>
-    <string name="pref_movies_favorites" translatable="false">favorites</string>
+    <string name="action_popular">Popular</string>
+    <string name="action_top_rated">Top Rated</string>
     <string name="fetch_movies_loading">Loading...</string>
 
     <string name="format_user_rating">%1$1.0f / 10</string>
     <string name="connection_not_found">Not possible to found movies. Please check network connection.</string>
-    <string name="format_review_author"><i>Author:</i> %1$s</string>
-    <string name="format_review_link"><i>Review link:</i> %1$s</string>
-    <string name="reviews"><i>Reviews:</i></string>
-    <string name="trailers"><i>Trailers:</i></string>
-
-    <string name="content_authority">com.thiago.popularmovies</string>
     <string name="settings_activity_name">Settings</string>
 </resources>

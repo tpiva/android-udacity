@@ -34,41 +34,6 @@ public class Utility {
         return releaseDate;
     }
 
-    public static String getStringOfDate(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return simpleDateFormat.format(date);
-    }
-
-    public static byte[] getByteFromBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-        byte[] convertImage = bos.toByteArray();
-
-        return convertImage;
-    }
-
-    public static boolean isPopular(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString(
-                context.getString(R.string.pref_sort_order_key),
-                context.getString(R.string.pref_popular_movies_popular))
-                .equals(context.getString(R.string.pref_popular_movies_popular));
-    }
-
-    public static String getSortOrder(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString(
-                context.getString(R.string.pref_sort_order_key),
-                context.getString(R.string.pref_popular_movies_popular));
-    }
-
-    public static void setSearchOrder(Context context, String newSearchOrder) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(context.getString(R.string.pref_sort_order_key),newSearchOrder);
-        editor.commit();
-    }
-
     public static String getYearOfReleaseDate(Date releaseDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
         return simpleDateFormat.format(releaseDate);
