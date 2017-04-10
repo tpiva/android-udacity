@@ -3,11 +3,12 @@
 
     <string name="action_popular">Popular</string>
     <string name="action_top_rated">Top Rated</string>
-    <string name="fetch_movies_loading">Loading...</string>
+    <string name="fetch_movies_loading">Loading…</string>
 
     <string name="format_user_rating">Avg. vote: %1$1.0f / 10</string>
     <string name="connection_not_found">Not possible to found movies. Please check network connection.</string>
     <string name="settings_activity_name">Settings</string>
 
     <string name="format_date_released">Released: %1$s</string>
+    <string name="movie_poster">Poster of movie.</string>
 </resources>

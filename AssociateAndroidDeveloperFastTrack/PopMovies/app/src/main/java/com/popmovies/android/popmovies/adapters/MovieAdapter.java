@@ -1,13 +1,11 @@
 package com.popmovies.android.popmovies.adapters;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.popmovies.android.popmovies.DetailMovieActivity;
 import com.popmovies.android.popmovies.R;
 import com.popmovies.android.popmovies.bo.Movie;
 import com.squareup.picasso.Picasso;
@@ -15,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
- * Created by tmagalhaes on 07/04/2017.
+ *
  */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
@@ -23,7 +21,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public static final String URL_LOAD_IMAGE = "http://image.tmdb.org/t/p/w185/";
     private List<Movie> movieList;
 
-    private OnItemClickListener mListener;
+    private final OnItemClickListener mListener;
 
     public MovieAdapter(OnItemClickListener onItemClickListener) {
         this.mListener = onItemClickListener;
@@ -50,7 +48,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView moviePoster;
+        final ImageView moviePoster;
 
         public MovieViewHolder(final View itemView) {
             super(itemView);

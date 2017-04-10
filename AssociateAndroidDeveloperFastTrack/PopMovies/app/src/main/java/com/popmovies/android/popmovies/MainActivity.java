@@ -26,9 +26,8 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
     private static final String CURRENT_POSITION_RV = "current_position_rv";
 
     public static final String POPULAR_MOVIE_SEARCH = "popular_movie";
-    public static final String TOP_RATED_MOVIE_SEARCH = "top_rated_movie";
+    private static final String TOP_RATED_MOVIE_SEARCH = "top_rated_movie";
 
-    private RecyclerView mMoviesGridRecycleView;
     private ProgressBar mLoadingProgressBar;
     private MovieAdapter mAdapter;
 
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mMoviesGridRecycleView = (RecyclerView) findViewById(R.id.rc_grid_movies);
+        RecyclerView mMoviesGridRecycleView = (RecyclerView) findViewById(R.id.rc_grid_movies);
         mLoadingProgressBar = (ProgressBar) findViewById(R.id.pb_loading_movies);
         int orientation = getResources().getConfiguration().orientation;
 
@@ -59,11 +58,6 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         mMoviesGridRecycleView.setAdapter(mAdapter);
 
         mMoviesGridRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {

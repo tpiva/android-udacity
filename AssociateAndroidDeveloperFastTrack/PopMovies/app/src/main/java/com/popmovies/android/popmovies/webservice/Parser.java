@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tmagalhaes on 09-Jan-17.
+ *
  */
 
-public class Parser {
+class Parser {
 
     private static final String OWN_RESULTS = "results";
 
-    protected static List<Movie> getMoviesFromJson(String responseStream) throws JSONException {
+    static List<Movie> getMoviesFromJson(String responseStream) throws JSONException {
         List<Movie> movies = new ArrayList<>();
 
         // results fields

@@ -23,21 +23,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tmagalhaes on 04-Jan-17.
+ *
  */
 
 public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
 
     private static final String LOG = FetchMovies.class.getSimpleName();
 
-    protected static final String BASE_URL = "http://api.themoviedb.org/3";
+    private static final String BASE_URL = "http://api.themoviedb.org/3";
     private static final String POPULAR_MOVIE_BASE_URL = BASE_URL + "/movie/popular?";
     private static final String TOP_RATED_MOVIE_BASE_URL = BASE_URL + "/movie/top_rated?";
-    protected static final String API_KEY_PARAM = "api_key";
-    protected static final String PAGE_PARAM = "page";
+    private static final String API_KEY_PARAM = "api_key";
+    private static final String PAGE_PARAM = "page";
 
-    private Context mContext;
-    private MovieTaskCallback mUI;
+    private final Context mContext;
+    private final MovieTaskCallback mUI;
 
     public FetchMovies(Context context, MovieTaskCallback ui) {
         this.mContext = context;
@@ -57,7 +57,7 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         }
 
         try {
-            boolean isPopular = (args[0] != null && MainActivity.POPULAR_MOVIE_SEARCH.equals(args[0])) ? true : false;
+            boolean isPopular = (args[0] != null && MainActivity.POPULAR_MOVIE_SEARCH.equals(args[0]));
             String page = args[1];
             Uri buildUri = Uri.parse(isPopular ? POPULAR_MOVIE_BASE_URL : TOP_RATED_MOVIE_BASE_URL)
                     .buildUpon().appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
@@ -70,7 +70,7 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
 
             // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             if (inputStream == null) {
                 // Nothing to do.
                 return null;
@@ -79,16 +79,14 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
             }
 
             if (buffer.length() == 0) {
                 return null;
             }
 
-            List<Movie> movies = Parser.getMoviesFromJson(buffer.toString());
-
-            return movies;
+            return Parser.getMoviesFromJson(buffer.toString());
         } catch (MalformedURLException e) {
             Log.e(LOG,"MalformedURLException", e);
         } catch (IOException e) {

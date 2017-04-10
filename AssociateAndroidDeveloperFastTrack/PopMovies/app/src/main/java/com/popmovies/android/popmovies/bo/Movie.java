@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.Date;
 
 /**
- * Created by tmagalhaes on 04-Jan-17.
+ *
  */
 
 public class Movie implements Parcelable{
