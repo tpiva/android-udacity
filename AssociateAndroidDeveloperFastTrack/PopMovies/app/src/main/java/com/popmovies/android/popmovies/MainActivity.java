@@ -1,6 +1,7 @@
 package com.popmovies.android.popmovies;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +20,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements FetchMovies.MovieTaskCallback, MovieAdapter.OnItemClickListener {
 
+    private static final String CURRENT_LIST = "current_list";
+    private static final String CURRENT_SEARCH = "current_search";
+    private static final String CURRENT_PAGE = "current_page";
+
     public static final String POPULAR_MOVIE_SEARCH = "popular_movie";
     public static final String TOP_RATED_MOVIE_SEARCH = "top_rated_movie";
 
@@ -29,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
     private int pageCount = 1;
     private boolean isFetching = false;
 
-    private List<Movie> mCurrentMovies = new ArrayList<>();
+    private ArrayList<Movie> mCurrentMovies = new ArrayList<>();
 
     private String currentSearchType = POPULAR_MOVIE_SEARCH;
 
@@ -40,11 +45,12 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
 
         mMoviesGridRecycleView = (RecyclerView) findViewById(R.id.rc_grid_movies);
         mLoadingProgressBar = (ProgressBar) findViewById(R.id.pb_loading_movies);
+        int orientation = getResources().getConfiguration().orientation;
 
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
+                orientation == Configuration.ORIENTATION_LANDSCAPE ?  3 : 2);
 
         mMoviesGridRecycleView.setLayoutManager(gridLayoutManager);
-
         mAdapter = new MovieAdapter(this);
 
         mMoviesGridRecycleView.setAdapter(mAdapter);
@@ -69,12 +75,14 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
                 }
             }
         });
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        fecthMovies();
+        if(savedInstanceState != null) {
+            mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
+            mAdapter.setMovieList(mCurrentMovies);
+        } else {
+            fecthMovies();
+        }
+
     }
 
     @Override
@@ -148,5 +156,21 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         mAdapter.notifyDataSetChanged();
         pageCount = 1;
         fecthMovies();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(CURRENT_LIST, mCurrentMovies);
+        outState.putString(CURRENT_SEARCH, currentSearchType);
+        outState.putInt(CURRENT_PAGE, pageCount);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        currentSearchType = savedInstanceState.getString(CURRENT_SEARCH);
+        pageCount = savedInstanceState.getInt(CURRENT_PAGE);
     }
 }
