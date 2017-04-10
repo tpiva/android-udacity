@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
     private static final String CURRENT_LIST = "current_list";
     private static final String CURRENT_SEARCH = "current_search";
     private static final String CURRENT_PAGE = "current_page";
+    private static final String CURRENT_POSITION_RV = "current_position_rv";
 
     public static final String POPULAR_MOVIE_SEARCH = "popular_movie";
     public static final String TOP_RATED_MOVIE_SEARCH = "top_rated_movie";
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
 
     private String currentSearchType = POPULAR_MOVIE_SEARCH;
 
+    private GridLayoutManager mGridLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +50,10 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         mLoadingProgressBar = (ProgressBar) findViewById(R.id.pb_loading_movies);
         int orientation = getResources().getConfiguration().orientation;
 
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
+        mGridLayoutManager = new GridLayoutManager(this,
                 orientation == Configuration.ORIENTATION_LANDSCAPE ?  3 : 2);
 
-        mMoviesGridRecycleView.setLayoutManager(gridLayoutManager);
+        mMoviesGridRecycleView.setLayoutManager(mGridLayoutManager);
         mAdapter = new MovieAdapter(this);
 
         mMoviesGridRecycleView.setAdapter(mAdapter);
@@ -64,9 +67,9 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
-                    int visibleItens = gridLayoutManager.getChildCount();
-                    int totalItens = gridLayoutManager.getItemCount();
-                    int firstVisible = gridLayoutManager.findFirstVisibleItemPosition();
+                    int visibleItens = mGridLayoutManager.getChildCount();
+                    int totalItens = mGridLayoutManager.getItemCount();
+                    int firstVisible = mGridLayoutManager.findFirstVisibleItemPosition();
 
                     if ((firstVisible + visibleItens) >= totalItens && !isFetching) {
                         pageCount++;
@@ -79,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         if(savedInstanceState != null) {
             mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
             mAdapter.setMovieList(mCurrentMovies);
+
+            mMoviesGridRecycleView.getLayoutManager().scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
         } else {
             fecthMovies();
         }

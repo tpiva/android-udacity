@@ -1,8 +1,10 @@
 package com.popmovies.android.popmovies;
 
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,12 +47,20 @@ public class DetailMovieActivity extends AppCompatActivity {
     private void loadDataOnViews(Movie movie) {
         if (movie != null) {
             mTitleTextView.setText(movie.getTitle());
-            mYearReleaseTextView.setText(Utility.getYearOfReleaseDate(movie.getReleaseDate()));
-            mRatingTextView.setText(movie.getVoteAverage() + "/10");
+            mYearReleaseTextView.setText(getResources().getString(R.string.format_date_released, Utility.getYearOfReleaseDate(movie.getReleaseDate())));
+            mRatingTextView.setText(getResources().getString(R.string.format_user_rating, movie.getVoteAverage()));
             Picasso.with(this).load(MovieAdapter.URL_LOAD_IMAGE + movie.getPosterPath()).fit().into(mPosterImageView);
             mSynopsisTextView.setText(movie.getOverview());
         }
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

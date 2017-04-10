@@ -53,10 +53,10 @@
                     android:id="@+id/tv_detail_movie_item_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textColor="@color/lightTexts"
+                    android:textAppearance="@android:style/TextAppearance.Small"
+                    android:textColor="@color/darkTexts"
                     android:layout_gravity="center"
-                    android:fontFamily="sans-serif-smallcaps"/>
+                    android:fontFamily="serif"/>
 
                 <TextView
                     android:id="@+id/tv_detail_movie_item_user_rating"
@@ -75,8 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:padding="16dp"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:fontFamily="serif"
             android:textColor="@color/darkTexts"/>

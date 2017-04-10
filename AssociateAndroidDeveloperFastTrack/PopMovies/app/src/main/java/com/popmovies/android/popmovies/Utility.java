@@ -35,7 +35,7 @@ public class Utility {
     }
 
     public static String getYearOfReleaseDate(Date releaseDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(releaseDate);
     }
 
