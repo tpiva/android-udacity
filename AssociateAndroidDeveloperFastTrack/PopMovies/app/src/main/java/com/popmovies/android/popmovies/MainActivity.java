@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.popmovies.android.popmovies.adapters.MovieAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
@@ -30,7 +31,11 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
     public static final int NUMBER_COLUMNS_LANDSCAPE = 3;
     public static final int NUMBER_COLUMNS_PORTRAIT = 2;
 
+    private GridLayoutManager mGridLayoutManager;
     private ProgressBar mLoadingProgressBar;
+    private TextView mMessageLoaginErrorTextView;
+    private RecyclerView mMoviesGridRecycleView;
+
     private MovieAdapter mAdapter;
 
     private int mPageCount = 1;
@@ -40,15 +45,15 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
 
     private String mCurrentSearchType = POPULAR_MOVIE_SEARCH;
 
-    private GridLayoutManager mGridLayoutManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView mMoviesGridRecycleView = (RecyclerView) findViewById(R.id.rc_grid_movies);
+        mMoviesGridRecycleView = (RecyclerView) findViewById(R.id.rc_grid_movies);
         mLoadingProgressBar = (ProgressBar) findViewById(R.id.pb_loading_movies);
+        mMessageLoaginErrorTextView = (TextView) findViewById(R.id.tv_message_error_loading);
+
         int orientation = getResources().getConfiguration().orientation;
 
         mGridLayoutManager = new GridLayoutManager(this,
@@ -99,20 +104,33 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         if (movies != null) {
             mCurrentMovies.addAll(movies);
             mAdapter.setmMovieList(mCurrentMovies);
+        } else {
+            showMessageError();
         }
     }
 
     private void showProgress() {
         mLoadingProgressBar.setVisibility(View.VISIBLE);
+        mMessageLoaginErrorTextView.setVisibility(View.INVISIBLE);
     }
 
     private void showContent() {
+        if (!mMoviesGridRecycleView.isShown()) {
+            mMessageLoaginErrorTextView.setVisibility(View.VISIBLE);
+        }
+
         mLoadingProgressBar.setVisibility(View.INVISIBLE);
+        mMessageLoaginErrorTextView.setVisibility(View.INVISIBLE);
     }
 
     private void fetchMovies() {
         FetchMovies fetchMovies = new FetchMovies(this, this);
         fetchMovies.execute(mCurrentSearchType, String.valueOf(mPageCount));
+    }
+
+    private void showMessageError() {
+        mLoadingProgressBar.setVisibility(View.INVISIBLE);
+        mMessageLoaginErrorTextView.setVisibility(View.VISIBLE);
     }
 
     @Override

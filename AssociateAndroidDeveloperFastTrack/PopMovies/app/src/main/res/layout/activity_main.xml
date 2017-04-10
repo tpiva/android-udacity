@@ -19,4 +19,14 @@
         android:layout_gravity="center"
         android:visibility="invisible"/>
 
+    <TextView
+        android:id="@+id/tv_message_error_loading"
+        android:text="@string/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
 </FrameLayout>

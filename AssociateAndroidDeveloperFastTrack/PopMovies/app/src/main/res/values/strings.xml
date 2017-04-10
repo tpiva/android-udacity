@@ -11,4 +11,5 @@
 
     <string name="format_date_released">Released: %1$s</string>
     <string name="movie_poster">Poster of movie.</string>
+    <string name="error_message">Error during loading, please try again.</string>
 </resources>
