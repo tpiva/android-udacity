@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ * Support class with helper methods about format date and check is connection is available.
+ */
+
 package com.popmovies.android.popmovies;
 
 import android.content.Context;
@@ -9,14 +14,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- *
- */
-
 public class Utility {
 
     private static final String LOG = Utility.class.getSimpleName();
 
+    /**
+     * Return date from String
+     * @param date
+     * @return
+     */
     public static Date getFormatDate(String date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date releaseDate = null;
@@ -29,11 +35,21 @@ public class Utility {
         return releaseDate;
     }
 
-    public static String getYearOfReleaseDate(Date releaseDate) {
+    /**
+     * Return date formatted as string from Date object.
+     * @param releaseDate
+     * @return
+     */
+    public static String getFormatDateAsString(Date releaseDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(releaseDate);
     }
 
+    /**
+     * Verify if connection is available.
+     * @param context
+     * @return
+     */
     public static boolean isOnline(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

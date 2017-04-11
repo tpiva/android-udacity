@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ * Handler details of movies like title, release date, average vote and synopsis.
+ */
+
 package com.popmovies.android.popmovies;
 
 import android.content.Intent;
@@ -43,10 +48,14 @@ public class DetailMovieActivity extends AppCompatActivity {
         loadDataOnViews(currentMovie);
     }
 
+    /**
+     * Loads on view components details movie information.
+     * @param movie
+     */
     private void loadDataOnViews(Movie movie) {
         if (movie != null) {
             mTitleTextView.setText(movie.getTitle());
-            mYearReleaseTextView.setText(getResources().getString(R.string.format_date_released, Utility.getYearOfReleaseDate(movie.getReleaseDate())));
+            mYearReleaseTextView.setText(getResources().getString(R.string.format_date_released, Utility.getFormatDateAsString(movie.getReleaseDate())));
             mRatingTextView.setText(getResources().getString(R.string.format_user_rating, movie.getVoteAverage()));
             Picasso.with(this).load(MovieAdapter.URL_LOAD_IMAGE + movie.getPosterPath()).fit().into(mPosterImageView);
             mSynopsisTextView.setText(movie.getOverview());

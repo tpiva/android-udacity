@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ * Main activity to show grid with movies, start communication with server to get movies and
+ * handler menu actions.
+ */
+
 package com.popmovies.android.popmovies;
 
 import android.content.Intent;
@@ -38,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
 
     private MovieAdapter mAdapter;
 
-    private int mPageCount = 1;
+    private int mActualPage = 1;
     private boolean isFetching = false;
 
     private ArrayList<Movie> mCurrentMovies = new ArrayList<>();
@@ -54,16 +60,17 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         mLoadingProgressBar = (ProgressBar) findViewById(R.id.pb_loading_movies);
         mMessageLoaginErrorTextView = (TextView) findViewById(R.id.tv_message_error_loading);
 
-        int orientation = getResources().getConfiguration().orientation;
+        // check orientation to define number of columns on grid
+        int numberColumns = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ?
+                NUMBER_COLUMNS_LANDSCAPE : NUMBER_COLUMNS_PORTRAIT;
 
-        mGridLayoutManager = new GridLayoutManager(this,
-                orientation == Configuration.ORIENTATION_LANDSCAPE ? NUMBER_COLUMNS_LANDSCAPE : NUMBER_COLUMNS_PORTRAIT);
+        mGridLayoutManager = new GridLayoutManager(this, numberColumns);
 
         mMoviesGridRecycleView.setLayoutManager(mGridLayoutManager);
         mAdapter = new MovieAdapter(this);
 
         mMoviesGridRecycleView.setAdapter(mAdapter);
-
+        // after end of recycle view load more movies from server side.
         mMoviesGridRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -73,20 +80,24 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
                     int firstVisible = mGridLayoutManager.findFirstVisibleItemPosition();
 
                     if ((firstVisible + visibleItens) >= totalItens && !isFetching) {
-                        mPageCount++;
+                        mActualPage++;
                         fetchMovies();
                     }
                 }
             }
         });
 
-        if(savedInstanceState != null) {
-            mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
-            mAdapter.setmMovieList(mCurrentMovies);
-
-            mMoviesGridRecycleView.getLayoutManager().scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
+        if (!Utility.isOnline(this)) {
+            showMessageError();
         } else {
-            fetchMovies();
+            if (savedInstanceState != null) {
+                mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
+                mAdapter.setmMovieList(mCurrentMovies);
+
+                mMoviesGridRecycleView.getLayoutManager().scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
+            } else {
+                fetchMovies();
+            }
         }
 
     }
@@ -109,11 +120,17 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         }
     }
 
+    /**
+     * Show progressBar to user to inform more movies are loading.
+     */
     private void showProgress() {
         mLoadingProgressBar.setVisibility(View.VISIBLE);
         mMessageLoaginErrorTextView.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Shows content of grid (movies) and turn invisible other UI elements.
+     */
     private void showContent() {
         if (!mMoviesGridRecycleView.isShown()) {
             mMessageLoaginErrorTextView.setVisibility(View.VISIBLE);
@@ -123,11 +140,18 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         mMessageLoaginErrorTextView.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Fetch movies from the movie DB server by current search (popular or top rated) and
+     * actual page of movies (server attribute).
+     */
     private void fetchMovies() {
         FetchMovies fetchMovies = new FetchMovies(this, this);
-        fetchMovies.execute(mCurrentSearchType, String.valueOf(mPageCount));
+        fetchMovies.execute(mCurrentSearchType, String.valueOf(mActualPage));
     }
 
+    /**
+     * Display error message during loading movies from server.
+     */
     private void showMessageError() {
         mLoadingProgressBar.setVisibility(View.INVISIBLE);
         mMessageLoaginErrorTextView.setVisibility(View.VISIBLE);
@@ -170,10 +194,18 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Restart variable classes related with fetch movies from server.
+     */
     private void reset() {
+        if (!Utility.isOnline(this)) {
+            showMessageError();
+            return;
+        }
+
         mCurrentMovies.clear();
         mAdapter.notifyDataSetChanged();
-        mPageCount = 1;
+        mActualPage = 1;
         fetchMovies();
     }
 
@@ -181,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(CURRENT_LIST, mCurrentMovies);
         outState.putString(CURRENT_SEARCH, mCurrentSearchType);
-        outState.putInt(CURRENT_PAGE, mPageCount);
+        outState.putInt(CURRENT_PAGE, mActualPage);
         super.onSaveInstanceState(outState);
     }
 
@@ -190,6 +222,6 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         super.onRestoreInstanceState(savedInstanceState);
 
         mCurrentSearchType = savedInstanceState.getString(CURRENT_SEARCH);
-        mPageCount = savedInstanceState.getInt(CURRENT_PAGE);
+        mActualPage = savedInstanceState.getInt(CURRENT_PAGE);
     }
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ * Adapter class for put data and draw UI of RecycleView.
+ */
+
 package com.popmovies.android.popmovies.adapters;
 
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +16,6 @@ import com.popmovies.android.popmovies.bo.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-/**
- *
- */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
 
@@ -67,11 +68,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         }
     }
 
+    /**
+     * Fill list of movies to display on RecycleView
+     * @param mMovieList
+     */
     public void setmMovieList(List<Movie> mMovieList) {
         this.mMovieList = mMovieList;
         notifyDataSetChanged();
     }
 
+    /**
+     * Interface to handler click events on Movie Grid, implemented by MainActivity.
+     */
     public interface OnItemClickListener {
         void onClicked(Movie movie);
     }

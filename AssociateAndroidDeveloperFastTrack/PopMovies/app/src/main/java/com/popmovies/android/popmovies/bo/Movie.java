@@ -1,13 +1,14 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ * Business object that represents one movie from webservice.
+ */
+
 package com.popmovies.android.popmovies.bo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Date;
-
-/**
- *
- */
 
 public class Movie implements Parcelable{
     private String posterPath;

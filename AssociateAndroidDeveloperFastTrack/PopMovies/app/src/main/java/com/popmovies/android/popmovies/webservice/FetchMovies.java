@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ * Request data to server and delegate to handler of Json.
+ */
+
 package com.popmovies.android.popmovies.webservice;
 
 import android.content.Context;
@@ -21,10 +26,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- *
- */
 
 public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
 
@@ -59,6 +60,7 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         try {
             boolean isPopular = (args[0] != null && MainActivity.POPULAR_MOVIE_SEARCH.equals(args[0]));
             String page = args[1];
+            // based on page and type of search (popular or top rated), select one URL.
             Uri buildUri = Uri.parse(isPopular ? POPULAR_MOVIE_BASE_URL : TOP_RATED_MOVIE_BASE_URL)
                     .buildUpon().appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
                     .appendQueryParameter(PAGE_PARAM, page).build();
@@ -108,6 +110,10 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         mUI.onPostExecute(movies);
     }
 
+    /**
+     * Interface implemented by UI component to get information after AsyncTask finish and handler
+     * UI components.
+     */
     public interface MovieTaskCallback {
         void onPreExecute();
 

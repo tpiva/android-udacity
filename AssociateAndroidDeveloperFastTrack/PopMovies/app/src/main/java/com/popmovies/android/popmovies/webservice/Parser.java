@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ * Handler data from webservice and parse it from Json to Movie object.
+ */
+
 package com.popmovies.android.popmovies.webservice;
 
 import com.popmovies.android.popmovies.Utility;
@@ -10,14 +15,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
-
 class Parser {
 
     private static final String OWN_RESULTS = "results";
 
+    /**
+     * Retrieves information from Json (webservice response) and put it on Movie object.
+     * @param responseStream
+     * @return
+     * @throws JSONException
+     */
     static List<Movie> getMoviesFromJson(String responseStream) throws JSONException {
         List<Movie> movies = new ArrayList<>();
 
