@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryDark">#00695C</color>
-    <color name="colorAccent">#4fc3f7</color>
+    <color name="colorPrimary">#81c784</color>
+    <color name="colorPrimaryDark">#519657</color>
+    <color name="colorAccent">#1565c0</color>
+    <color name="colorPrimaryLigh">#b2fab4</color>
+
+    <color name="primary_text">#000000</color>
+    <color name="secondary_text">#ffffff</color>
+    <color name="label_accent">#00695C</color>
+    <color name="background_accent">#00897B</color>
+
     <color name="colorTitleMovieDetails">#004D40</color>
     <color name="white">#fafafa</color>
     <color name="darkTexts">#00695C</color>
