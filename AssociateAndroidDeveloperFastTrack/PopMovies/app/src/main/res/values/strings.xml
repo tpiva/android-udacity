@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">PopMovies</string>
 
-    <string name="action_popular">Popular</string>
-    <string name="action_top_rated">Top Rated</string>
+    <string name="pref_label_popular">Popular</string>
+    <string name="pref_label_top_rated">Top Rated</string>
+    <string name="pref_label_favorites">Favorites</string>
     <string name="fetch_movies_loading">Loading…</string>
 
     <string name="format_user_rating">Avg. vote: %1$1.0f / 10</string>
@@ -12,4 +13,10 @@
     <string name="format_date_released">Released: %1$s</string>
     <string name="movie_poster">Poster of movie.</string>
     <string name="error_message">Error during loading, please try again.</string>
+
+    <string name="pref_key_search_movies">search_movies</string>
+    <string name="pref_popular" translatable="false">popular</string>
+    <string name="pref_top_rated" translatable="false">top_rated</string>
+    <string name="pref_favorites" translatable="false">favorites</string>
+    <string name="pref_search_type">Search Type</string>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="@string/pref_key_search_movies"
+        android:entryValues="@array/pref_search_options_values"
+        android:entries="@array/pref_search_options_labels"
+        android:defaultValue="@string/pref_popular"
+        android:title="@string/pref_search_type"/>
+</PreferenceScreen>
