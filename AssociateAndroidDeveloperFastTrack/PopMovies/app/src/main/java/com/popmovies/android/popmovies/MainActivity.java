@@ -20,22 +20,27 @@ import android.widget.TextView;
 
 import com.popmovies.android.popmovies.adapters.MovieAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
+import com.popmovies.android.popmovies.data.PopMoviesPreferences;
 import com.popmovies.android.popmovies.webservice.FetchMovies;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements FetchMovies.MovieTaskCallback, MovieAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements FetchMovies.MovieTaskCallback,
+        MovieAdapter.OnItemClickListener {
+
+    // TODO fix saveInstance
 
     private static final String CURRENT_LIST = "current_list";
     private static final String CURRENT_SEARCH = "current_search";
     private static final String CURRENT_PAGE = "current_page";
     private static final String CURRENT_POSITION_RV = "current_position_rv";
 
-    public static final String POPULAR_MOVIE_SEARCH = "popular_movie";
-    private static final String TOP_RATED_MOVIE_SEARCH = "top_rated_movie";
     public static final int NUMBER_COLUMNS_LANDSCAPE = 3;
     public static final int NUMBER_COLUMNS_PORTRAIT = 2;
+
+    public static final String SEARCH_TYPE_POPULAR = "popular";
+    private static final String SEARCH_TYPE_FAVORITES = "favorites";
 
     private GridLayoutManager mGridLayoutManager;
     private ProgressBar mLoadingProgressBar;
@@ -46,10 +51,11 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
 
     private int mActualPage = 1;
     private boolean isFetching = false;
+    private boolean isRestored = false;
 
     private ArrayList<Movie> mCurrentMovies = new ArrayList<>();
 
-    private String mCurrentSearchType = POPULAR_MOVIE_SEARCH;
+    private static String sCurrentSearchType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +101,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
                 mAdapter.setmMovieList(mCurrentMovies);
 
                 mMoviesGridRecycleView.getLayoutManager().scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
-            } else {
-                fetchMovies();
+                isRestored = true;
             }
         }
 
@@ -146,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
      */
     private void fetchMovies() {
         FetchMovies fetchMovies = new FetchMovies(this, this);
-        fetchMovies.execute(mCurrentSearchType, String.valueOf(mActualPage));
+        fetchMovies.execute(sCurrentSearchType, String.valueOf(mActualPage));
     }
 
     /**
@@ -174,24 +179,46 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        boolean isChangedSearch = false;
-        switch (id) {
-            case R.id.action_popular:
-                mCurrentSearchType = POPULAR_MOVIE_SEARCH;
-                isChangedSearch = true;
-                break;
-            case R.id.action_top_rated:
-                mCurrentSearchType = TOP_RATED_MOVIE_SEARCH;
-                isChangedSearch = true;
-                break;
-        }
-
-        if(isChangedSearch) {
-            reset();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(CURRENT_LIST, mCurrentMovies);
+        outState.putString(CURRENT_SEARCH, sCurrentSearchType);
+        outState.putInt(CURRENT_PAGE, mActualPage);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        sCurrentSearchType = savedInstanceState.getString(CURRENT_SEARCH);
+        mActualPage = savedInstanceState.getInt(CURRENT_PAGE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String prefSearchType = PopMoviesPreferences.getSearchType(this);
+        if (!isRestored
+                && !isFetching
+                && !sCurrentSearchType.equals(prefSearchType)) {
+            sCurrentSearchType = prefSearchType;
+            // it is necessary reset
+            if (SEARCH_TYPE_FAVORITES.equals(prefSearchType)) {
+                // TODO make db
+            } else {
+                reset();
+            }
+        } else {
+            isRestored = false;
+        }
     }
 
     /**
@@ -207,21 +234,5 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         mAdapter.notifyDataSetChanged();
         mActualPage = 1;
         fetchMovies();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(CURRENT_LIST, mCurrentMovies);
-        outState.putString(CURRENT_SEARCH, mCurrentSearchType);
-        outState.putInt(CURRENT_PAGE, mActualPage);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        mCurrentSearchType = savedInstanceState.getString(CURRENT_SEARCH);
-        mActualPage = savedInstanceState.getInt(CURRENT_PAGE);
     }
 }

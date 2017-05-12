@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
+    // TODO change to another lib for get data from webservice
 
     private static final String LOG = FetchMovies.class.getSimpleName();
 
@@ -58,10 +59,10 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         }
 
         try {
-            boolean isPopular = (args[0] != null && MainActivity.POPULAR_MOVIE_SEARCH.equals(args[0]));
+            boolean isPopularSearch = args[0] != null && MainActivity.SEARCH_TYPE_POPULAR.equals(args[0]);
             String page = args[1];
             // based on page and type of search (popular or top rated), select one URL.
-            Uri buildUri = Uri.parse(isPopular ? POPULAR_MOVIE_BASE_URL : TOP_RATED_MOVIE_BASE_URL)
+            Uri buildUri = Uri.parse(isPopularSearch ? POPULAR_MOVIE_BASE_URL : TOP_RATED_MOVIE_BASE_URL)
                     .buildUpon().appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
                     .appendQueryParameter(PAGE_PARAM, page).build();
 
