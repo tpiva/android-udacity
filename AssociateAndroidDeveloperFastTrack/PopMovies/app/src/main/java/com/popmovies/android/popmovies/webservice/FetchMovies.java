@@ -6,7 +6,6 @@
 package com.popmovies.android.popmovies.webservice;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -17,18 +16,17 @@ import com.popmovies.android.popmovies.bo.Movie;
 
 import org.json.JSONException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
-    // TODO change to another lib for get data from webservice
+    // COMPLETED change to another lib for get data from webservice
 
     private static final String LOG = FetchMovies.class.getSimpleName();
 
@@ -61,41 +59,22 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         try {
             boolean isPopularSearch = args[0] != null && MainActivity.SEARCH_TYPE_POPULAR.equals(args[0]);
             String page = args[1];
-            // based on page and type of search (popular or top rated), select one URL.
-            Uri buildUri = Uri.parse(isPopularSearch ? POPULAR_MOVIE_BASE_URL : TOP_RATED_MOVIE_BASE_URL)
-                    .buildUpon().appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
-                    .appendQueryParameter(PAGE_PARAM, page).build();
 
-            URL url = new URL(buildUri.toString());
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
+            OkHttpClient client = new OkHttpClient();
 
-            // Read the input stream into a String
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuilder buffer = new StringBuilder();
-            if (inputStream == null) {
-                // Nothing to do.
-                return null;
-            }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            HttpUrl.Builder builder = HttpUrl.parse(isPopularSearch ?
+                    POPULAR_MOVIE_BASE_URL : TOP_RATED_MOVIE_BASE_URL).newBuilder();
+            builder.addQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
+                    .addQueryParameter(PAGE_PARAM, page);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line).append("\n");
-            }
+            Request request = new Request.Builder().url(builder.toString()).build();
+            Response response = client.newCall(request).execute();
 
-            if (buffer.length() == 0) {
-                return null;
-            }
-
-            return Parser.getMoviesFromJson(buffer.toString());
-        } catch (MalformedURLException e) {
-            Log.e(LOG,"MalformedURLException", e);
-        } catch (IOException e) {
-            Log.e(LOG,"IOException", e);
+            return Parser.getMoviesFromJson(response.body().string());
         } catch (JSONException e) {
             Log.e(LOG,"JSONException", e);
+        } catch (IOException e) {
+            Log.e(LOG,"IOException", e);
         }
 
         return null;
