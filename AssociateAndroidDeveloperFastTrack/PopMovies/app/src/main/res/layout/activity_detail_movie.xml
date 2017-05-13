@@ -83,5 +83,12 @@
             android:textAppearance="@android:style/TextAppearance.Small"
             android:textColor="@color/label_accent"
             style="@style/DetailsMovie"/>
+
+        <include
+            android:id="@+id/rc_movie_trailers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/list_detail_movie_trailers" />
+
     </LinearLayout>
 </ScrollView>
