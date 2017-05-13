@@ -25,16 +25,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
+public class FetchMovies extends AsyncTask<HttpUrl.Builder, Void, List<Movie>> {
     // COMPLETED change to another lib for get data from webservice
 
     private static final String LOG = FetchMovies.class.getSimpleName();
-
-    private static final String BASE_URL = "http://api.themoviedb.org/3";
-    private static final String POPULAR_MOVIE_BASE_URL = BASE_URL + "/movie/popular?";
-    private static final String TOP_RATED_MOVIE_BASE_URL = BASE_URL + "/movie/top_rated?";
-    private static final String API_KEY_PARAM = "api_key";
-    private static final String PAGE_PARAM = "page";
 
     private final Context mContext;
     private final MovieTaskCallback mUI;
@@ -45,7 +39,7 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
     }
 
     @Override
-    protected List<Movie> doInBackground(String... args) {
+    protected List<Movie> doInBackground(HttpUrl.Builder... args) {
         Log.d(LOG, "Initializing task of Popular Movie.");
 
         if(args == null) {
@@ -57,17 +51,8 @@ public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         }
 
         try {
-            boolean isPopularSearch = args[0] != null && MainActivity.SEARCH_TYPE_POPULAR.equals(args[0]);
-            String page = args[1];
-
             OkHttpClient client = new OkHttpClient();
-
-            HttpUrl.Builder builder = HttpUrl.parse(isPopularSearch ?
-                    POPULAR_MOVIE_BASE_URL : TOP_RATED_MOVIE_BASE_URL).newBuilder();
-            builder.addQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
-                    .addQueryParameter(PAGE_PARAM, page);
-
-            Request request = new Request.Builder().url(builder.toString()).build();
+            Request request = new Request.Builder().url(args[0].toString()).build();
             Response response = client.newCall(request).execute();
 
             return Parser.getMoviesFromJson(response.body().string());

@@ -22,6 +22,7 @@ import com.popmovies.android.popmovies.adapters.MovieAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
 import com.popmovies.android.popmovies.data.PopMoviesPreferences;
 import com.popmovies.android.popmovies.webservice.FetchMovies;
+import com.popmovies.android.popmovies.webservice.RequestMovies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,8 +151,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
      * actual page of movies (server attribute).
      */
     private void fetchMovies() {
-        FetchMovies fetchMovies = new FetchMovies(this, this);
-        fetchMovies.execute(sCurrentSearchType, String.valueOf(mActualPage));
+        RequestMovies.requestMovies(sCurrentSearchType, mActualPage, this, this);
     }
 
     /**
