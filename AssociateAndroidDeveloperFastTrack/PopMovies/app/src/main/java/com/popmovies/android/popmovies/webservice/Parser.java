@@ -7,6 +7,8 @@ package com.popmovies.android.popmovies.webservice;
 
 import com.popmovies.android.popmovies.Utility;
 import com.popmovies.android.popmovies.bo.Movie;
+import com.popmovies.android.popmovies.bo.Review;
+import com.popmovies.android.popmovies.bo.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,4 +106,92 @@ class Parser {
 
         return movies;
     }
+
+    static ArrayList<Trailer> getVideoFromJson(String responseStream) throws JSONException {
+
+        ArrayList<Trailer> trailerItems = new ArrayList<>();
+
+        final String OWN_ID = "id";
+        final String OWN_ISO_639_1 = "iso_639_1";
+        final String OWN_ISO_3166_1 = "iso_3166_1";
+        final String OWN_KEY = "key";
+        final String OWN_NAME = "name";
+        final String OWN_SITE = "site";
+        final String OWN_SIZE = "size";
+        final String OWN_TYPE = "type";
+
+        JSONObject moviesJson = new JSONObject(responseStream);
+
+        JSONArray resultsJson = moviesJson.getJSONArray(OWN_RESULTS);
+
+        for(int i = 0; i < resultsJson.length(); i++) {
+            JSONObject result = resultsJson.getJSONObject(i);
+
+            Trailer trailerItem = new Trailer();
+
+            String id = result.getString(OWN_ID);
+            trailerItem.setId(id);
+
+            String iso6391 = result.getString(OWN_ISO_639_1);
+            trailerItem.setIso6391(iso6391);
+
+            String iso31661 = result.getString(OWN_ISO_3166_1);
+            trailerItem.setIso31661(iso31661);
+
+            String key = result.getString(OWN_KEY);
+            trailerItem.setKey(key);
+
+            String name = result.getString(OWN_NAME);
+            trailerItem.setName(name);
+
+            String site = result.getString(OWN_SITE);
+            trailerItem.setSite(site);
+
+            Integer size = result.getInt(OWN_SIZE);
+            trailerItem.setSize(size);
+
+            String type = result.getString(OWN_TYPE);
+            trailerItem.setType(type);
+
+            trailerItems.add(trailerItem);
+        }
+
+        return trailerItems;
+    }
+
+    static ArrayList<Review> getReviewFromJson(String responseStream) throws JSONException {
+
+        ArrayList<Review> reviewItems = new ArrayList<>();
+
+        final String OWN_ID = "id";
+        final String OWN_AUTHOR = "author";
+        final String OWN_CONTENT = "content";
+        final String OWN_URL = "url";
+
+        JSONObject moviesJson = new JSONObject(responseStream);
+
+        JSONArray resultsJson = moviesJson.getJSONArray(OWN_RESULTS);
+
+        for(int i = 0; i < resultsJson.length(); i++) {
+            JSONObject result = resultsJson.getJSONObject(i);
+
+            Review reviewItem = new Review();
+            String id = result.getString(OWN_ID);
+            reviewItem.setId(id);
+
+            String author = result.getString(OWN_AUTHOR);
+            reviewItem.setAuthor(author);
+
+            String content = result.getString(OWN_CONTENT);
+            reviewItem.setContent(content);
+
+            String url = result.getString(OWN_URL);
+            reviewItem.setUrl(url);
+
+            reviewItems.add(reviewItem);
+        }
+
+        return reviewItems;
+    }
+
 }

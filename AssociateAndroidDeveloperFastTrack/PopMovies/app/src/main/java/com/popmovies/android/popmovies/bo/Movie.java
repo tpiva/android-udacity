@@ -9,6 +9,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Date;
+import java.util.List;
 
 public class Movie implements Parcelable{
     private String posterPath;
@@ -27,6 +28,9 @@ public class Movie implements Parcelable{
     private double voteAverage;
     private byte[] posterImage;
     private boolean isMarkAsFavorite;
+
+    private List<Review> reviews;
+    private List<Trailer> trailers;
 
     public Movie(){}
 
@@ -47,6 +51,12 @@ public class Movie implements Parcelable{
         releaseDate = new Date(in.readLong());
         posterImage = in.createByteArray();
         isMarkAsFavorite = in.readByte() != 0;
+        if (reviews != null) {
+            in.readTypedList(reviews, Review.CREATOR);
+        }
+        if (trailers != null) {
+            in.readTypedList(trailers, Trailer.CREATOR);
+        }
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -189,6 +199,22 @@ public class Movie implements Parcelable{
         isMarkAsFavorite = markAsFavorite;
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Trailer> getTrailers() {
+        return trailers;
+    }
+
+    public void setTrailers(List<Trailer> trailers) {
+        this.trailers = trailers;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -212,6 +238,8 @@ public class Movie implements Parcelable{
         parcel.writeLong(releaseDate.getTime());
         parcel.writeByteArray(posterImage);
         parcel.writeByte((byte) (isMarkAsFavorite ? 1 : 0));
+        parcel.writeTypedList(reviews);
+        parcel.writeTypedList(trailers);
     }
 
 

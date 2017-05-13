@@ -15,45 +15,51 @@ import com.popmovies.android.popmovies.bo.Movie;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class FetchMovies extends AsyncTask<HttpUrl.Builder, Void, List<Movie>> {
+public class FetchTrailerReview extends AsyncTask<HttpUrl.Builder, Void, Void> {
     // COMPLETED change to another lib for get data from webservice
 
-    private static final String LOG = FetchMovies.class.getSimpleName();
+    private static final String LOG = FetchTrailerReview.class.getSimpleName();
 
     private final Context mContext;
-    private final MovieTaskCallback mUI;
+    private final TrailerReviewTaskCallback mUI;
+    private Movie mMovie;
 
-    public FetchMovies(Context context, MovieTaskCallback ui) {
+    public FetchTrailerReview(Context context, Movie movie, TrailerReviewTaskCallback ui) {
         this.mContext = context;
         this.mUI = ui;
+        this.mMovie = movie;
     }
 
     @Override
-    protected List<Movie> doInBackground(HttpUrl.Builder... args) {
+    protected Void doInBackground(HttpUrl.Builder... args) {
         Log.d(LOG, "Initializing task of Popular Movie.");
 
         if(args == null) {
-            return new ArrayList<>();
+            return null;
         }
 
         if(!Utility.isOnline(mContext)) {
-            return new ArrayList<>();
+            return null;
         }
 
         try {
             OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder().url(args[0].toString()).build();
-            Response response = client.newCall(request).execute();
+            Request requestTrailer = new Request.Builder().url(args[0].toString()).build();
+            Request requestReviews = new Request.Builder().url(args[1].toString()).build();
 
-            return Parser.getMoviesFromJson(response.body().string());
+            Response response = client.newCall(requestTrailer).execute();
+            mMovie.setTrailers(Parser.getVideoFromJson(response.body().string()));
+
+            response = client.newCall(requestReviews).execute();
+            mMovie.setReviews(Parser.getReviewFromJson(response.body().string()));
+
+            return null;
         } catch (JSONException e) {
             Log.e(LOG,"JSONException", e);
         } catch (IOException e) {
@@ -69,18 +75,18 @@ public class FetchMovies extends AsyncTask<HttpUrl.Builder, Void, List<Movie>> {
     }
 
     @Override
-    protected void onPostExecute(List<Movie> movies) {
-        mUI.onPostExecute(movies);
+    protected void onPostExecute(Void aVoid) {
+        mUI.onPostExecute(aVoid);
     }
 
     /**
      * Interface implemented by UI component to get information after AsyncTask finish and handler
      * UI components.
      */
-    public interface MovieTaskCallback {
+    public interface TrailerReviewTaskCallback {
         void onPreExecute();
 
-        void onPostExecute(List<Movie> movies);
+        void onPostExecute(Void aVoid);
     }
 
 }

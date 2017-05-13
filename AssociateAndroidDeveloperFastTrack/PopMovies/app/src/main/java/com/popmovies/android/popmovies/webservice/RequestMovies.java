@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.popmovies.android.popmovies.BuildConfig;
 import com.popmovies.android.popmovies.MainActivity;
+import com.popmovies.android.popmovies.bo.Movie;
 
 import okhttp3.HttpUrl;
 
@@ -13,9 +14,13 @@ import okhttp3.HttpUrl;
 
 public class RequestMovies {
 
-    private static final String BASE_URL = "http://api.themoviedb.org/3";
-    protected static final String POPULAR_MOVIE_BASE_URL = BASE_URL + "/movie/popular?";
-    protected static final String TOP_RATED_MOVIE_BASE_URL = BASE_URL + "/movie/top_rated?";
+    private static final String BASE_URL = "http://api.themoviedb.org/3/movie";
+    protected static final String POPULAR_MOVIE_BASE_URL = BASE_URL + "/popular?";
+    protected static final String TOP_RATED_MOVIE_BASE_URL = BASE_URL + "/top_rated?";
+
+    private static final String REVIEWS_PATH = "/reviews";
+    private static final String VIDEOS_PATH = "/videos";
+
     private static final String API_KEY_PARAM = "api_key";
     private static final String PAGE_PARAM = "page";
 
@@ -30,5 +35,23 @@ public class RequestMovies {
 
         FetchMovies fetchMovies = new FetchMovies(context, ui);
         fetchMovies.execute(builder);
+    }
+
+    public static void requestTrailerOrReview(Context context, Movie movie,
+                                              FetchTrailerReview.TrailerReviewTaskCallback ui) {
+        StringBuilder urlTrailer = new StringBuilder();
+        urlTrailer.append(BASE_URL).append(movie.getId()).append(VIDEOS_PATH).append("?");
+
+        StringBuilder urlReview = new StringBuilder();
+        urlReview.append(BASE_URL).append(movie.getId()).append(REVIEWS_PATH).append("?");
+
+        HttpUrl.Builder builderTrailer = HttpUrl.parse(urlTrailer.toString()).newBuilder();
+        builderTrailer.addQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY);
+
+        HttpUrl.Builder builderReview = HttpUrl.parse(urlTrailer.toString()).newBuilder();
+        builderReview.addQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY);
+
+        FetchTrailerReview fetchTrailerReview = new FetchTrailerReview(context, movie, ui);
+        fetchTrailerReview.execute(builderTrailer, builderReview);
     }
 }
