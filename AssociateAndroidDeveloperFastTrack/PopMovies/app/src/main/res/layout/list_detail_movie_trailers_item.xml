@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@android:style/TextAppearance.Small"
-        android:textColor="@color/lightTexts"
+        android:textColor="@color/background_accent"
         android:fontFamily="serif"
         android:layout_gravity="center"/>
 
