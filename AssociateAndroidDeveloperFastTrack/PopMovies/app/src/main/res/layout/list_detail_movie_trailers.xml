@@ -5,26 +5,33 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingLeft="@dimen/rv_movie_trailer_left"
+    android:paddingStart="@dimen/rv_movie_trailer_left"
+    android:paddingTop="@dimen/rv_movie_trailer_top">
+    <!--TODO applly styles on textView and others views. -->
 
     <TextView
         android:id="@+id/tv_detail_title_trailers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="serif"
+        android:text="@string/trailers"
         tools:text="@string/trailers"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@color/lightTexts"
-        android:visibility="visible"
+        android:visibility="gone"
+        android:paddingTop="@dimen/text_view_padding_top"
+        android:paddingBottom="@dimen/text_view_padding_bottom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- A RecyclerView with some commonly used attributes -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rc_detail_movie_trailers"
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scrollbars="horizontal"
+        android:visibility="gone"
         app:reverseLayout="true"/>
 </LinearLayout>

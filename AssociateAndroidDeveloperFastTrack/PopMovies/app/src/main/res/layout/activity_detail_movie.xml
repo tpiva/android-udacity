@@ -79,10 +79,20 @@
         <TextView
             android:id="@+id/tv_detail_movie_item_synopsis"
             android:gravity="start"
-            android:padding="16dp"
+            android:paddingLeft="@dimen/text_view_padding_left"
+            android:paddingStart="@dimen/text_view_padding_start"
+            android:paddingTop="@dimen/text_view_padding_top"
+            android:paddingBottom="@dimen/text_view_padding_bottom"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:textColor="@color/label_accent"
             style="@style/DetailsMovie"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:elevation="4dp"
+            android:background="@color/label_accent" />
 
         <include
             android:id="@+id/rc_movie_trailers"

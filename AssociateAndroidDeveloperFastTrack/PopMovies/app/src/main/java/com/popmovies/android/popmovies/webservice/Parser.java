@@ -111,6 +111,10 @@ class Parser {
 
         ArrayList<Trailer> trailerItems = new ArrayList<>();
 
+        if (responseStream == null || "".equals(responseStream)) {
+            return trailerItems;
+        }
+
         final String OWN_ID = "id";
         final String OWN_ISO_639_1 = "iso_639_1";
         final String OWN_ISO_3166_1 = "iso_3166_1";
@@ -162,6 +166,10 @@ class Parser {
     static ArrayList<Review> getReviewFromJson(String responseStream) throws JSONException {
 
         ArrayList<Review> reviewItems = new ArrayList<>();
+
+        if (responseStream == null || "".equals(responseStream)) {
+            return reviewItems;
+        }
 
         final String OWN_ID = "id";
         final String OWN_AUTHOR = "author";

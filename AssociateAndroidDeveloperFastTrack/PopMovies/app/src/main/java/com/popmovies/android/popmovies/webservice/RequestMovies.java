@@ -14,9 +14,9 @@ import okhttp3.HttpUrl;
 
 public class RequestMovies {
 
-    private static final String BASE_URL = "http://api.themoviedb.org/3/movie";
-    protected static final String POPULAR_MOVIE_BASE_URL = BASE_URL + "/popular?";
-    protected static final String TOP_RATED_MOVIE_BASE_URL = BASE_URL + "/top_rated?";
+    private static final String BASE_URL = "http://api.themoviedb.org/3/movie/";
+    protected static final String POPULAR_MOVIE_BASE_URL = BASE_URL + "popular?";
+    protected static final String TOP_RATED_MOVIE_BASE_URL = BASE_URL + "top_rated?";
 
     private static final String REVIEWS_PATH = "/reviews";
     private static final String VIDEOS_PATH = "/videos";
