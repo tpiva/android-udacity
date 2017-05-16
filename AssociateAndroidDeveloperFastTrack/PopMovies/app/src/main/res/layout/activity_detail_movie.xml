@@ -100,5 +100,20 @@
             android:layout_height="wrap_content"
             layout="@layout/list_detail_movie_trailers" />
 
+        <View
+            android:id="@+id/divider_trailers_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:elevation="4dp"
+            android:background="@color/label_accent"
+            android:visibility="gone"/>
+
+        <include
+            android:id="@+id/ln_movie_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/detail_movie_reviews" />
+
     </LinearLayout>
 </ScrollView>

@@ -48,7 +48,7 @@ public class RequestMovies {
         HttpUrl.Builder builderTrailer = HttpUrl.parse(urlTrailer.toString()).newBuilder();
         builderTrailer.addQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY);
 
-        HttpUrl.Builder builderReview = HttpUrl.parse(urlTrailer.toString()).newBuilder();
+        HttpUrl.Builder builderReview = HttpUrl.parse(urlReview.toString()).newBuilder();
         builderReview.addQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY);
 
         FetchTrailerReview fetchTrailerReview = new FetchTrailerReview(context, movie, ui);
