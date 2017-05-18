@@ -81,7 +81,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
         mMovieTrailerRv.setLayoutManager(layoutManager);
         mMovieTrailerRv.setHasFixedSize(true);
 
-        mTrailerAdapter = new TrailerAdapter();
+        mTrailerAdapter = new TrailerAdapter(this);
         mMovieTrailerRv.setAdapter(mTrailerAdapter);
 
         loadDataOnViews();

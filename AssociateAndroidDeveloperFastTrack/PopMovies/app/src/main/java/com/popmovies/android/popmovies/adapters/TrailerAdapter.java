@@ -1,5 +1,9 @@
 package com.popmovies.android.popmovies.adapters;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +22,16 @@ import java.util.List;
 
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder> {
 
+    private static final String APP_YOUTUBE = "vnd.youtube:";
+    private static final String BROWSER_YOUTUBE = "http://www.youtube.com/watch?v=";
+
     private List<Trailer> trailers;
+
+    private Context mContext;
+
+    public TrailerAdapter(Context mContext) {
+        this.mContext = mContext;
+    }
 
     @Override
     public TrailerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -29,6 +42,20 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     @Override
     public void onBindViewHolder(TrailerViewHolder holder, int position) {
         holder.bindTrailerTitle(trailers.get(position).getName());
+        final String key = trailers.get(position).getKey();
+        holder.movieTrailerImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse( APP_YOUTUBE + key));
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(BROWSER_YOUTUBE + key));
+                try {
+                    mContext.startActivity(appIntent);
+                } catch (ActivityNotFoundException e) {
+                    mContext.startActivity(webIntent);
+
+                }
+            }
+        });
     }
 
     @Override
@@ -50,13 +77,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
             movieTrailerImageView = (ImageView) itemView.findViewById(R.id.rc_item_movie_trailer_image);
             movieTrailerNameTextView = (TextView) itemView.findViewById(R.id.rc_item_movie_trailer_name);
-
-            movieTrailerImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // TODO open youtube
-                }
-            });
+            movieTrailerImageView.setClickable(true);
         }
 
         public void bindTrailerTitle(String title) {
