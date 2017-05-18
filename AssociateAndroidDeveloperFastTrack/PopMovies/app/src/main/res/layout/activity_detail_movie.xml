@@ -3,9 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!--
-    TODO add dimens on padding
+    //COMPLETED add dimens on padding
     TODO add accessibilty-->
 
     <LinearLayout
@@ -19,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:padding="16dp"
+            android:padding="@dimen/detail_movie_title"
             android:gravity="start"
             android:textSize="32sp"
             android:textColor="@color/primary_text"
@@ -30,9 +29,9 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:layout_marginTop="@dimen/padding_top_detail_movie_reviews"
+            android:paddingLeft="@dimen/padding_details_movie"
+            android:paddingRight="@dimen/padding_details_movie"
             android:gravity="center_horizontal"
             android:baselineAligned="false">
 
@@ -79,8 +78,9 @@
         <TextView
             android:id="@+id/tv_detail_movie_item_synopsis"
             android:gravity="start"
-            android:paddingLeft="@dimen/text_view_padding_left"
-            android:paddingStart="@dimen/text_view_padding_start"
+            android:paddingStart="@dimen/padding_details_movie"
+            android:paddingEnd="@dimen/padding_details_movie"
+            android:paddingRight="@dimen/padding_details_movie"
             android:paddingTop="@dimen/text_view_padding_top"
             android:paddingBottom="@dimen/text_view_padding_bottom"
             android:textAppearance="@android:style/TextAppearance.Small"
@@ -89,7 +89,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/divider_height"
             android:layout_margin="10dp"
             android:elevation="4dp"
             android:background="@color/label_accent" />
@@ -103,17 +103,34 @@
         <View
             android:id="@+id/divider_trailers_reviews"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/divider_height"
             android:layout_margin="10dp"
             android:elevation="4dp"
             android:background="@color/label_accent"
             android:visibility="gone"/>
 
-        <include
-            android:id="@+id/ln_movie_reviews"
+        <LinearLayout
+            android:id="@+id/detail_movie_reviews_ln"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/detail_movie_reviews" />
+            android:paddingLeft="@dimen/padding_details_movie"
+            android:paddingStart="@dimen/padding_details_movie"
+            android:paddingEnd="@dimen/padding_details_movie"
+            android:paddingRight="@dimen/padding_details_movie"
+            android:paddingTop="@dimen/padding_top_detail_movie_reviews"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/detail_movie_review_title"
+                android:text="@string/reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:fontFamily="serif"
+                android:textColor="@color/background_accent"
+                android:visibility="gone"/>
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

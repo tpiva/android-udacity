@@ -72,7 +72,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
         mSynopsisTextView = (TextView) findViewById(R.id.tv_detail_movie_item_synopsis);
         mMovieTrailerRv = (RecyclerView) findViewById(R.id.rc_detail_movie_trailers);
         mTrailerTitleTextView = (TextView)findViewById(R.id.tv_detail_title_trailers);
-        mMovieReviewLl = (LinearLayout) findViewById(R.id.detail_movie_reviews);
+        mMovieReviewLl = (LinearLayout) findViewById(R.id.detail_movie_reviews_ln);
         mDividerTrailerReview = findViewById(R.id.divider_trailers_reviews) ;
         mReviewTitleTextView = (TextView) findViewById(R.id.detail_movie_review_title);
 
@@ -145,6 +145,10 @@ public class DetailMovieActivity extends AppCompatActivity implements
             }
         } else {
             mDividerTrailerReview.setVisibility(View.GONE);
+            if (mMovieReviewLl != null) {
+                mMovieReviewLl.setVisibility(View.GONE);
+                mReviewTitleTextView.setVisibility(View.GONE);
+            }
         }
     }
 

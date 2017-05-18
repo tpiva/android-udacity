@@ -11,4 +11,8 @@
     <dimen name="text_view_padding_start">16dp</dimen>
     <dimen name="text_view_padding_top">4dp</dimen>
     <dimen name="text_view_padding_bottom">4dp</dimen>
+    <dimen name="padding_details_movie">16dp</dimen>
+    <dimen name="padding_top_detail_movie_reviews">4dp</dimen>
+    <dimen name="detail_movie_title">16dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
 </resources>
