@@ -8,6 +8,7 @@ package com.popmovies.android.popmovies;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -30,6 +31,7 @@ import com.popmovies.android.popmovies.adapters.TrailerAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
 import com.popmovies.android.popmovies.bo.Review;
 import com.popmovies.android.popmovies.bo.Trailer;
+import com.popmovies.android.popmovies.databinding.ActivityDetailMovieBinding;
 import com.popmovies.android.popmovies.db.PopMoviesContract;
 import com.popmovies.android.popmovies.webservice.FetchTrailerReview;
 import com.popmovies.android.popmovies.webservice.RequestMovies;
@@ -43,33 +45,21 @@ import static com.popmovies.android.popmovies.adapters.MovieAdapter.URL_LOAD_IMA
 public class DetailMovieActivity extends AppCompatActivity implements
         FetchTrailerReview.TrailerReviewTaskCallback{
 
-    // TODO change build.enabled to avoid findView...
+    // COMPLETED change build.enabled to avoid findView...
 
     public static final String EXTRA_MOVIE ="extra_movie";
-
-    private TextView mTitleTextView;
-    private ImageView mPosterImageView;
-    private TextView mYearReleaseTextView;
-    private TextView mRatingTextView;
-    private TextView mSynopsisTextView;
-    private ToggleButton mFavoriteTg;
-    private ProgressDialog mProgressDialog;
-
-    private RecyclerView mMovieTrailerRv;
-    private TextView mTrailerTitleTextView;
-
-    private LinearLayout mMovieReviewLl;
-    private View mDividerTrailerReview;
-    private TextView mReviewTitleTextView;
 
     private Movie mCurrentMovie;
 
     private TrailerAdapter mTrailerAdapter;
 
+    private ActivityDetailMovieBinding mBinding;
+    private ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_movie);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail_movie);
 
         Intent movieIntentReceive = getIntent();
 
@@ -77,32 +67,20 @@ public class DetailMovieActivity extends AppCompatActivity implements
             mCurrentMovie = movieIntentReceive.getParcelableExtra(EXTRA_MOVIE);
         }
 
-        mTitleTextView = (TextView) findViewById(R.id.tv_detail_movie_item_title);
-        mPosterImageView = (ImageView) findViewById(R.id.img_detail_movie_item_poster);
-        mYearReleaseTextView = (TextView) findViewById(R.id.tv_detail_movie_item_year);
-        mRatingTextView = (TextView) findViewById(R.id.tv_detail_movie_item_user_rating);
-        mSynopsisTextView = (TextView) findViewById(R.id.tv_detail_movie_item_synopsis);
-        mMovieTrailerRv = (RecyclerView) findViewById(R.id.rc_detail_movie_trailers);
-        mTrailerTitleTextView = (TextView)findViewById(R.id.tv_detail_title_trailers);
-        mMovieReviewLl = (LinearLayout) findViewById(R.id.detail_movie_reviews_ln);
-        mDividerTrailerReview = findViewById(R.id.divider_trailers_reviews) ;
-        mReviewTitleTextView = (TextView) findViewById(R.id.detail_movie_review_title);
-        mFavoriteTg = (ToggleButton) findViewById(R.id.detail_button_favorites);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mMovieTrailerRv.setLayoutManager(layoutManager);
-        mMovieTrailerRv.setHasFixedSize(true);
+        mBinding.rcMovieTrailers.rcDetailMovieTrailers.setLayoutManager(layoutManager);
+        mBinding.rcMovieTrailers.rcDetailMovieTrailers.setHasFixedSize(true);
 
         mTrailerAdapter = new TrailerAdapter(this);
-        mMovieTrailerRv.setAdapter(mTrailerAdapter);
+        mBinding.rcMovieTrailers.rcDetailMovieTrailers.setAdapter(mTrailerAdapter);
 
         if (mCurrentMovie != null) {
-            mFavoriteTg.setChecked(mCurrentMovie.isMarkAsFavorite());
+            mBinding.detailButtonFavorites.setChecked(mCurrentMovie.isMarkAsFavorite());
         }
 
-        mFavoriteTg.setClickable(true);
-        mFavoriteTg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mBinding.detailButtonFavorites.setClickable(true);
+        mBinding.detailButtonFavorites.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
@@ -125,20 +103,20 @@ public class DetailMovieActivity extends AppCompatActivity implements
      */
     private void loadDataOnViews() {
         if (mCurrentMovie != null) {
-            mTitleTextView.setText(mCurrentMovie.getTitle());
-            mYearReleaseTextView.setText(getResources().getString(R.string.format_date_released,
+            mBinding.tvDetailMovieItemTitle.setText(mCurrentMovie.getTitle());
+            mBinding.tvDetailMovieItemYear.setText(getResources().getString(R.string.format_date_released,
                     Utility.getFormatDateAsString(mCurrentMovie.getReleaseDate())));
-            mRatingTextView.setText(getResources().getString(R.string.format_user_rating, mCurrentMovie.getVoteAverage()));
+            mBinding.tvDetailMovieItemUserRating.setText(getResources().getString(R.string.format_user_rating, mCurrentMovie.getVoteAverage()));
             if(mCurrentMovie.getPosterPath() == null
                     || (mCurrentMovie.getPosterPath() != null && "".equalsIgnoreCase(mCurrentMovie.getPosterPath()))) {
                 if (mCurrentMovie.getPosterImage() != null) {
                     byte[] imageAsByte = mCurrentMovie.getPosterImage();
-                    mPosterImageView.setImageBitmap(BitmapFactory.decodeByteArray(imageAsByte, 0, imageAsByte.length));
+                    mBinding.imgDetailMovieItemPoster.setImageBitmap(BitmapFactory.decodeByteArray(imageAsByte, 0, imageAsByte.length));
                 }
             } else {
-                Picasso.with(this).load(URL_LOAD_IMAGE + mCurrentMovie.getPosterPath()).fit().into(mPosterImageView);
+                Picasso.with(this).load(URL_LOAD_IMAGE + mCurrentMovie.getPosterPath()).fit().into(mBinding.imgDetailMovieItemPoster);
             }
-            mSynopsisTextView.setText(mCurrentMovie.getOverview());
+            mBinding.tvDetailMovieItemSynopsis.setText(mCurrentMovie.getOverview());
         }
     }
 
@@ -154,20 +132,20 @@ public class DetailMovieActivity extends AppCompatActivity implements
         List<Trailer> trailers = mCurrentMovie.getTrailers();
         List<Review> reviews = mCurrentMovie.getReviews();
         if (trailers != null && !trailers.isEmpty()) {
-            mTrailerTitleTextView.setVisibility(View.VISIBLE);
-            mMovieTrailerRv.setVisibility(View.VISIBLE);
+            mBinding.rcMovieTrailers.tvDetailTitleTrailers.setVisibility(View.VISIBLE);
+            mBinding.rcMovieTrailers.rcDetailMovieTrailers.setVisibility(View.VISIBLE);
             mTrailerAdapter.setTrailers(trailers);
         } else {
             // set invisible title
-            mTrailerTitleTextView.setVisibility(View.GONE);
-            mMovieTrailerRv.setVisibility(View.GONE);
+            mBinding.rcMovieTrailers.tvDetailTitleTrailers.setVisibility(View.GONE);
+            mBinding.rcMovieTrailers.rcDetailMovieTrailers.setVisibility(View.GONE);
         }
 
         if (reviews != null && !reviews.isEmpty()) {
-            if (mMovieReviewLl != null) {
-                mMovieReviewLl.setVisibility(View.VISIBLE);
-                mReviewTitleTextView.setVisibility(View.VISIBLE);
-                mDividerTrailerReview.setVisibility(View.VISIBLE);
+            if (mBinding.detailMovieReviewsLn != null) {
+                mBinding.detailMovieReviewsLn.setVisibility(View.VISIBLE);
+                mBinding.detailMovieReviewTitle.setVisibility(View.VISIBLE);
+                mBinding.dividerTrailersReviews.setVisibility(View.VISIBLE);
 
                 for(Review item : reviews) {
 
@@ -182,15 +160,15 @@ public class DetailMovieActivity extends AppCompatActivity implements
                     linkTextView.setText(
                             getString(R.string.review_link_preffix,item.getUrl()));
                     if(view != null) {
-                        mMovieReviewLl.addView(view);
+                        mBinding.detailMovieReviewsLn.addView(view);
                     }
                 }
             }
         } else {
-            mDividerTrailerReview.setVisibility(View.GONE);
-            if (mMovieReviewLl != null) {
-                mMovieReviewLl.setVisibility(View.GONE);
-                mReviewTitleTextView.setVisibility(View.GONE);
+            mBinding.dividerTrailersReviews.setVisibility(View.GONE);
+            if (mBinding.detailMovieReviewsLn != null) {
+                mBinding.detailMovieReviewsLn.setVisibility(View.GONE);
+                mBinding.detailMovieReviewTitle.setVisibility(View.GONE);
             }
         }
     }
