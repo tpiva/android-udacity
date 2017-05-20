@@ -15,4 +15,6 @@
     <dimen name="padding_top_detail_movie_reviews">4dp</dimen>
     <dimen name="detail_movie_title">16dp</dimen>
     <dimen name="divider_height">1dp</dimen>
+    <dimen name="padding_top_detail_movie">4dp</dimen>
+    <dimen name="toggle_favorite_size">40dp</dimen>
 </resources>

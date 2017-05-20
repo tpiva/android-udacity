@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                     int totalItens = mGridLayoutManager.getItemCount();
                     int firstVisible = mGridLayoutManager.findFirstVisibleItemPosition();
 
-                    if ((firstVisible + visibleItens) >= totalItens && !isFetching) {
+                    if (!SEARCH_TYPE_FAVORITES.equals(sCurrentSearchType)
+                        && (firstVisible + visibleItens) >= totalItens && !isFetching) {
                         mActualPage++;
                         getSupportLoaderManager().restartLoader(POP_MOVIES_LOADER_ID, null, MainActivity.this);
                     }
@@ -246,26 +247,24 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                             null,
                             null,
                             null);
-                    try {
-                        if (!cursor.moveToFirst()) {
-                            return null;
-                        } else {
-                            do {
-                                Movie movie = new Movie();
-                                movie.setId(cursor.getInt(COL_MOVIE_MOVIE_ID));
-                                movie.setOverview(cursor.getString(COL_MOVIE_OVERVIEW));
-                                movie.setReleaseDate(Utility.getFormatDate(cursor.getString(COL_MOVIE_RELEASE_DATE)));
-                                movie.setOriginalTitle(cursor.getString(COL_MOVIE_ORIGINAL_TITLE));
-                                movie.setVoteCount(cursor.getInt(COL_MOVIE_VOTE_COUNT));
-                                movie.setVoteAverage(cursor.getDouble(COL_MOVIE_VOTE_AVERAGE));
-                                movie.setPosterImage(cursor.getBlob(COL_MOVIE_POSTER));
-                                movies.add(movie);
-                            } while (cursor.moveToNext());
-                        }
-                    } finally {
-                        cursor.close();
-                        return movies;
+                    if (!cursor.moveToFirst()) {
+                        return null;
+                    } else {
+                        do {
+                            Movie movie = new Movie();
+                            movie.setId(cursor.getInt(COL_MOVIE_MOVIE_ID));
+                            movie.setOverview(cursor.getString(COL_MOVIE_OVERVIEW));
+                            movie.setReleaseDate(Utility.getFormatDate(cursor.getString(COL_MOVIE_RELEASE_DATE)));
+                            movie.setOriginalTitle(cursor.getString(COL_MOVIE_ORIGINAL_TITLE));
+                            movie.setVoteCount(cursor.getInt(COL_MOVIE_VOTE_COUNT));
+                            movie.setVoteAverage(cursor.getDouble(COL_MOVIE_VOTE_AVERAGE));
+                            movie.setPosterImage(cursor.getBlob(COL_MOVIE_POSTER));
+                            movie.setMarkAsFavorite(true);
+                            movies.add(movie);
+                        } while (cursor.moveToNext());
                     }
+                    cursor.close();
+                    return movies;
                 } else {
                     return RequestMovies.requestMovies(getContext(), sCurrentSearchType, mActualPage);
                 }

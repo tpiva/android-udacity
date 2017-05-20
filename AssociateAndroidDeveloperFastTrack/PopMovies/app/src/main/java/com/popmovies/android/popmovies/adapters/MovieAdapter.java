@@ -5,6 +5,7 @@
 
 package com.popmovies.android.popmovies.adapters;
 
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         }
 
         public void bind(Movie movie) {
-            Picasso.with(itemView.getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).fit().into(moviePoster);
+            if(movie.getPosterPath() == null
+                    || (movie.getPosterPath() != null && "".equalsIgnoreCase(movie.getPosterPath()))) {
+                if (movie.getPosterImage() != null) {
+                    byte[] imageAsByte = movie.getPosterImage();
+                    moviePoster.setImageBitmap(BitmapFactory.decodeByteArray(imageAsByte, 0, imageAsByte.length));
+                }
+            } else {
+                Picasso.with(itemView.getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).fit().into(moviePoster);
+            }
         }
 
         @Override

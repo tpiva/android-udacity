@@ -29,7 +29,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_top_detail_movie_reviews"
+            android:layout_marginTop="@dimen/padding_top_detail_movie"
             android:paddingLeft="@dimen/padding_details_movie"
             android:paddingRight="@dimen/padding_details_movie"
             android:gravity="center_horizontal"
@@ -71,6 +71,16 @@
                     android:textColor="@color/background_accent"
                     style="@style/DetailsMovie"
                     tools:text="7.0/10"/>
+
+                <ToggleButton
+                    android:id="@+id/detail_button_favorites"
+                    android:layout_marginTop="@dimen/padding_top_detail_movie"
+                    android:layout_width="@dimen/toggle_favorite_size"
+                    android:layout_height="@dimen/toggle_favorite_size"
+                    android:layout_gravity="center"
+                    android:background="@drawable/toggle_selector"
+                    android:textOff=""
+                    android:textOn=""/>
             </LinearLayout>
 
         </LinearLayout>

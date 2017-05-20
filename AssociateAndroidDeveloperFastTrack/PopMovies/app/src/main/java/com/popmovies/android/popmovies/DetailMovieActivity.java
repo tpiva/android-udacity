@@ -6,28 +6,39 @@
 package com.popmovies.android.popmovies;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.popmovies.android.popmovies.adapters.MovieAdapter;
 import com.popmovies.android.popmovies.adapters.TrailerAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
 import com.popmovies.android.popmovies.bo.Review;
 import com.popmovies.android.popmovies.bo.Trailer;
+import com.popmovies.android.popmovies.db.PopMoviesContract;
 import com.popmovies.android.popmovies.webservice.FetchTrailerReview;
 import com.popmovies.android.popmovies.webservice.RequestMovies;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.List;
+
+import static com.popmovies.android.popmovies.adapters.MovieAdapter.URL_LOAD_IMAGE;
 
 public class DetailMovieActivity extends AppCompatActivity implements
         FetchTrailerReview.TrailerReviewTaskCallback{
@@ -41,6 +52,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
     private TextView mYearReleaseTextView;
     private TextView mRatingTextView;
     private TextView mSynopsisTextView;
+    private ToggleButton mFavoriteTg;
     private ProgressDialog mProgressDialog;
 
     private RecyclerView mMovieTrailerRv;
@@ -75,6 +87,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
         mMovieReviewLl = (LinearLayout) findViewById(R.id.detail_movie_reviews_ln);
         mDividerTrailerReview = findViewById(R.id.divider_trailers_reviews) ;
         mReviewTitleTextView = (TextView) findViewById(R.id.detail_movie_review_title);
+        mFavoriteTg = (ToggleButton) findViewById(R.id.detail_button_favorites);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -83,6 +96,25 @@ public class DetailMovieActivity extends AppCompatActivity implements
 
         mTrailerAdapter = new TrailerAdapter(this);
         mMovieTrailerRv.setAdapter(mTrailerAdapter);
+
+        if (mCurrentMovie != null) {
+            mFavoriteTg.setChecked(mCurrentMovie.isMarkAsFavorite());
+        }
+
+        mFavoriteTg.setClickable(true);
+        mFavoriteTg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    mCurrentMovie.setMarkAsFavorite(true);
+                    new HelpFavorites().execute();
+                } else {
+                    mCurrentMovie.setMarkAsFavorite(false);
+                    getContentResolver().
+                            delete(PopMoviesContract.buildUriWithId(mCurrentMovie.getId()), null, null);
+                }
+            }
+        });
 
         loadDataOnViews();
         loadMovieTrailersAndReviews();
@@ -97,7 +129,15 @@ public class DetailMovieActivity extends AppCompatActivity implements
             mYearReleaseTextView.setText(getResources().getString(R.string.format_date_released,
                     Utility.getFormatDateAsString(mCurrentMovie.getReleaseDate())));
             mRatingTextView.setText(getResources().getString(R.string.format_user_rating, mCurrentMovie.getVoteAverage()));
-            Picasso.with(this).load(MovieAdapter.URL_LOAD_IMAGE + mCurrentMovie.getPosterPath()).fit().into(mPosterImageView);
+            if(mCurrentMovie.getPosterPath() == null
+                    || (mCurrentMovie.getPosterPath() != null && "".equalsIgnoreCase(mCurrentMovie.getPosterPath()))) {
+                if (mCurrentMovie.getPosterImage() != null) {
+                    byte[] imageAsByte = mCurrentMovie.getPosterImage();
+                    mPosterImageView.setImageBitmap(BitmapFactory.decodeByteArray(imageAsByte, 0, imageAsByte.length));
+                }
+            } else {
+                Picasso.with(this).load(URL_LOAD_IMAGE + mCurrentMovie.getPosterPath()).fit().into(mPosterImageView);
+            }
             mSynopsisTextView.setText(mCurrentMovie.getOverview());
         }
     }
@@ -110,7 +150,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
     }
 
     private void fillTrailerAndReview() {
-        // TODO handler trailers
+        // COMPLETED handler trailers
         List<Trailer> trailers = mCurrentMovie.getTrailers();
         List<Review> reviews = mCurrentMovie.getReviews();
         if (trailers != null && !trailers.isEmpty()) {
@@ -177,5 +217,39 @@ public class DetailMovieActivity extends AppCompatActivity implements
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class HelpFavorites extends AsyncTask<Void, Void, Void> {
+
+        private final String TAG = HelpFavorites.class.getName();
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            getContentResolver()
+                    .insert(PopMoviesContract.CONTENT_URI, createContentValues());
+
+            return null;
+        }
+
+        private ContentValues createContentValues() {
+            Bitmap bitmap = null;
+            try {
+                bitmap = Picasso.with(DetailMovieActivity.this).load(URL_LOAD_IMAGE + mCurrentMovie.getPosterPath()).get();
+            } catch (IOException e) {
+                Log.e(TAG,"IOException",e);
+            }
+
+            ContentValues values = new ContentValues();
+            values.put(PopMoviesContract.COLUMN_OVERVIEW, mCurrentMovie.getOverview());
+            values.put(PopMoviesContract.COLUMN_RELEASE_DATE, Utility.
+                    getFormatDateAsString(mCurrentMovie.getReleaseDate()));
+            values.put(PopMoviesContract.COLUMN_ORIGINAL_TITLE, mCurrentMovie.getOriginalTitle());
+            values.put(PopMoviesContract.COLUMN_VOTE_AVERAGE, mCurrentMovie.getVoteAverage());
+            values.put(PopMoviesContract.COLUMN_VOTE_COUNT, mCurrentMovie.getVoteCount());
+            values.put(PopMoviesContract.COLUMN_POSTER, Utility.getByteFromBitmap(bitmap) );
+            values.put(PopMoviesContract.COLUMN_MOVIE_ID, mCurrentMovie.getId());
+
+            return values;
+        }
     }
 }
