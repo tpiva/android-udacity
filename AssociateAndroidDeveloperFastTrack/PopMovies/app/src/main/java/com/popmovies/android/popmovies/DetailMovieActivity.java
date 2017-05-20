@@ -175,9 +175,12 @@ public class DetailMovieActivity extends AppCompatActivity implements
                     TextView contentTextView = (TextView) view.findViewById(R.id.movie_review_item_content);
                     TextView authorTextView = (TextView) view.findViewById(R.id.movie_review_item_author);
                     TextView linkTextView = (TextView) view.findViewById(R.id.movie_review_item_link);
-                    contentTextView.setText(item.getContent().trim());
-                    authorTextView.setText(item.getAuthor());
-                    linkTextView.setText(item.getUrl());
+                    contentTextView.setText(
+                            getString(R.string.review_content_preffix,item.getContent().trim()));
+                    authorTextView.setText(
+                            getString(R.string.review_author_preffix,item.getAuthor()));
+                    linkTextView.setText(
+                            getString(R.string.review_link_preffix,item.getUrl()));
                     if(view != null) {
                         mMovieReviewLl.addView(view);
                     }

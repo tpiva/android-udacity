@@ -9,7 +9,7 @@
         android:id="@+id/rc_item_movie_trailer_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_play_circle_outline_black_36dp"
+        android:src="@drawable/ic_play_circle_outline"
         android:background="@android:color/transparent"
         android:layout_gravity="center"
         android:contentDescription="Movie Poster" />
@@ -20,6 +20,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textColor="@color/background_accent"
+        android:layout_marginStart="@dimen/margin_left_trailer_title"
+        android:layout_marginLeft="@dimen/margin_left_trailer_title"
+        android:layout_marginEnd="@dimen/margin_right_trailer_title"
+        android:layout_marginRight="@dimen/margin_right_trailer_title"
         android:fontFamily="serif"
         android:layout_gravity="center"/>
 

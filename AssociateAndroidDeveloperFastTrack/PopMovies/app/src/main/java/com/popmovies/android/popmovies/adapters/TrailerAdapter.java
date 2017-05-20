@@ -41,7 +41,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     @Override
     public void onBindViewHolder(TrailerViewHolder holder, int position) {
-        holder.bindTrailerTitle(trailers.get(position).getName());
+        holder.bindTrailerTitle(mContext.getString(R.string.trailer_name_preffix) + " " + (position+1));
         final String key = trailers.get(position).getKey();
         holder.movieTrailerImageView.setOnClickListener(new View.OnClickListener() {
             @Override

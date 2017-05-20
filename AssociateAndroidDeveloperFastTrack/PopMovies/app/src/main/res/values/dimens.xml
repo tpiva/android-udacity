@@ -17,4 +17,6 @@
     <dimen name="divider_height">1dp</dimen>
     <dimen name="padding_top_detail_movie">4dp</dimen>
     <dimen name="toggle_favorite_size">40dp</dimen>
+    <dimen name="margin_left_trailer_title">4dp</dimen>
+    <dimen name="margin_right_trailer_title">4dp</dimen>
 </resources>

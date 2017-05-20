@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         LoaderManager.LoaderCallbacks<List<Movie>>{
 
     // TODO fix saveInstance
+    // TODO fix error of duplicated favorite during back key
     private static final int POP_MOVIES_LOADER_ID = 120;
 
     private static final String SEARCH_CHANGED = "search_changed";
@@ -255,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                             movie.setId(cursor.getInt(COL_MOVIE_MOVIE_ID));
                             movie.setOverview(cursor.getString(COL_MOVIE_OVERVIEW));
                             movie.setReleaseDate(Utility.getFormatDate(cursor.getString(COL_MOVIE_RELEASE_DATE)));
-                            movie.setOriginalTitle(cursor.getString(COL_MOVIE_ORIGINAL_TITLE));
+                            movie.setTitle(cursor.getString(COL_MOVIE_ORIGINAL_TITLE));
                             movie.setVoteCount(cursor.getInt(COL_MOVIE_VOTE_COUNT));
                             movie.setVoteAverage(cursor.getDouble(COL_MOVIE_VOTE_AVERAGE));
                             movie.setPosterImage(cursor.getBlob(COL_MOVIE_POSTER));
