@@ -6,7 +6,6 @@
 package com.popmovies.android.popmovies.webservice;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.popmovies.android.popmovies.Utility;
@@ -23,28 +22,19 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class FetchMovies extends AsyncTask<HttpUrl.Builder, Void, List<Movie>> {
+public class FetchMovies {
     // COMPLETED change to another lib for get data from webservice
 
     private static final String LOG = FetchMovies.class.getSimpleName();
 
-    private final Context mContext;
-    private final MovieTaskCallback mUI;
-
-    public FetchMovies(Context context, MovieTaskCallback ui) {
-        this.mContext = context;
-        this.mUI = ui;
-    }
-
-    @Override
-    protected List<Movie> doInBackground(HttpUrl.Builder... args) {
+    public static List<Movie> getMovies(Context context, HttpUrl.Builder... args) {
         Log.d(LOG, "Initializing task of Popular Movie.");
 
-        if(args == null) {
+        if (args == null) {
             return new ArrayList<>();
         }
 
-        if(!Utility.isOnline(mContext)) {
+        if (!Utility.isOnline(context)) {
             return new ArrayList<>();
         }
 
@@ -55,32 +45,11 @@ public class FetchMovies extends AsyncTask<HttpUrl.Builder, Void, List<Movie>> {
 
             return Parser.getMoviesFromJson(response.body().string());
         } catch (JSONException e) {
-            Log.e(LOG,"JSONException", e);
+            Log.e(LOG, "JSONException", e);
         } catch (IOException e) {
-            Log.e(LOG,"IOException", e);
+            Log.e(LOG, "IOException", e);
         }
 
         return null;
     }
-
-    @Override
-    protected void onPreExecute() {
-        mUI.onPreExecute();
-    }
-
-    @Override
-    protected void onPostExecute(List<Movie> movies) {
-        mUI.onPostExecute(movies);
-    }
-
-    /**
-     * Interface implemented by UI component to get information after AsyncTask finish and handler
-     * UI components.
-     */
-    public interface MovieTaskCallback {
-        void onPreExecute();
-
-        void onPostExecute(List<Movie> movies);
-    }
-
-}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                

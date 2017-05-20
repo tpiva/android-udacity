@@ -8,6 +8,10 @@ package com.popmovies.android.popmovies;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,17 +25,19 @@ import android.widget.TextView;
 import com.popmovies.android.popmovies.adapters.MovieAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
 import com.popmovies.android.popmovies.data.PopMoviesPreferences;
-import com.popmovies.android.popmovies.webservice.FetchMovies;
+import com.popmovies.android.popmovies.db.PopMoviesContract;
 import com.popmovies.android.popmovies.webservice.RequestMovies;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements FetchMovies.MovieTaskCallback,
-        MovieAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.OnItemClickListener,
+        LoaderManager.LoaderCallbacks<List<Movie>>{
 
     // TODO fix saveInstance
+    private static final int POP_MOVIES_LOADER_ID = 120;
 
+    private static final String SEARCH_CHANGED = "search_changed";
     private static final String CURRENT_LIST = "current_list";
     private static final String CURRENT_SEARCH = "current_search";
     private static final String CURRENT_PAGE = "current_page";
@@ -77,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
         mAdapter = new MovieAdapter(this);
 
         mMoviesGridRecycleView.setAdapter(mAdapter);
+
         // after end of recycle view load more movies from server side.
         mMoviesGridRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -88,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
 
                     if ((firstVisible + visibleItens) >= totalItens && !isFetching) {
                         mActualPage++;
-                        fetchMovies();
+                        getSupportLoaderManager().restartLoader(POP_MOVIES_LOADER_ID, null, MainActivity.this);
                     }
                 }
             }
@@ -106,24 +113,6 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
             }
         }
 
-    }
-
-    @Override
-    public void onPreExecute() {
-        isFetching = true;
-        showProgress();
-    }
-
-    @Override
-    public void onPostExecute(List<Movie> movies) {
-        isFetching = false;
-        showContent();
-        if (movies != null) {
-            mCurrentMovies.addAll(movies);
-            mAdapter.setmMovieList(mCurrentMovies);
-        } else {
-            showMessageError();
-        }
     }
 
     /**
@@ -144,14 +133,6 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
 
         mLoadingProgressBar.setVisibility(View.INVISIBLE);
         mMessageLoaginErrorTextView.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Fetch movies from the movie DB server by current search (popular or top rated) and
-     * actual page of movies (server attribute).
-     */
-    private void fetchMovies() {
-        RequestMovies.requestMovies(sCurrentSearchType, mActualPage, this, this);
     }
 
     /**
@@ -210,29 +191,101 @@ public class MainActivity extends AppCompatActivity implements FetchMovies.Movie
                 && !isFetching
                 && !sCurrentSearchType.equals(prefSearchType)) {
             sCurrentSearchType = prefSearchType;
-            // it is necessary reset
-            if (SEARCH_TYPE_FAVORITES.equals(prefSearchType)) {
-                // TODO make db
-            } else {
-                reset();
-            }
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(SEARCH_CHANGED, true);
+            //restart loader
+            getSupportLoaderManager().restartLoader(POP_MOVIES_LOADER_ID, bundle, this);
         } else {
+            getSupportLoaderManager().initLoader(POP_MOVIES_LOADER_ID, null, this);
             isRestored = false;
         }
     }
 
-    /**
-     * Restart variable classes related with fetch movies from server.
-     */
-    private void reset() {
-        if (!Utility.isOnline(this)) {
-            showMessageError();
-            return;
-        }
+    @Override
+    public Loader<List<Movie>> onCreateLoader(int id, final Bundle args) {
+        return new AsyncTaskLoader<List<Movie>>(this) {
+            final String[] MOVIE_COLUMNS = {
+                    PopMoviesContract.COLUMN_OVERVIEW,
+                    PopMoviesContract.COLUMN_RELEASE_DATE,
+                    PopMoviesContract.COLUMN_ORIGINAL_TITLE,
+                    PopMoviesContract.COLUMN_VOTE_AVERAGE,
+                    PopMoviesContract.COLUMN_VOTE_COUNT,
+                    PopMoviesContract.COLUMN_POSTER,
+                    PopMoviesContract.COLUMN_MOVIE_ID
+            };
 
-        mCurrentMovies.clear();
-        mAdapter.notifyDataSetChanged();
-        mActualPage = 1;
-        fetchMovies();
+            static final int COL_MOVIE_OVERVIEW = 0;
+            static final int COL_MOVIE_RELEASE_DATE = 1;
+            static final int COL_MOVIE_ORIGINAL_TITLE = 2;
+            static final int COL_MOVIE_VOTE_AVERAGE = 3;
+            static final int COL_MOVIE_VOTE_COUNT = 4;
+            static final int COL_MOVIE_POSTER = 5;
+            static final int COL_MOVIE_MOVIE_ID = 6;
+
+            @Override
+            protected void onStartLoading() {
+                isFetching = true;
+                if (args != null) {
+                    if (args.getBoolean(SEARCH_CHANGED)) {
+                        // reset data
+                        mCurrentMovies.clear();
+                        mAdapter.notifyDataSetChanged();
+                        mActualPage = 1;
+                    }
+                }
+                showProgress();
+                forceLoad();
+            }
+
+            @Override
+            public List<Movie> loadInBackground() {
+                if (SEARCH_TYPE_FAVORITES.equals(sCurrentSearchType)) {
+                    List<Movie> movies = new ArrayList<>();
+                    Cursor cursor = getContentResolver().query(PopMoviesContract.CONTENT_URI,
+                            MOVIE_COLUMNS,
+                            null,
+                            null,
+                            null);
+                    try {
+                        if (!cursor.moveToFirst()) {
+                            return null;
+                        } else {
+                            do {
+                                Movie movie = new Movie();
+                                movie.setId(cursor.getInt(COL_MOVIE_MOVIE_ID));
+                                movie.setOverview(cursor.getString(COL_MOVIE_OVERVIEW));
+                                movie.setReleaseDate(Utility.getFormatDate(cursor.getString(COL_MOVIE_RELEASE_DATE)));
+                                movie.setOriginalTitle(cursor.getString(COL_MOVIE_ORIGINAL_TITLE));
+                                movie.setVoteCount(cursor.getInt(COL_MOVIE_VOTE_COUNT));
+                                movie.setVoteAverage(cursor.getDouble(COL_MOVIE_VOTE_AVERAGE));
+                                movie.setPosterImage(cursor.getBlob(COL_MOVIE_POSTER));
+                                movies.add(movie);
+                            } while (cursor.moveToNext());
+                        }
+                    } finally {
+                        cursor.close();
+                        return movies;
+                    }
+                } else {
+                    return RequestMovies.requestMovies(getContext(), sCurrentSearchType, mActualPage);
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
+        isFetching = false;
+        if (data == null) {
+            showMessageError();
+        } else {
+            showContent();
+            mCurrentMovies.addAll(data);
+            mAdapter.setmMovieList(mCurrentMovies);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Movie>> loader) {
     }
 }

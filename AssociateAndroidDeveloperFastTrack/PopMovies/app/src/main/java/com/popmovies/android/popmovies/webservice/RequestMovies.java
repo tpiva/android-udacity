@@ -6,6 +6,8 @@ import com.popmovies.android.popmovies.BuildConfig;
 import com.popmovies.android.popmovies.MainActivity;
 import com.popmovies.android.popmovies.bo.Movie;
 
+import java.util.List;
+
 import okhttp3.HttpUrl;
 
 /**
@@ -24,8 +26,7 @@ public class RequestMovies {
     private static final String API_KEY_PARAM = "api_key";
     private static final String PAGE_PARAM = "page";
 
-    public static void requestMovies(String search, int pageNumber,
-                                     FetchMovies.MovieTaskCallback ui, Context context) {
+    public static List<Movie> requestMovies(Context context, String search, int pageNumber) {
         boolean isPopularSearch = search != null && MainActivity.SEARCH_TYPE_POPULAR.equals(search);
 
         HttpUrl.Builder builder = HttpUrl.parse(isPopularSearch ?
@@ -33,8 +34,7 @@ public class RequestMovies {
         builder.addQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
                 .addQueryParameter(PAGE_PARAM, String.valueOf(pageNumber));
 
-        FetchMovies fetchMovies = new FetchMovies(context, ui);
-        fetchMovies.execute(builder);
+        return FetchMovies.getMovies(context, builder);
     }
 
     public static void requestTrailerOrReview(Context context, Movie movie,
