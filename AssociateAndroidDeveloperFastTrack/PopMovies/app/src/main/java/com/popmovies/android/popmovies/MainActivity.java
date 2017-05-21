@@ -9,6 +9,7 @@ package com.popmovies.android.popmovies;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import com.popmovies.android.popmovies.adapters.MovieAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
 import com.popmovies.android.popmovies.data.PopMoviesPreferences;
+import com.popmovies.android.popmovies.databinding.ActivityMainBinding;
 import com.popmovies.android.popmovies.db.PopMoviesContract;
 import com.popmovies.android.popmovies.webservice.RequestMovies;
 
@@ -51,9 +53,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     private static final String SEARCH_TYPE_FAVORITES = "favorites";
 
     private GridLayoutManager mGridLayoutManager;
-    private ProgressBar mLoadingProgressBar;
-    private TextView mMessageLoaginErrorTextView;
-    private RecyclerView mMoviesGridRecycleView;
 
     private MovieAdapter mAdapter;
 
@@ -65,14 +64,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
     private static String sCurrentSearchType = "";
 
+    private ActivityMainBinding mBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mMoviesGridRecycleView = (RecyclerView) findViewById(R.id.rc_grid_movies);
-        mLoadingProgressBar = (ProgressBar) findViewById(R.id.pb_loading_movies);
-        mMessageLoaginErrorTextView = (TextView) findViewById(R.id.tv_message_error_loading);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         // check orientation to define number of columns on grid
         int numberColumns = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ?
@@ -80,13 +77,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
         mGridLayoutManager = new GridLayoutManager(this, numberColumns);
 
-        mMoviesGridRecycleView.setLayoutManager(mGridLayoutManager);
+        mBinding.rcGridMovies.setLayoutManager(mGridLayoutManager);
         mAdapter = new MovieAdapter(this);
 
-        mMoviesGridRecycleView.setAdapter(mAdapter);
+        mBinding.rcGridMovies.setAdapter(mAdapter);
 
         // after end of recycle view load more movies from server side.
-        mMoviesGridRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mBinding.rcGridMovies.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
@@ -110,7 +107,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
                 mAdapter.setmMovieList(mCurrentMovies);
 
-                mMoviesGridRecycleView.getLayoutManager().scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
+                mBinding.rcGridMovies.getLayoutManager()
+                        .scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
                 isRestored = true;
             }
         }
@@ -121,28 +119,28 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
      * Show progressBar to user to inform more movies are loading.
      */
     private void showProgress() {
-        mLoadingProgressBar.setVisibility(View.VISIBLE);
-        mMessageLoaginErrorTextView.setVisibility(View.INVISIBLE);
+        mBinding.pbLoadingMovies.setVisibility(View.VISIBLE);
+        mBinding.tvMessageErrorLoading.setVisibility(View.INVISIBLE);
     }
 
     /**
      * Shows content of grid (movies) and turn invisible other UI elements.
      */
     private void showContent() {
-        if (!mMoviesGridRecycleView.isShown()) {
-            mMessageLoaginErrorTextView.setVisibility(View.VISIBLE);
+        if (!mBinding.rcGridMovies.isShown()) {
+            mBinding.tvMessageErrorLoading.setVisibility(View.VISIBLE);
         }
 
-        mLoadingProgressBar.setVisibility(View.INVISIBLE);
-        mMessageLoaginErrorTextView.setVisibility(View.INVISIBLE);
+        mBinding.pbLoadingMovies.setVisibility(View.INVISIBLE);
+        mBinding.tvMessageErrorLoading.setVisibility(View.INVISIBLE);
     }
 
     /**
      * Display error message during loading movies from server.
      */
     private void showMessageError() {
-        mLoadingProgressBar.setVisibility(View.INVISIBLE);
-        mMessageLoaginErrorTextView.setVisibility(View.VISIBLE);
+        mBinding.pbLoadingMovies.setVisibility(View.INVISIBLE);
+        mBinding.tvMessageErrorLoading.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -197,9 +195,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             bundle.putBoolean(SEARCH_CHANGED, true);
             //restart loader
             getSupportLoaderManager().restartLoader(POP_MOVIES_LOADER_ID, bundle, this);
+        } else if (isRestored){
+            isRestored = false;
         } else {
             getSupportLoaderManager().initLoader(POP_MOVIES_LOADER_ID, null, this);
-            isRestored = false;
         }
     }
 

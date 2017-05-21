@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.popmovies.android.popmovies.MainActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rc_grid_movies"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        tools:context="com.popmovies.android.popmovies.MainActivity">
 
-    <ProgressBar
-        android:id="@+id/pb_loading_movies"
-        android:layout_width="@dimen/loading_movies"
-        android:layout_height="@dimen/loading_movies"
-        android:layout_gravity="center"
-        android:visibility="invisible"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_grid_movies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/tv_message_error_loading"
-        android:text="@string/error_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="monospace"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+        <ProgressBar
+            android:id="@+id/pb_loading_movies"
+            android:layout_width="@dimen/loading_movies"
+            android:layout_height="@dimen/loading_movies"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tv_message_error_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="monospace"
+            android:text="@string/error_message"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:visibility="invisible" />
+    </FrameLayout>
+</layout>
