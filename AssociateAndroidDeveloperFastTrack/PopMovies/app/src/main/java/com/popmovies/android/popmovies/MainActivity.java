@@ -7,7 +7,6 @@
 package com.popmovies.android.popmovies;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.LoaderManager;
@@ -17,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     private static final String CURRENT_PAGE = "current_page";
     private static final String CURRENT_STATE_RV = "current_state_rv";
 
-    public static final int NUMBER_COLUMNS_LANDSCAPE = 3;
-    public static final int NUMBER_COLUMNS_PORTRAIT = 2;
-
     public static final String SEARCH_TYPE_POPULAR = "popular";
     private static final String SEARCH_TYPE_FAVORITES = "favorites";
 
@@ -68,10 +63,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        // check orientation to define number of columns on grid
-        int numberColumns = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ?
-                NUMBER_COLUMNS_LANDSCAPE : NUMBER_COLUMNS_PORTRAIT;
-
+        // get number of columns based on orientation / size
+        int numberColumns = getResources().getInteger(R.integer.number_of_columns_grid_movies);
         mGridLayoutManager = new GridLayoutManager(this, numberColumns);
 
         mBinding.rcGridMovies.setLayoutManager(mGridLayoutManager);

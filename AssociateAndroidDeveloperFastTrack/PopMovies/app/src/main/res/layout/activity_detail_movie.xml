@@ -6,9 +6,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!--
-        //COMPLETED add dimens on padding
-        TODO add accessibilty-->
 
         <LinearLayout
             android:layout_width="match_parent"
