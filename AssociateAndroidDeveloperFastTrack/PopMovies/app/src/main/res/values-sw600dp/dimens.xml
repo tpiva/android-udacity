@@ -3,4 +3,6 @@
     <dimen name="poster_movie_details_height">400dp</dimen>
     <dimen name="toggle_favorite_size">60dp</dimen>
     <integer name="number_of_columns_grid_movies">4</integer>
+    <dimen name="margin_left_trailer_title">10dp</dimen>
+    <dimen name="margin_right_trailer_title">10dp</dimen>
 </resources>

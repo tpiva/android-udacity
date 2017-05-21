@@ -57,31 +57,11 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_detail_movie_item_year"
-                        style="@style/DetailsMovie"
-                        android:layout_gravity="center"
-                        android:textAppearance="@android:style/TextAppearance.Small"
-                        android:textColor="@color/label_accent"
-                        tools:text="12-12-2017" />
-
-                    <TextView
-                        android:id="@+id/tv_detail_movie_item_user_rating"
-                        style="@style/DetailsMovie"
-                        android:layout_gravity="center"
-                        android:textAppearance="@android:style/TextAppearance.Small"
-                        android:textColor="@color/background_accent"
-                        tools:text="7.0/10" />
-
-                    <ToggleButton
-                        android:id="@+id/detail_button_favorites"
-                        android:layout_width="@dimen/toggle_favorite_size"
-                        android:layout_height="@dimen/toggle_favorite_size"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/padding_top_detail_movie"
-                        android:background="@drawable/toggle_selector"
-                        android:textOff=""
-                        android:textOn="" />
+                    <include
+                        android:id="@+id/basic_layout"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        layout="@layout/basic_detail_movie"/>
                 </LinearLayout>
 
             </LinearLayout>

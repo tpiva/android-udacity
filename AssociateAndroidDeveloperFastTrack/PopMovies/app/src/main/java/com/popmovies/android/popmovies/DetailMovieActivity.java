@@ -76,11 +76,11 @@ public class DetailMovieActivity extends AppCompatActivity implements
         mBinding.rcMovieTrailers.rcDetailMovieTrailers.setAdapter(mTrailerAdapter);
 
         if (mCurrentMovie != null) {
-            mBinding.detailButtonFavorites.setChecked(mCurrentMovie.isMarkAsFavorite());
+            mBinding.basicLayout.detailButtonFavorites.setChecked(mCurrentMovie.isMarkAsFavorite());
         }
 
-        mBinding.detailButtonFavorites.setClickable(true);
-        mBinding.detailButtonFavorites.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mBinding.basicLayout.detailButtonFavorites.setClickable(true);
+        mBinding.basicLayout.detailButtonFavorites.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
@@ -104,9 +104,9 @@ public class DetailMovieActivity extends AppCompatActivity implements
     private void loadDataOnViews() {
         if (mCurrentMovie != null) {
             mBinding.tvDetailMovieItemTitle.setText(mCurrentMovie.getTitle());
-            mBinding.tvDetailMovieItemYear.setText(getResources().getString(R.string.format_date_released,
+            mBinding.basicLayout.tvDetailMovieItemYear.setText(getResources().getString(R.string.format_date_released,
                     Utility.getFormatDateAsString(mCurrentMovie.getReleaseDate())));
-            mBinding.tvDetailMovieItemUserRating.setText(getResources().getString(R.string.format_user_rating, mCurrentMovie.getVoteAverage()));
+            mBinding.basicLayout.tvDetailMovieItemUserRating.setText(getResources().getString(R.string.format_user_rating, mCurrentMovie.getVoteAverage()));
             if(mCurrentMovie.getPosterPath() == null
                     || (mCurrentMovie.getPosterPath() != null && "".equalsIgnoreCase(mCurrentMovie.getPosterPath()))) {
                 if (mCurrentMovie.getPosterImage() != null) {
