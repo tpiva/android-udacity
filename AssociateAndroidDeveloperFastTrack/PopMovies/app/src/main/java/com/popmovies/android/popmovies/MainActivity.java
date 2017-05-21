@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         LoaderManager.LoaderCallbacks<List<Movie>>{
 
     // COMPLETED fix saveInstance
-    // TODO fix error of duplicated favorite during back key
+    // COMPLETED fix error of duplicated favorite during back key
     private static final int POP_MOVIES_LOADER_ID = 120;
 
     private static final String SEARCH_CHANGED = "search_changed";
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
     private int mActualPage = 1;
     private boolean isFetching = false;
-    private boolean isRestored = false;
 
     private ArrayList<Movie> mCurrentMovies = new ArrayList<>();
 
@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 mActualPage = savedInstanceState.getInt(CURRENT_PAGE);
                 mBinding.rcGridMovies.getLayoutManager()
                         .onRestoreInstanceState(savedInstanceState.getParcelable(CURRENT_STATE_RV));
-                isRestored = true;
             } else {
                 mAdapter = new MovieAdapter(this);
                 mBinding.rcGridMovies.setAdapter(mAdapter);
@@ -185,17 +184,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     protected void onResume() {
         super.onResume();
         String prefSearchType = PopMoviesPreferences.getSearchType(this);
-        if (!isRestored
-                && !isFetching
+        if (!isFetching
                 && !sCurrentSearchType.equals(prefSearchType)) {
             sCurrentSearchType = prefSearchType;
             Bundle bundle = new Bundle();
             bundle.putBoolean(SEARCH_CHANGED, true);
             //restart loader
             getSupportLoaderManager().restartLoader(POP_MOVIES_LOADER_ID, bundle, this);
-        } else if (isRestored){
-            isRestored = false;
-        } else {
+        } else if (!isFetching){
             getSupportLoaderManager().initLoader(POP_MOVIES_LOADER_ID, null, this);
         }
     }
