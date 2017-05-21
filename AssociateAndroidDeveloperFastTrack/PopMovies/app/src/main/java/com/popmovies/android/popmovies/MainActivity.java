@@ -36,7 +36,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.OnItemClickListener,
         LoaderManager.LoaderCallbacks<List<Movie>>{
 
-    // TODO fix saveInstance
+    // COMPLETED fix saveInstance
     // TODO fix error of duplicated favorite during back key
     private static final int POP_MOVIES_LOADER_ID = 120;
 
@@ -78,7 +78,20 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         mGridLayoutManager = new GridLayoutManager(this, numberColumns);
 
         mBinding.rcGridMovies.setLayoutManager(mGridLayoutManager);
-        mAdapter = new MovieAdapter(this);
+
+        if (!Utility.isOnline(this)) {
+            showMessageError();
+        } else {
+            if (savedInstanceState != null) {
+                mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
+                mAdapter.setmMovieList(mCurrentMovies);
+                mBinding.rcGridMovies.getLayoutManager()
+                        .scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
+                isRestored = true;
+            } else {
+                mAdapter = new MovieAdapter(this);
+            }
+        }
 
         mBinding.rcGridMovies.setAdapter(mAdapter);
 
@@ -99,19 +112,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 }
             }
         });
-
-        if (!Utility.isOnline(this)) {
-            showMessageError();
-        } else {
-            if (savedInstanceState != null) {
-                mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
-                mAdapter.setmMovieList(mCurrentMovies);
-
-                mBinding.rcGridMovies.getLayoutManager()
-                        .scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
-                isRestored = true;
-            }
-        }
 
     }
 
@@ -173,12 +173,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         outState.putParcelableArrayList(CURRENT_LIST, mCurrentMovies);
         outState.putString(CURRENT_SEARCH, sCurrentSearchType);
         outState.putInt(CURRENT_PAGE, mActualPage);
+        outState.putInt(CURRENT_POSITION_RV, mGridLayoutManager.findFirstCompletelyVisibleItemPosition());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
+        mAdapter.setmMovieList(mCurrentMovies);
         sCurrentSearchType = savedInstanceState.getString(CURRENT_SEARCH);
         mActualPage = savedInstanceState.getInt(CURRENT_PAGE);
     }
