@@ -20,8 +20,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.popmovies.android.popmovies.adapters.MovieAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
@@ -41,10 +39,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     private static final int POP_MOVIES_LOADER_ID = 120;
 
     private static final String SEARCH_CHANGED = "search_changed";
-    private static final String CURRENT_LIST = "current_list";
     private static final String CURRENT_SEARCH = "current_search";
     private static final String CURRENT_PAGE = "current_page";
-    private static final String CURRENT_POSITION_RV = "current_position_rv";
+    private static final String CURRENT_STATE_RV = "current_state_rv";
 
     public static final int NUMBER_COLUMNS_LANDSCAPE = 3;
     public static final int NUMBER_COLUMNS_PORTRAIT = 2;
@@ -83,17 +80,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             showMessageError();
         } else {
             if (savedInstanceState != null) {
-                mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
-                mAdapter.setmMovieList(mCurrentMovies);
+                sCurrentSearchType = savedInstanceState.getString(CURRENT_SEARCH);
+                mActualPage = savedInstanceState.getInt(CURRENT_PAGE);
                 mBinding.rcGridMovies.getLayoutManager()
-                        .scrollToPosition(savedInstanceState.getInt(CURRENT_POSITION_RV));
+                        .onRestoreInstanceState(savedInstanceState.getParcelable(CURRENT_STATE_RV));
                 isRestored = true;
             } else {
                 mAdapter = new MovieAdapter(this);
+                mBinding.rcGridMovies.setAdapter(mAdapter);
             }
         }
-
-        mBinding.rcGridMovies.setAdapter(mAdapter);
 
         // after end of recycle view load more movies from server side.
         mBinding.rcGridMovies.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -106,8 +102,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
                     if (!SEARCH_TYPE_FAVORITES.equals(sCurrentSearchType)
                         && (firstVisible + visibleItens) >= totalItens && !isFetching) {
-                        mActualPage++;
                         getSupportLoaderManager().restartLoader(POP_MOVIES_LOADER_ID, null, MainActivity.this);
+                        mActualPage++;
                     }
                 }
             }
@@ -170,18 +166,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(CURRENT_LIST, mCurrentMovies);
         outState.putString(CURRENT_SEARCH, sCurrentSearchType);
         outState.putInt(CURRENT_PAGE, mActualPage);
-        outState.putInt(CURRENT_POSITION_RV, mGridLayoutManager.findFirstCompletelyVisibleItemPosition());
+        outState.putParcelable(CURRENT_STATE_RV,
+                mGridLayoutManager.onSaveInstanceState());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mCurrentMovies = savedInstanceState.getParcelableArrayList(CURRENT_LIST);
-        mAdapter.setmMovieList(mCurrentMovies);
+        mGridLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(CURRENT_STATE_RV));
         sCurrentSearchType = savedInstanceState.getString(CURRENT_SEARCH);
         mActualPage = savedInstanceState.getInt(CURRENT_PAGE);
     }
