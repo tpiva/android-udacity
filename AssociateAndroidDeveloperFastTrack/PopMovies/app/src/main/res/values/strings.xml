@@ -11,7 +11,7 @@
     <string name="connection_not_found">Not possible to found movies. Please check network connection.</string>
     <string name="settings_activity_name">Settings</string>
 
-    <string name="format_date_released">Released: %1$s</string>
+    <string name="format_date_released">Date: %1$s</string>
     <string name="movie_poster">Poster of movie.</string>
     <string name="error_message">Error during loading, please try again.</string>
 

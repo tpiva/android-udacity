@@ -8,11 +8,12 @@
         android:layout_height="match_parent"
         android:baselineAligned="false">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center|center_horizontal|center_vertical">
 
             <ImageView
                 android:id="@+id/img_detail_movie_item_poster"
@@ -22,17 +23,7 @@
                 android:contentDescription="@string/movie_poster"
                 android:scaleType="fitCenter" />
 
-            <TextView
-                android:id="@+id/tv_detail_movie_item_synopsis"
-                style="@style/DetailsMovie"
-                android:gravity="start"
-                android:paddingBottom="@dimen/text_view_padding_bottom"
-                android:paddingLeft="@dimen/padding_details_movie"
-                android:paddingStart="@dimen/padding_details_movie"
-                android:paddingTop="@dimen/text_view_padding_top"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="@color/label_accent" />
-        </LinearLayout>
+        </FrameLayout>
 
         <ScrollView
             android:layout_width="0dp"
@@ -80,6 +71,17 @@
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
                             layout="@layout/basic_detail_movie"/>
+
+                        <TextView
+                            android:id="@+id/tv_detail_movie_item_synopsis"
+                            style="@style/DetailsMovie"
+                            android:gravity="start"
+                            android:paddingBottom="@dimen/text_view_padding_bottom"
+                            android:paddingLeft="@dimen/padding_details_movie"
+                            android:paddingStart="@dimen/padding_details_movie"
+                            android:paddingTop="@dimen/text_view_padding_top"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:textColor="@color/label_accent" />
                     </LinearLayout>
                 </LinearLayout>
 

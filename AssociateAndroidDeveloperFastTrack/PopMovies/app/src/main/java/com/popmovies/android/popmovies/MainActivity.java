@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
         mBinding.rcGridMovies.setLayoutManager(mGridLayoutManager);
 
+        mAdapter = new MovieAdapter(this);
+        mBinding.rcGridMovies.setAdapter(mAdapter);
+
         if (!Utility.isOnline(this)) {
             showMessageError();
         } else {
@@ -77,9 +80,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 mActualPage = savedInstanceState.getInt(CURRENT_PAGE);
                 mBinding.rcGridMovies.getLayoutManager()
                         .onRestoreInstanceState(savedInstanceState.getParcelable(CURRENT_STATE_RV));
-            } else {
-                mAdapter = new MovieAdapter(this);
-                mBinding.rcGridMovies.setAdapter(mAdapter);
             }
         }
 
