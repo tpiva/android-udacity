@@ -12,7 +12,7 @@
         android:src="@drawable/ic_play_circle_outline"
         android:background="@android:color/transparent"
         android:layout_gravity="center"
-        android:contentDescription="Movie Poster" />
+        android:contentDescription="@string/movie_poster_content" />
 
     <TextView
         android:id="@+id/rc_item_movie_trailer_name"

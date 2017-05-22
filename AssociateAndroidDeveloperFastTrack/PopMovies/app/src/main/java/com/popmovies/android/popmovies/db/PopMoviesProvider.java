@@ -5,7 +5,6 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -92,7 +91,7 @@ public class PopMoviesProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
         SQLiteDatabase sqLiteDatabase = mPopMoviesDbHelper.getWritableDatabase();
-        int rowsDeleted = 0;
+        int rowsDeleted;
         int matchId = mUriMatcher.match(uri);
         switch (matchId) {
             case MOVIES_WITH_ID:

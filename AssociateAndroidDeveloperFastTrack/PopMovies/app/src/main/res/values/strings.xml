@@ -8,9 +8,7 @@
     <string name="fetch_movies_loading">Loading…</string>
 
     <string name="format_user_rating">Avg. vote: %1$1.0f / 10</string>
-    <string name="connection_not_found">Not possible to found movies. Please check network connection.</string>
     <string name="empty_favorite">No favorites saved!</string>
-    <string name="settings_activity_name">Settings</string>
 
     <string name="format_date_released">Date: %1$s</string>
     <string name="movie_poster">Poster of movie.</string>
@@ -30,4 +28,5 @@
     <string name="review_content_preffix">Review: %1$s</string>
     <string name="review_author_preffix">Author: %1$s</string>
     <string name="review_link_preffix">Link: %1$s</string>
+    <string name="movie_poster_content">Movie Poster</string>
 </resources>

@@ -15,18 +15,13 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
-import com.popmovies.android.popmovies.adapters.MovieAdapter;
 import com.popmovies.android.popmovies.adapters.TrailerAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
 import com.popmovies.android.popmovies.bo.Review;
