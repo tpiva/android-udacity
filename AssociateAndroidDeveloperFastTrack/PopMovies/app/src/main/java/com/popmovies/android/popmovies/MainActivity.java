@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
     private static String sCurrentSearchType = "";
 
+    // List of favorite movies, necessary to show what movie is favorite or not.
+    private List<Integer> mFavoriteMoviesId = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -250,30 +253,31 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
             @Override
             public List<Movie> loadInBackground() {
+                List<Movie> movies = new ArrayList<>();
+                Cursor cursor = getContentResolver().query(PopMoviesContract.CONTENT_URI,
+                        MOVIE_COLUMNS,
+                        null,
+                        null,
+                        null);
+                if (!cursor.moveToFirst()) {
+                    return null;
+                } else {
+                    do {
+                        Movie movie = new Movie();
+                        movie.setId(cursor.getInt(COL_MOVIE_MOVIE_ID));
+                        movie.setOverview(cursor.getString(COL_MOVIE_OVERVIEW));
+                        movie.setReleaseDate(Utility.getFormatDate(cursor.getString(COL_MOVIE_RELEASE_DATE)));
+                        movie.setTitle(cursor.getString(COL_MOVIE_ORIGINAL_TITLE));
+                        movie.setVoteCount(cursor.getInt(COL_MOVIE_VOTE_COUNT));
+                        movie.setVoteAverage(cursor.getDouble(COL_MOVIE_VOTE_AVERAGE));
+                        movie.setPosterImage(cursor.getBlob(COL_MOVIE_POSTER));
+                        movie.setMarkAsFavorite(true);
+                        movies.add(movie);
+                        mFavoriteMoviesId.add(movie.getId());
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
                 if (SEARCH_TYPE_FAVORITES.equals(sCurrentSearchType)) {
-                    List<Movie> movies = new ArrayList<>();
-                    Cursor cursor = getContentResolver().query(PopMoviesContract.CONTENT_URI,
-                            MOVIE_COLUMNS,
-                            null,
-                            null,
-                            null);
-                    if (!cursor.moveToFirst()) {
-                        return null;
-                    } else {
-                        do {
-                            Movie movie = new Movie();
-                            movie.setId(cursor.getInt(COL_MOVIE_MOVIE_ID));
-                            movie.setOverview(cursor.getString(COL_MOVIE_OVERVIEW));
-                            movie.setReleaseDate(Utility.getFormatDate(cursor.getString(COL_MOVIE_RELEASE_DATE)));
-                            movie.setTitle(cursor.getString(COL_MOVIE_ORIGINAL_TITLE));
-                            movie.setVoteCount(cursor.getInt(COL_MOVIE_VOTE_COUNT));
-                            movie.setVoteAverage(cursor.getDouble(COL_MOVIE_VOTE_AVERAGE));
-                            movie.setPosterImage(cursor.getBlob(COL_MOVIE_POSTER));
-                            movie.setMarkAsFavorite(true);
-                            movies.add(movie);
-                        } while (cursor.moveToNext());
-                    }
-                    cursor.close();
                     return movies;
                 } else {
                     return RequestMovies.requestMovies(getContext(), sCurrentSearchType, mActualPage);
@@ -294,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         } else {
             showContent();
             mCurrentMovies.addAll(data);
-            mAdapter.setmMovieList(mCurrentMovies);
+            mAdapter.setmMovieListAndFavorites(mCurrentMovies, mFavoriteMoviesId);
         }
     }
 

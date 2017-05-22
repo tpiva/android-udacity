@@ -21,7 +21,9 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
 
     public static final String URL_LOAD_IMAGE = "http://image.tmdb.org/t/p/w185/";
+
     private List<Movie> mMovieList;
+    private List<Integer> mFavoriteMovieIds;
 
     private final OnItemClickListener mListener;
 
@@ -71,8 +73,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             } else {
                 Picasso.with(itemView.getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).fit().into(moviePoster);
             }
-
             moviePoster.setContentDescription(movie.getTitle());
+
+            // set movies as favorite or not
+            if (mFavoriteMovieIds != null
+                    && mFavoriteMovieIds.contains(movie.getId())) {
+                movie.setMarkAsFavorite(true);
+            }
         }
 
         @Override
@@ -82,11 +89,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     /**
-     * Fill list of movies to display on RecycleView
+     * Fill list of movies to display on RecycleView and favorites movies.
      * @param mMovieList
      */
-    public void setmMovieList(List<Movie> mMovieList) {
+    public void setmMovieListAndFavorites(List<Movie> mMovieList, List<Integer> mFavoriteMovieIds) {
         this.mMovieList = mMovieList;
+        this.mFavoriteMovieIds = mFavoriteMovieIds;
         notifyDataSetChanged();
     }
 
