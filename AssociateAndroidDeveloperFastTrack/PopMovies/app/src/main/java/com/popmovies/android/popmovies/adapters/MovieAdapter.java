@@ -71,6 +71,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             } else {
                 Picasso.with(itemView.getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).fit().into(moviePoster);
             }
+
+            moviePoster.setContentDescription(movie.getTitle());
         }
 
         @Override

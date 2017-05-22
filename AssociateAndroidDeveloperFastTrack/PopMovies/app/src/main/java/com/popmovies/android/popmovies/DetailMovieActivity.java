@@ -116,6 +116,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
                 Picasso.with(this).load(URL_LOAD_IMAGE + mCurrentMovie.getPosterPath()).fit().into(mBinding.imgDetailMovieItemPoster);
             }
             mBinding.tvDetailMovieItemSynopsis.setText(mCurrentMovie.getOverview());
+            mBinding.imgDetailMovieItemPoster.setContentDescription(mCurrentMovie.getTitle());
         }
     }
 
