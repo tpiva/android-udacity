@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.popmovies.android.popmovies.adapters.TrailerAdapter;
 import com.popmovies.android.popmovies.bo.Movie;
@@ -97,8 +98,9 @@ public class DetailMovieActivity extends AppCompatActivity implements
                 loadMovieTrailersAndReviews();
             }
         } else {
-            // show message of error
-
+            // show message of error and set favorite button to hide, avoid user click
+            mBinding.basicLayout.detailButtonFavorites.setVisibility(View.INVISIBLE);
+            Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_LONG).show();
         }
     }
 
