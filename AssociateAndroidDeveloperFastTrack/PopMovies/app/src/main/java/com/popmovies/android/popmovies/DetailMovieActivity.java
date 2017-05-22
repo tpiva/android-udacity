@@ -91,8 +91,15 @@ public class DetailMovieActivity extends AppCompatActivity implements
             }
         });
 
-        loadDataOnViews();
-        loadMovieTrailersAndReviews();
+        if (mCurrentMovie != null) {
+            loadDataOnViews();
+            if (Utility.isOnline(this)) {
+                loadMovieTrailersAndReviews();
+            }
+        } else {
+            // show message of error
+
+        }
     }
 
     /**
