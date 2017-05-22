@@ -6,6 +6,7 @@
 
 package com.popmovies.android.popmovies;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
@@ -45,18 +46,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     public static final String SEARCH_TYPE_POPULAR = "popular";
     private static final String SEARCH_TYPE_FAVORITES = "favorites";
 
+    private ArrayList<Movie> mCurrentMovies = new ArrayList<>();
     private GridLayoutManager mGridLayoutManager;
-
     private MovieAdapter mAdapter;
+    private ActivityMainBinding mBinding;
+    private ProgressDialog mProgressDialog;
 
     private int mActualPage = 1;
     private boolean isFetching = false;
 
-    private ArrayList<Movie> mCurrentMovies = new ArrayList<>();
-
     private static String sCurrentSearchType = "";
-
-    private ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +106,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
      * Show progressBar to user to inform more movies are loading.
      */
     private void showProgress() {
-        mBinding.pbLoadingMovies.setVisibility(View.VISIBLE);
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+        }
+        mProgressDialog.setMessage(getString(R.string.fetch_movies_loading));
+        mProgressDialog.show();
+
         mBinding.tvMessageErrorLoading.setVisibility(View.INVISIBLE);
     }
 
@@ -119,7 +123,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             mBinding.tvMessageErrorLoading.setVisibility(View.VISIBLE);
         }
 
-        mBinding.pbLoadingMovies.setVisibility(View.INVISIBLE);
+        if (mProgressDialog != null) {
+            mProgressDialog.hide();
+            mProgressDialog = null;
+        }
         mBinding.tvMessageErrorLoading.setVisibility(View.INVISIBLE);
     }
 
@@ -127,7 +134,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
      * Display error message during loading movies from server.
      */
     private void showMessageError() {
-        mBinding.pbLoadingMovies.setVisibility(View.INVISIBLE);
+        if (mProgressDialog != null) {
+            mProgressDialog.hide();
+            mProgressDialog = null;
+        }
+        mBinding.tvMessageErrorLoading.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Display message for no favorites found
+     */
+    private void showNoFavoritesFoundMessage() {
+        if (mProgressDialog != null) {
+            mProgressDialog.hide();
+            mProgressDialog = null;
+        }
+
+        mBinding.tvMessageErrorLoading.setText(getString(R.string.empty_favorite));
         mBinding.tvMessageErrorLoading.setVisibility(View.VISIBLE);
     }
 
@@ -263,7 +286,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
         isFetching = false;
         if (data == null) {
-            showMessageError();
+            if (SEARCH_TYPE_FAVORITES.equals(sCurrentSearchType)) {
+                showNoFavoritesFoundMessage();
+            } else {
+                showMessageError();
+            }
         } else {
             showContent();
             mCurrentMovies.addAll(data);

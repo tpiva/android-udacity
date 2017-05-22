@@ -9,6 +9,7 @@
 
     <string name="format_user_rating">Avg. vote: %1$1.0f / 10</string>
     <string name="connection_not_found">Not possible to found movies. Please check network connection.</string>
+    <string name="empty_favorite">No favorites saved!</string>
     <string name="settings_activity_name">Settings</string>
 
     <string name="format_date_released">Date: %1$s</string>

@@ -65,6 +65,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 if (movie.getPosterImage() != null) {
                     byte[] imageAsByte = movie.getPosterImage();
                     moviePoster.setImageBitmap(BitmapFactory.decodeByteArray(imageAsByte, 0, imageAsByte.length));
+                } else {
+                    moviePoster.setImageResource(R.drawable.ic_favorite);
                 }
             } else {
                 Picasso.with(itemView.getContext()).load(URL_LOAD_IMAGE + movie.getPosterPath()).fit().into(moviePoster);

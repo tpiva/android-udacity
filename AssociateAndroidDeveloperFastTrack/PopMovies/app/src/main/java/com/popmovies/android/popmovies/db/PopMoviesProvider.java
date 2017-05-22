@@ -96,8 +96,7 @@ public class PopMoviesProvider extends ContentProvider {
         int matchId = mUriMatcher.match(uri);
         switch (matchId) {
             case MOVIES_WITH_ID:
-                String id = uri.getPathSegments().get(1);
-                rowsDeleted = sqLiteDatabase.delete(PopMoviesContract.TABLE_NAME, "_id=?", new String[]{id});
+                rowsDeleted = sqLiteDatabase.delete(PopMoviesContract.TABLE_NAME, s, strings);
                 break;
             default:
                 throw new UnsupportedOperationException("Operation not supported.");

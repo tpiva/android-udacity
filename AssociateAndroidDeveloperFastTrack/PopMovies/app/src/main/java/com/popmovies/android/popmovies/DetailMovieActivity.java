@@ -89,7 +89,9 @@ public class DetailMovieActivity extends AppCompatActivity implements
                 } else {
                     mCurrentMovie.setMarkAsFavorite(false);
                     getContentResolver().
-                            delete(PopMoviesContract.buildUriWithId(mCurrentMovie.getId()), null, null);
+                            delete(PopMoviesContract.buildUriWithId(mCurrentMovie.getId()),
+                                    PopMoviesContract.COLUMN_MOVIE_ID + " = ?",
+                                    new String[]{String.valueOf(mCurrentMovie.getId())});
                 }
             }
         });
@@ -112,6 +114,8 @@ public class DetailMovieActivity extends AppCompatActivity implements
                 if (mCurrentMovie.getPosterImage() != null) {
                     byte[] imageAsByte = mCurrentMovie.getPosterImage();
                     mBinding.imgDetailMovieItemPoster.setImageBitmap(BitmapFactory.decodeByteArray(imageAsByte, 0, imageAsByte.length));
+                } else {
+                    mBinding.imgDetailMovieItemPoster.setImageResource(R.drawable.ic_favorite);
                 }
             } else {
                 Picasso.with(this).load(URL_LOAD_IMAGE + mCurrentMovie.getPosterPath()).fit().into(mBinding.imgDetailMovieItemPoster);
@@ -227,7 +231,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
             values.put(PopMoviesContract.COLUMN_ORIGINAL_TITLE, mCurrentMovie.getOriginalTitle());
             values.put(PopMoviesContract.COLUMN_VOTE_AVERAGE, mCurrentMovie.getVoteAverage());
             values.put(PopMoviesContract.COLUMN_VOTE_COUNT, mCurrentMovie.getVoteCount());
-            values.put(PopMoviesContract.COLUMN_POSTER, Utility.getByteFromBitmap(bitmap) );
+            values.put(PopMoviesContract.COLUMN_POSTER, bitmap != null ? Utility.getByteFromBitmap(bitmap) : null);
             values.put(PopMoviesContract.COLUMN_MOVIE_ID, mCurrentMovie.getId());
 
             return values;
