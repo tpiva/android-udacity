@@ -1,7 +1,5 @@
 /*
  * Copyright (C) 2017 Thiago Piva Magalhães
- * Main activity to show grid with movies, start communication with server to get movies and
- * handler menu actions.
  */
 
 package com.popmovies.android.popmovies;
@@ -30,6 +28,11 @@ import com.popmovies.android.popmovies.webservice.RequestMovies;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Main activity to show grid with movies, start communication with server to get movies and
+ * handler menu actions.
+ */
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.OnItemClickListener,
         LoaderManager.LoaderCallbacks<List<Movie>>{
@@ -202,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     @Override
     protected void onResume() {
         super.onResume();
+        // if not fetching and preference search type changes reloads loader.
         String prefSearchType = PopMoviesPreferences.getSearchType(this);
         if (!isFetching
                 && !sCurrentSearchType.equals(prefSearchType)) {
@@ -241,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 isFetching = true;
                 if (args != null) {
                     if (args.getBoolean(SEARCH_CHANGED)) {
-                        // reset data
+                        // reset data, in case of change search type from preference.
                         mCurrentMovies.clear();
                         mAdapter.notifyDataSetChanged();
                         mActualPage = 1;

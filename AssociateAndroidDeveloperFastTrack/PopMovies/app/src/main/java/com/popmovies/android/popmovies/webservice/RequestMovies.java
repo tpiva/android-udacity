@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ */
+
 package com.popmovies.android.popmovies.webservice;
 
 import android.content.Context;
@@ -11,7 +15,8 @@ import java.util.List;
 import okhttp3.HttpUrl;
 
 /**
- * Created by Thiago on 13/05/2017.
+ * Helper class to request information to WebService about movies, trailers and reviews of current
+ * movie.
  */
 
 public class RequestMovies {
@@ -26,6 +31,13 @@ public class RequestMovies {
     private static final String API_KEY_PARAM = "api_key";
     private static final String PAGE_PARAM = "page";
 
+    /**
+     * Requests basic data of movie.
+     * @param context
+     * @param search popular, favorite or top rated
+     * @param pageNumber
+     * @return
+     */
     public static List<Movie> requestMovies(Context context, String search, int pageNumber) {
         boolean isPopularSearch = search != null && MainActivity.SEARCH_TYPE_POPULAR.equals(search);
 
@@ -37,6 +49,12 @@ public class RequestMovies {
         return FetchMovies.getMovies(context, builder);
     }
 
+    /**
+     * Requests extra data of movies like trailers and reviews.
+     * @param context
+     * @param movie
+     * @param ui
+     */
     public static void requestTrailerOrReview(Context context, Movie movie,
                                               FetchTrailerReview.TrailerReviewTaskCallback ui) {
         StringBuilder urlTrailer = new StringBuilder();

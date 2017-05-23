@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2017 Thiago Piva Magalhães
- * Handler details of movies like title, release date, average vote and synopsis.
  */
 
 package com.popmovies.android.popmovies;
@@ -37,6 +36,11 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.popmovies.android.popmovies.adapters.MovieAdapter.URL_LOAD_IMAGE;
+
+/**
+ * Handler details of movies like title, release date, average vote, synopsis as basic information
+ * and extras as trailer and reviews.
+ */
 
 public class DetailMovieActivity extends AppCompatActivity implements
         FetchTrailerReview.TrailerReviewTaskCallback{
@@ -129,6 +133,9 @@ public class DetailMovieActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Request data of trailers and reviews from webService.
+     */
     private void loadMovieTrailersAndReviews() {
         if (Utility.isOnline(this)) {
             // starts communication with server.
@@ -136,6 +143,9 @@ public class DetailMovieActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Loads on views trailers and revies informations.
+     */
     private void fillTrailerAndReview() {
         // COMPLETED handler trailers
         List<Trailer> trailers = mCurrentMovie.getTrailers();
@@ -145,7 +155,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
             mBinding.rcMovieTrailers.rcDetailMovieTrailers.setVisibility(View.VISIBLE);
             mTrailerAdapter.setTrailers(trailers);
         } else {
-            // set invisible title
+            // hide trailers data when no trailer found for current movie.
             mBinding.rcMovieTrailers.tvDetailTitleTrailers.setVisibility(View.GONE);
             mBinding.rcMovieTrailers.rcDetailMovieTrailers.setVisibility(View.GONE);
         }
@@ -155,7 +165,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
                 mBinding.detailMovieReviewsLn.setVisibility(View.VISIBLE);
                 mBinding.detailMovieReviewTitle.setVisibility(View.VISIBLE);
                 mBinding.dividerTrailersReviews.setVisibility(View.VISIBLE);
-
+                // Add many view that represent an review to LinearLayout movie_review_item
                 for(Review item : reviews) {
 
                     View view = LayoutInflater.from(this).inflate(R.layout.movie_review_item, null);
@@ -174,6 +184,7 @@ public class DetailMovieActivity extends AppCompatActivity implements
                 }
             }
         } else {
+            // hide data when no reviews found.
             mBinding.dividerTrailersReviews.setVisibility(View.GONE);
             if (mBinding.detailMovieReviewsLn != null) {
                 mBinding.detailMovieReviewsLn.setVisibility(View.GONE);
@@ -209,6 +220,9 @@ public class DetailMovieActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Inserts movie as favorite on database, it's necessary task for "heavy" work.
+     */
     private class HelpFavorites extends AsyncTask<Void, Void, Void> {
 
         private final String TAG = HelpFavorites.class.getName();
@@ -221,6 +235,10 @@ public class DetailMovieActivity extends AppCompatActivity implements
             return null;
         }
 
+        /**
+         * Composes ContentValues with current movie data for be save on database.
+         * @return
+         */
         private ContentValues createContentValues() {
             Bitmap bitmap = null;
             try {

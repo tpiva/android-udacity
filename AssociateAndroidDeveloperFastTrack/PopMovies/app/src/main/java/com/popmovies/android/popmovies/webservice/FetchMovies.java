@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2017 Thiago Piva Magalhães
- * Request data to server and delegate to handler of Json.
  */
 
 package com.popmovies.android.popmovies.webservice;
@@ -22,13 +21,23 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Request data to server and delegate to handler of Json.
+ */
+
 public class FetchMovies {
     // COMPLETED change to another lib for get data from webservice
 
     private static final String LOG = FetchMovies.class.getSimpleName();
 
+    /**
+     * Gets Movies objects from WebService
+     * @param context
+     * @param args
+     * @return
+     */
     public static List<Movie> getMovies(Context context, HttpUrl.Builder... args) {
-        Log.d(LOG, "Initializing task of Popular Movie.");
+        Log.d(LOG, "Initializing task of getting Movies.");
 
         if (args == null) {
             return new ArrayList<>();

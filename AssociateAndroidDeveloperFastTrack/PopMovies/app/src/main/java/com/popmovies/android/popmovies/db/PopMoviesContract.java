@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ */
+
 package com.popmovies.android.popmovies.db;
 
 import android.content.ContentUris;
@@ -5,7 +9,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * Created by Thiago on 18/05/2017.
+ * Represents columns of table Movie and URI/URLs of content provider of PopMovies.
  */
 
 public class PopMoviesContract implements BaseColumns{

@@ -1,10 +1,14 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ */
+
 package com.popmovies.android.popmovies.bo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Thiago on 13/05/2017.
+ * Business object that represents one review from a Movie, it composite movie information.
  */
 
 public class Review implements Parcelable{

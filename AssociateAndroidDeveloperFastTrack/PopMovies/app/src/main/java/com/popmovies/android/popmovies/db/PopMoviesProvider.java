@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ */
+
 package com.popmovies.android.popmovies.db;
 
 import android.content.ContentProvider;
@@ -11,7 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * Created by Thiago on 18/05/2017.
+ * Content provider of PopMovies that provider data of movies for others apps.
  */
 
 public class PopMoviesProvider extends ContentProvider {

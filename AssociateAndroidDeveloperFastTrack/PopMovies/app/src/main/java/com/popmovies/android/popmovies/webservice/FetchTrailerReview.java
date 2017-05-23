@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2017 Thiago Piva Magalhães
- * Request data to server and delegate to handler of Json.
  */
 
 package com.popmovies.android.popmovies.webservice;
@@ -21,8 +20,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Request extra information of movies to webservice and delegate to Json.
+ */
+
 public class FetchTrailerReview extends AsyncTask<HttpUrl.Builder, Void, Void> {
-    // COMPLETED change to another lib for get data from webservice
 
     private static final String LOG = FetchTrailerReview.class.getSimpleName();
 
@@ -38,7 +40,7 @@ public class FetchTrailerReview extends AsyncTask<HttpUrl.Builder, Void, Void> {
 
     @Override
     protected Void doInBackground(HttpUrl.Builder... args) {
-        Log.d(LOG, "Initializing task of Popular Movie.");
+        Log.d(LOG, "Initializing task of getting Review and Trialer of Movies.");
 
         if(args == null) {
             return null;

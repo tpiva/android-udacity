@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ */
+
 package com.popmovies.android.popmovies.db;
 
 import android.content.Context;
@@ -5,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by Thiago on 18/05/2017.
+ * Creates database of popMovies.
  */
 
 public class PopMoviesDbHelper extends SQLiteOpenHelper {

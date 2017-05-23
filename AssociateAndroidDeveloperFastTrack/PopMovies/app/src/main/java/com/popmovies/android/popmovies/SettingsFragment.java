@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ */
+
 package com.popmovies.android.popmovies;
 
 import android.content.SharedPreferences;
@@ -8,11 +12,10 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 
 /**
- * Created by Thiago on 08/05/2017.
+ * Fragment to shows for user options of type searches.
  */
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener{
-
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -50,6 +53,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    /**
+     * Help method to set summary of listPreference.
+     * @param preference
+     * @param value
+     */
     private void setPreferenceSummary(Preference preference, String value) {
         if (preference instanceof ListPreference) {
             ListPreference listPreference = (ListPreference) preference;

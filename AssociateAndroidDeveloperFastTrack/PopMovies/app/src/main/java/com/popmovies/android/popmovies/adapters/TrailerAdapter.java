@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ */
+
 package com.popmovies.android.popmovies.adapters;
 
 import android.content.ActivityNotFoundException;
@@ -17,7 +21,7 @@ import com.popmovies.android.popmovies.bo.Trailer;
 import java.util.List;
 
 /**
- * Created by Thiago on 15/05/2017.
+ * Adapter class to bind trailer data with view.
  */
 
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder> {

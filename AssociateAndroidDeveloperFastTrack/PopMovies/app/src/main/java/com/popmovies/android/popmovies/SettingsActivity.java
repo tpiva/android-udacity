@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2017 Thiago Piva Magalhães
+ */
+
 package com.popmovies.android.popmovies;
 
 import android.os.Bundle;
@@ -8,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 /**
- * Created by Thiago on 08/05/2017.
+ * Provides configuration to change type of search.
  */
 
 public class SettingsActivity extends AppCompatActivity {

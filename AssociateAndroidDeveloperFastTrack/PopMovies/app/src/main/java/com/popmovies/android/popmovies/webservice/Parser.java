@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2017 Thiago Piva Magalhães
- * Handler data from webservice and parse it from Json to Movie object.
  */
 
 package com.popmovies.android.popmovies.webservice;
@@ -16,6 +15,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Handler data from webservice and parse it from Json to Movie object.
+ */
 
 class Parser {
 
@@ -107,6 +110,12 @@ class Parser {
         return movies;
     }
 
+    /**
+     * Retrieves information from Json (webservice response) and put on Trailer Object.
+     * @param responseStream
+     * @return
+     * @throws JSONException
+     */
     static ArrayList<Trailer> getVideoFromJson(String responseStream) throws JSONException {
 
         ArrayList<Trailer> trailerItems = new ArrayList<>();
@@ -163,6 +172,12 @@ class Parser {
         return trailerItems;
     }
 
+    /**
+     * Retrieves information from Json (webservice response) and put on Review Object.
+     * @param responseStream
+     * @return
+     * @throws JSONException
+     */
     static ArrayList<Review> getReviewFromJson(String responseStream) throws JSONException {
 
         ArrayList<Review> reviewItems = new ArrayList<>();
@@ -201,5 +216,4 @@ class Parser {
 
         return reviewItems;
     }
-
 }

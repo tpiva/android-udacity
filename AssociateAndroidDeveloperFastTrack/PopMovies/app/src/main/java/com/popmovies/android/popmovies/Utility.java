@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2017 Thiago Piva Magalhães
- * Support class with helper methods about format date and check is connection is available.
  */
 
 package com.popmovies.android.popmovies;
@@ -15,6 +14,10 @@ import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+/**
+ * Support class with helper methods about format date and check is connection is available.
+ */
 
 public class Utility {
 
@@ -59,7 +62,7 @@ public class Utility {
     }
 
     /**
-     * Convert an image as bitmap to byte array.
+     * Convert an image as bitmap to byte array for save on database.
      * @param bitmap
      * @return
      */

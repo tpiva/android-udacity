@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2017 Thiago Piva Magalhães
- * Adapter class for put data and draw UI of RecycleView.
  */
 
 package com.popmovies.android.popmovies.adapters;
@@ -17,6 +16,10 @@ import com.popmovies.android.popmovies.bo.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+/**
+ * Adapter class for put data and draw UI of RecycleView.
+ */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
 
@@ -61,6 +64,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             moviePoster.setOnClickListener(this);
         }
 
+        /**
+         * Bind content (movie) with view.
+         * @param movie
+         */
         public void bind(Movie movie) {
             if(movie.getPosterPath() == null
                     || (movie.getPosterPath() != null && "".equalsIgnoreCase(movie.getPosterPath()))) {
