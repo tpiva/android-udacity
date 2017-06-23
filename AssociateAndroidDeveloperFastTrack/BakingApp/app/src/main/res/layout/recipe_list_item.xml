@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/general_margin_top"
+    android:layout_marginBottom="@dimen/general_margin_bottom"
+    android:layout_marginLeft="@dimen/general_margin"
+    android:layout_marginStart="@dimen/general_margin"
+    android:layout_marginRight="@dimen/general_margin"
+    android:layout_marginEnd="@dimen/general_margin"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    app:cardBackgroundColor="@color/cardview_recipe_color">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/recipe_margin_top"
+        android:layout_marginBottom="@dimen/recipe_margin_bottom">
+
+        <TextView
+            android:id="@+id/recipe_name_label_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recipe_name_label"
+            android:textSize="@dimen/recipe_name_title"
+            android:textColor="@color/cardview_text_color"
+            app:layout_constraintHorizontal_bias="0.40"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/recipe_name_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/recipe_name_space"
+            android:layout_marginStart="@dimen/recipe_name_space"
+            android:text="@string/recipe_name_label"
+            android:textSize="@dimen/recipe_name_title"
+            android:textColor="@color/cardview_text_color"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/recipe_name_label_list_item"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/recipe_name_cook" />
+
+        <TextView
+            android:id="@+id/recipe_servings_label_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/recipe_serving_label"
+            android:textSize="@dimen/recipe_sub_text"
+            android:textColor="@color/cardview_text_color"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/recipe_name_label_list_item"
+            app:layout_constraintRight_toRightOf="@+id/recipe_name_label_list_item"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_name_label_list_item" />
+
+        <TextView
+            android:id="@+id/recipe_servings_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/recipe_sub_text"
+            android:textColor="@color/cardview_text_color"
+            app:layout_constraintLeft_toRightOf="@+id/recipe_servings_label_list_item"
+            app:layout_constraintRight_toRightOf="@+id/recipe_name_label_list_item"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_name_label_list_item"
+            tools:text="@string/recipe_serving" />
+
+        <ImageView
+            android:id="@+id/recipe_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/recipe_margin_top"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@+id/recipe_name_list_item"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

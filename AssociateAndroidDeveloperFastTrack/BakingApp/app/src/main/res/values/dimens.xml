@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="recipe_margin_top">16dp</dimen>
+    <dimen name="recipe_margin_start">16dp</dimen>
+    <dimen name="recipe_name_space">3dp</dimen>
+    <dimen name="recipe_serving_start">8dp</dimen>
+    <dimen name="recipe_sub_margin_top">5dp</dimen>
+    <dimen name="recipe_name_title">24sp</dimen>
+    <dimen name="recipe_sub_text">16sp</dimen>
+    <dimen name="recipe_serving_space">10dp</dimen>
+    <dimen name="general_margin_top">16dp</dimen>
+    <dimen name="general_margin_bottom">16dp</dimen>
+    <dimen name="general_margin">16dp</dimen>
+    <dimen name="recipe_margin_bottom">16dp</dimen>
+</resources>
