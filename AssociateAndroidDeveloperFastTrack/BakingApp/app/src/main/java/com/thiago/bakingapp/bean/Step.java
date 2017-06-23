@@ -3,29 +3,34 @@ package com.thiago.bakingapp.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Steps implements Parcelable {
+public class Step implements Parcelable {
 
     private int id;
     private String shortDescripition;
     private String videoUrl;
     private String thumbnailURL;
+    private String description;
 
-    protected Steps(Parcel in) {
+    public Step() {
+    }
+
+    protected Step(Parcel in) {
         id = in.readInt();
         shortDescripition = in.readString();
+        description = in.readString();
         videoUrl = in.readString();
         thumbnailURL = in.readString();
     }
 
-    public static final Creator<Steps> CREATOR = new Creator<Steps>() {
+    public static final Creator<Step> CREATOR = new Creator<Step>() {
         @Override
-        public Steps createFromParcel(Parcel in) {
-            return new Steps(in);
+        public Step createFromParcel(Parcel in) {
+            return new Step(in);
         }
 
         @Override
-        public Steps[] newArray(int size) {
-            return new Steps[size];
+        public Step[] newArray(int size) {
+            return new Step[size];
         }
     };
 
@@ -61,6 +66,14 @@ public class Steps implements Parcelable {
         this.thumbnailURL = thumbnailURL;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -70,6 +83,7 @@ public class Steps implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
         parcel.writeString(shortDescripition);
+        parcel.writeString(description);
         parcel.writeString(videoUrl);
         parcel.writeString(thumbnailURL);
     }

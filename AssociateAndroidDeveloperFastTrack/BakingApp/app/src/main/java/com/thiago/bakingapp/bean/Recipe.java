@@ -8,14 +8,20 @@ import java.util.List;
 public class Recipe implements Parcelable{
     private int id;
     private String name;
-    private List<Ingredients> ingredients;
+    private List<Ingredient> ingredients;
+    private List<Step> steps;
     private int serving;
     private String image;
+
+    public Recipe() {
+
+    }
 
     protected Recipe(Parcel in) {
         id = in.readInt();
         name = in.readString();
-        ingredients = in.createTypedArrayList(Ingredients.CREATOR);
+        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        steps = in.createTypedArrayList(Step.CREATOR);
         serving = in.readInt();
         image = in.readString();
     }
@@ -64,12 +70,20 @@ public class Recipe implements Parcelable{
         this.image = image;
     }
 
-    public List<Ingredients> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredients> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
     }
 
     @Override
@@ -82,6 +96,7 @@ public class Recipe implements Parcelable{
         parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeTypedList(ingredients);
+        parcel.writeTypedList(steps);
         parcel.writeInt(serving);
         parcel.writeString(image);
     }
