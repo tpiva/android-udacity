@@ -21,7 +21,7 @@ public class BakingRecipeDetailsActivity extends AppCompatActivity {
             Recipe recipe = intent.getParcelableExtra("recipe_selected");
             BakingRecipeDetailsFragment fragment =
                     (BakingRecipeDetailsFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_details_master);
-            fragment.setRecipe(recipe);
+            fragment.updateContent(recipe);
         } else {
             // TODO shows error.
         }
