@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.bean.Recipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +39,7 @@ public class BakingRecipeAdapter extends RecyclerView.Adapter<BakingRecipeAdapte
         return recipes.size();
     }
 
-    public class RecipeViewHolder extends RecyclerView.ViewHolder {
+    class RecipeViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.recipe_name_list_item)
         TextView mTextVIewName;
@@ -49,14 +48,14 @@ public class BakingRecipeAdapter extends RecyclerView.Adapter<BakingRecipeAdapte
         @BindView(R.id.recipe_image)
         ImageView mImageViewRecipe;
 
-        public RecipeViewHolder(View itemView) {
+        RecipeViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(itemView);
+            ButterKnife.bind(this,itemView);
         }
 
         public void bind(Recipe recipe) {
             mTextVIewName.setText(recipe.getName());
-            mTextViewServing.setText(recipe.getServing());
+            mTextViewServing.setText(String.valueOf(recipe.getServing()));
             if (recipe.getImage() != null
                     && !"".equals(recipe.getImage())) {
                 // TODO some lib as picasso

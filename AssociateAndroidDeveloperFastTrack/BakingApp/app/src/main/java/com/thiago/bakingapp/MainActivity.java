@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final int BAKING_RECIPE_LOADER_ID = 120;
     @BindView(R.id.recipe_list)
-    private RecyclerView mRecycleViewRecipes;
+    RecyclerView mRecycleViewRecipes;
 
     private ProgressDialog mProgressDialog;
     private BakingRecipeAdapter mAdpater;
