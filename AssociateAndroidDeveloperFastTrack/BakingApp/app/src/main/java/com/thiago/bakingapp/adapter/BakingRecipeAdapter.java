@@ -56,6 +56,7 @@ public class BakingRecipeAdapter extends RecyclerView.Adapter<BakingRecipeAdapte
         RecipeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Recipe recipe) {

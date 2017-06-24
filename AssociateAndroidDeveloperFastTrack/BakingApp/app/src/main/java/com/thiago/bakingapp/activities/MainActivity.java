@@ -14,7 +14,6 @@ import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.adapter.BakingRecipeAdapter;
 import com.thiago.bakingapp.bean.Recipe;
 import com.thiago.bakingapp.data.FetchRecipes;
-import com.thiago.bakingapp.fragments.BakingRecipeDetailsFragment;
 
 import java.util.List;
 
@@ -96,12 +95,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemClicked(Recipe recipe) {
         if (recipe != null) {
-            Bundle args = new Bundle();
-            args.putParcelable("recipe_selected", recipe);
-            BakingRecipeDetailsFragment fragment = new BakingRecipeDetailsFragment();
-            fragment.setArguments(args);
             // send to activity
             Intent intent = new Intent(this, BakingRecipeDetailsActivity.class);
+            intent.putExtra("recipe_selected", recipe);
             startActivity(intent);
         }
     }
