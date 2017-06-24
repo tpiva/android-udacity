@@ -1,6 +1,7 @@
-package com.thiago.bakingapp;
+package com.thiago.bakingapp.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -9,18 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.adapter.BakingRecipeAdapter;
 import com.thiago.bakingapp.bean.Recipe;
 import com.thiago.bakingapp.data.FetchRecipes;
+import com.thiago.bakingapp.fragments.BakingRecipeDetailsFragment;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Recipe>>{
-
-    //TODO read again rules of implementation
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<List<Recipe>>, BakingRecipeAdapter.RecipeClickListener{
 
     private static final int BAKING_RECIPE_LOADER_ID = 120;
     @BindView(R.id.recipe_list)
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mAdpater = new BakingRecipeAdapter();
+        mAdpater = new BakingRecipeAdapter(this);
         mRecycleViewRecipes.setLayoutManager(mLinearLayoutManager);
         mRecycleViewRecipes.setAdapter(mAdpater);
 
@@ -89,5 +91,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<List<Recipe>> loader) {
 
+    }
+
+    @Override
+    public void onItemClicked(Recipe recipe) {
+        if (recipe != null) {
+            Bundle args = new Bundle();
+            args.putParcelable("recipe_selected", recipe);
+            BakingRecipeDetailsFragment fragment = new BakingRecipeDetailsFragment();
+            fragment.setArguments(args);
+            // send to activity
+            Intent intent = new Intent(this, BakingRecipeDetailsActivity.class);
+            startActivity(intent);
+        }
     }
 }

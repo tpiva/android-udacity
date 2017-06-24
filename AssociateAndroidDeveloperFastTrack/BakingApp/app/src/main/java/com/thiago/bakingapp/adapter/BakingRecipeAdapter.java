@@ -15,9 +15,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BakingRecipeAdapter extends RecyclerView.Adapter<BakingRecipeAdapter.RecipeViewHolder>{
+public class BakingRecipeAdapter extends RecyclerView.Adapter<BakingRecipeAdapter.RecipeViewHolder> {
 
-    private List<Recipe> recipes;
+    private List<Recipe> mRecipes;
+    private RecipeClickListener mCallback;
+
+    public BakingRecipeAdapter(RecipeClickListener recipeClickListener) {
+        this.mCallback = recipeClickListener;
+    }
 
     @Override
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -27,19 +32,19 @@ public class BakingRecipeAdapter extends RecyclerView.Adapter<BakingRecipeAdapte
 
     @Override
     public void onBindViewHolder(RecipeViewHolder holder, int position) {
-        holder.bind(recipes.get(position));
+        holder.bind(mRecipes.get(position));
     }
 
     @Override
     public int getItemCount() {
-        if (recipes == null) {
+        if (mRecipes == null) {
             return 0;
         }
 
-        return recipes.size();
+        return mRecipes.size();
     }
 
-    class RecipeViewHolder extends RecyclerView.ViewHolder {
+    class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.recipe_name_list_item)
         TextView mTextVIewName;
@@ -62,15 +67,27 @@ public class BakingRecipeAdapter extends RecyclerView.Adapter<BakingRecipeAdapte
                 mImageViewRecipe.setImageResource(0);
             }
         }
+
+        @Override
+        public void onClick(View view) {
+            mCallback.onItemClicked(mRecipes.get(getAdapterPosition()));
+        }
     }
 
     /**
-     * Sets recipes to show for user.
-     * @param recipes
+     * Sets mRecipes to show for user.
+     * @param mRecipes
      */
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
+    public void setRecipes(List<Recipe> mRecipes) {
+        this.mRecipes = mRecipes;
         notifyDataSetChanged();
+    }
+
+    /**
+     * Interface for callback of an item clicked.
+     */
+    public interface RecipeClickListener {
+        void onItemClicked(Recipe recipe);
     }
 
 }
