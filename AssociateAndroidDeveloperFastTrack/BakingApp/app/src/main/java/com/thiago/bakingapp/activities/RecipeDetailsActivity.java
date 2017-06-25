@@ -3,6 +3,7 @@ package com.thiago.bakingapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -20,6 +21,8 @@ import static com.thiago.bakingapp.utils.Constants.EXTRA_LIST_STEPS;
 public class RecipeDetailsActivity extends AppCompatActivity
         implements BakingRecipeDetailsFragment.OnStepSelected {
 
+    private static final String CURRENT_RECIPE = "current_recipe";
+
     private Recipe mRecipe;
 
     @Override
@@ -27,15 +30,31 @@ public class RecipeDetailsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
-        Intent intent = getIntent();
-        if (intent.hasExtra(EXTRA_RECIPE_SELECTED)) {
-            mRecipe = intent.getParcelableExtra(EXTRA_RECIPE_SELECTED);
-            BakingRecipeDetailsFragment fragment =
-                    (BakingRecipeDetailsFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_details_master);
-            fragment.updateContent(mRecipe);
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            if (intent.hasExtra(EXTRA_RECIPE_SELECTED)) {
+                mRecipe = intent.getParcelableExtra(EXTRA_RECIPE_SELECTED);
+            } else {
+                // TODO shows error.
+            }
         } else {
-            // TODO shows error.
+            mRecipe = savedInstanceState.getParcelable(CURRENT_RECIPE);
         }
+        BakingRecipeDetailsFragment fragment =
+                (BakingRecipeDetailsFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_details_master);
+        fragment.updateContent(mRecipe);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mRecipe = savedInstanceState.getParcelable(CURRENT_RECIPE);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(CURRENT_RECIPE, mRecipe);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
