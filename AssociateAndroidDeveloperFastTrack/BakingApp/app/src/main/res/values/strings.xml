@@ -6,4 +6,6 @@
     <string name="recipe_serving_label">Serving:</string>
     <string name="loading">Loading...</string>
     <string name="recipe_details_step_prefix">Step</string>
+    <string name="ingredients_title">Ingredients</string>
+    <string name="steps_title">Steps</string>
 </resources>
