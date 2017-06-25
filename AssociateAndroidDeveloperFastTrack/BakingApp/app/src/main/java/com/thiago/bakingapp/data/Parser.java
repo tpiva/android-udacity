@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonParser {
+public class Parser {
 
     public static List<Recipe> parserJsonToRecipes(String responseStream) throws JSONException {
         List<Recipe> recipes = new ArrayList<>();

@@ -15,12 +15,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BakingRecipeAdapter extends RecyclerView.Adapter<BakingRecipeAdapter.RecipeViewHolder> {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private List<Recipe> mRecipes;
     private RecipeClickListener mCallback;
 
-    public BakingRecipeAdapter(RecipeClickListener recipeClickListener) {
+    public RecipeAdapter(RecipeClickListener recipeClickListener) {
         this.mCallback = recipeClickListener;
     }
 

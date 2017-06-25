@@ -11,7 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.thiago.bakingapp.R;
-import com.thiago.bakingapp.adapter.BakingRecipeAdapter;
+import com.thiago.bakingapp.adapter.RecipeAdapter;
 import com.thiago.bakingapp.bean.Recipe;
 import com.thiago.bakingapp.data.FetchRecipes;
 
@@ -21,14 +21,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<Recipe>>, BakingRecipeAdapter.RecipeClickListener{
+        implements LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeAdapter.RecipeClickListener{
 
     private static final int BAKING_RECIPE_LOADER_ID = 120;
     @BindView(R.id.recipe_list)
     RecyclerView mRecycleViewRecipes;
 
     private ProgressDialog mProgressDialog;
-    private BakingRecipeAdapter mAdpater;
+    private RecipeAdapter mAdpater;
     private LinearLayoutManager mLinearLayoutManager;
 
     @Override
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mAdpater = new BakingRecipeAdapter(this);
+        mAdpater = new RecipeAdapter(this);
         mRecycleViewRecipes.setLayoutManager(mLinearLayoutManager);
         mRecycleViewRecipes.setAdapter(mAdpater);
 
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity
     public void onItemClicked(Recipe recipe) {
         if (recipe != null) {
             // send to activity
-            Intent intent = new Intent(this, BakingRecipeDetailsActivity.class);
+            Intent intent = new Intent(this, RecipeDetailsActivity.class);
             intent.putExtra("recipe_selected", recipe);
             startActivity(intent);
         }

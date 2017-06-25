@@ -26,7 +26,7 @@ public class FetchRecipes {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(builder.toString()).build();
             Response response = client.newCall(request).execute();
-            return JsonParser.parserJsonToRecipes(response.body().string());
+            return Parser.parserJsonToRecipes(response.body().string());
         } catch (IOException e) {
             Log.e(TAG, "IOException", e);
         } catch (JSONException e) {

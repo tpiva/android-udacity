@@ -11,13 +11,13 @@ import com.thiago.bakingapp.bean.Recipe;
 import com.thiago.bakingapp.bean.Step;
 import com.thiago.bakingapp.fragments.BakingRecipeDetailsFragment;
 
-public class BakingRecipeDetailsActivity extends AppCompatActivity
+public class RecipeDetailsActivity extends AppCompatActivity
         implements BakingRecipeDetailsFragment.OnStepSelected {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_baking_recipe_details);
+        setContentView(R.layout.activity_recipe_details);
 
         Intent intent = getIntent();
         if (intent.hasExtra("recipe_selected")) {

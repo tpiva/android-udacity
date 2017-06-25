@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.BakingRecipeDetailsActivity"
+            android:name=".activities.RecipeDetailsActivity"
             android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
