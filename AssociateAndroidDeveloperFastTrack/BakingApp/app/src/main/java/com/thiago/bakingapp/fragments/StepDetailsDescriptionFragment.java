@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -17,6 +18,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -69,24 +71,17 @@ public class StepDetailsDescriptionFragment extends Fragment {
      */
     private void setPlayer() {
         if (mExoPlayer == null) {
-            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-            DataSource.Factory mediaDataSourceFactory =
-                    new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), "bakingApp"),
-                            (TransferListener<? super DataSource>) bandwidthMeter);
-
-            TrackSelection.Factory videoTrackSelectionFactory =
-                    new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
-            DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, new DefaultLoadControl(),
-                    null);
+            TrackSelector trackSelector = new DefaultTrackSelector();
+            LoadControl loadControl = new DefaultLoadControl();
+            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
             mExoPlayerView.setPlayer(mExoPlayer);
-            mExoPlayer.setPlayWhenReady(true);
-
-            DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-            MediaSource mediaSource = new ExtractorMediaSource(
-                    Uri.parse(mCurrentStep.getVideoUrl()),
-                    mediaDataSourceFactory, extractorsFactory, null, null);
+            // Prepare the MediaSource.
+            String userAgent = Util.getUserAgent(getContext(), "BakingApp");
+            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mCurrentStep.getVideoUrl()),
+                    new DefaultDataSourceFactory(
+                    getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
+            mExoPlayer.setPlayWhenReady(true);
         }
     }
 
