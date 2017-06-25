@@ -1,5 +1,6 @@
 package com.thiago.bakingapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,11 +16,13 @@ import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.adapter.RecipeDetailsStepAdapter;
 import com.thiago.bakingapp.bean.Ingredient;
 import com.thiago.bakingapp.bean.Recipe;
+import com.thiago.bakingapp.bean.Step;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BakingRecipeDetailsFragment extends Fragment {
+public class BakingRecipeDetailsFragment extends Fragment
+        implements RecipeDetailsStepAdapter.RecipeStepDetailListener{
 
     private Recipe mRecipe;
 
@@ -29,6 +32,9 @@ public class BakingRecipeDetailsFragment extends Fragment {
     RecyclerView mRecipeDetailsSteps;
 
     private RecipeDetailsStepAdapter mAdapter;
+    private OnStepSelected mCallback;
+
+
 
     @Nullable
     @Override
@@ -38,7 +44,7 @@ public class BakingRecipeDetailsFragment extends Fragment {
         ButterKnife.bind(this,view);
 
         // initialize recycle view stuffs
-        mAdapter = new RecipeDetailsStepAdapter();
+        mAdapter = new RecipeDetailsStepAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -46,6 +52,17 @@ public class BakingRecipeDetailsFragment extends Fragment {
         mRecipeDetailsSteps.setAdapter(mAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnStepSelected) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString());
+        }
     }
 
     /**
@@ -89,4 +106,17 @@ public class BakingRecipeDetailsFragment extends Fragment {
         mAdapter.setSteps(mRecipe.getSteps());
     }
 
+    @Override
+    public void onItemClicked(Step step) {
+        mCallback.onStepClicked(step);
+    }
+
+    /**
+     * Interface to communicate with master fragment.
+     */
+    public interface OnStepSelected {
+        void onStepClicked(Step step);
+
+        void onNextStepClicked(int id);
+    }
 }

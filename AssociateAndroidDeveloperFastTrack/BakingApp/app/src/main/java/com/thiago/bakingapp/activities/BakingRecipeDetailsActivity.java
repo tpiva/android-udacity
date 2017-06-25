@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.bean.Recipe;
+import com.thiago.bakingapp.bean.Step;
 import com.thiago.bakingapp.fragments.BakingRecipeDetailsFragment;
 
-public class BakingRecipeDetailsActivity extends AppCompatActivity {
+public class BakingRecipeDetailsActivity extends AppCompatActivity
+        implements BakingRecipeDetailsFragment.OnStepSelected {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +38,15 @@ public class BakingRecipeDetailsActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onNextStepClicked(int id) {
+
+    }
+
+    @Override
+    public void onStepClicked(Step step) {
+        Toast.makeText(getApplicationContext(), step.getDescription(), Toast.LENGTH_LONG).show();
     }
 }
