@@ -16,9 +16,11 @@ import java.util.List;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_STEP_SELECTED;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_LIST_STEPS;
 
-public class RecipeStepsDetailsActivity extends AppCompatActivity {
+public class RecipeStepsDetailsActivity extends AppCompatActivity
+        implements StepDetailsNavigateFragment.OnChangeStepListener{
 
     private List<Step> mSteps;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +37,15 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity {
 
             StepDetailsDescriptionFragment descriptionFragment = new StepDetailsDescriptionFragment();
             descriptionFragment.setStep(step);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
+            mFragmentManager = getSupportFragmentManager();
+            mFragmentManager.beginTransaction()
                     .add(R.id.recipe_step_details_description, descriptionFragment)
                     .commit();
 
             StepDetailsNavigateFragment navigateFragment = new StepDetailsNavigateFragment();
-            fragmentManager.beginTransaction()
+            navigateFragment.setCurrentPosition(step.getId());
+            navigateFragment.setMaxSize(mSteps.size());
+            mFragmentManager.beginTransaction()
                     .add(R.id.recipe_step_details_next, navigateFragment)
                     .commit();
         }
@@ -56,4 +60,13 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void newPosition(int position) {
+        StepDetailsDescriptionFragment descriptionFragment = new StepDetailsDescriptionFragment();
+        descriptionFragment.setStep(mSteps.get(position));
+
+        mFragmentManager.beginTransaction()
+                .replace(R.id.recipe_step_details_description, descriptionFragment)
+                .commit();
+    }
 }

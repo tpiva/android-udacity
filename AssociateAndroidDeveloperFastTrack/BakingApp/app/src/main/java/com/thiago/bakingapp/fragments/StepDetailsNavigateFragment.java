@@ -22,6 +22,7 @@ public class StepDetailsNavigateFragment extends Fragment {
 
     private OnChangeStepListener mCallback;
     private int mCurrentPosition;
+    private int mMaxSize;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,14 +32,26 @@ public class StepDetailsNavigateFragment extends Fragment {
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (mCurrentPosition < mMaxSize-1) {
+                    mCurrentPosition++;
+                } else {
+                    // restart
+                    mCurrentPosition = 0;
+                }
+                mCallback.newPosition(mCurrentPosition);
             }
         });
 
         mBtnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (mCurrentPosition > 0) {
+                    mCurrentPosition--;
+                } else {
+                    // go back to end, cycle
+                    mCurrentPosition = (mMaxSize - 1);
+                }
+                mCallback.newPosition(mCurrentPosition);
             }
         });
 
@@ -52,7 +65,7 @@ public class StepDetailsNavigateFragment extends Fragment {
         try {
             mCallback = (OnChangeStepListener) context;
         } catch (ClassCastException e) {
-
+            // TODO throws exception
         }
     }
 
@@ -60,12 +73,14 @@ public class StepDetailsNavigateFragment extends Fragment {
         this.mCurrentPosition = position;
     }
 
+    public void setMaxSize(int maxSize) {
+        this.mMaxSize = maxSize;
+    }
+
     /**
-     *
+     * Listener for change step.
      */
     public interface OnChangeStepListener {
-        void nextStepSelected(int nextPostion);
-
-        void previousStepSelected(int previousPosition);
+        void newPosition(int position);
     }
 }
