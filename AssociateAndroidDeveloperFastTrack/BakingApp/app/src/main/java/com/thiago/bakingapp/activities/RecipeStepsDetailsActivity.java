@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.bean.Step;
 import com.thiago.bakingapp.fragments.StepDetailsDescriptionFragment;
+import com.thiago.bakingapp.fragments.StepDetailsNavigateFragment;
 
 import java.util.List;
 
@@ -37,6 +38,11 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.recipe_step_details_description, descriptionFragment)
+                    .commit();
+
+            StepDetailsNavigateFragment navigateFragment = new StepDetailsNavigateFragment();
+            fragmentManager.beginTransaction()
+                    .add(R.id.recipe_step_details_next, navigateFragment)
                     .commit();
         }
     }
