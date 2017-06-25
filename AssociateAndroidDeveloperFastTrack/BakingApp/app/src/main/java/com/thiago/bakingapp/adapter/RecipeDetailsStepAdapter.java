@@ -29,7 +29,9 @@ public class RecipeDetailsStepAdapter extends RecyclerView.Adapter<RecipeDetails
 
     @Override
     public void onBindViewHolder(RecipeStepViewHolder holder, int position) {
-        holder.bind(mSteps.get(position));
+        if (position != 0) {
+            holder.bind(mSteps.get(position));
+        }
     }
 
     @Override
@@ -43,8 +45,6 @@ public class RecipeDetailsStepAdapter extends RecyclerView.Adapter<RecipeDetails
 
     class RecipeStepViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.step_id)
-        TextView mTextViewStepId;
         @BindView(R.id.step_description)
         TextView mTextViewDescription;
         @BindString(R.string.recipe_details_step_prefix)
@@ -58,8 +58,7 @@ public class RecipeDetailsStepAdapter extends RecyclerView.Adapter<RecipeDetails
         }
 
         public void bind(Step step) {
-            mTextViewStepId.setText(mPrefixStep + " " + step.getId());
-            mTextViewDescription.setText(step.getDescription());
+            mTextViewDescription.setText(mPrefixStep + " " + step.getId() + ": " + step.getShortDescripition());
         }
     }
 
