@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.bean.Recipe;
 import com.thiago.bakingapp.bean.Step;
 import com.thiago.bakingapp.fragments.BakingRecipeDetailsFragment;
+
+import static com.thiago.bakingapp.utils.Constants.EXTRA_STEP_SELECTED;
+import static com.thiago.bakingapp.utils.Constants.EXTRA_RECIPE_SELECTED;
 
 public class RecipeDetailsActivity extends AppCompatActivity
         implements BakingRecipeDetailsFragment.OnStepSelected {
@@ -20,8 +22,8 @@ public class RecipeDetailsActivity extends AppCompatActivity
         setContentView(R.layout.activity_recipe_details);
 
         Intent intent = getIntent();
-        if (intent.hasExtra("recipe_selected")) {
-            Recipe recipe = intent.getParcelableExtra("recipe_selected");
+        if (intent.hasExtra(EXTRA_RECIPE_SELECTED)) {
+            Recipe recipe = intent.getParcelableExtra(EXTRA_RECIPE_SELECTED);
             BakingRecipeDetailsFragment fragment =
                     (BakingRecipeDetailsFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_details_master);
             fragment.updateContent(recipe);
@@ -47,6 +49,8 @@ public class RecipeDetailsActivity extends AppCompatActivity
 
     @Override
     public void onStepClicked(Step step) {
-        Toast.makeText(getApplicationContext(), step.getDescription(), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, RecipeStepsDetailsActivity.class);
+        intent.putExtra(EXTRA_STEP_SELECTED, step);
+        startActivity(intent);
     }
 }

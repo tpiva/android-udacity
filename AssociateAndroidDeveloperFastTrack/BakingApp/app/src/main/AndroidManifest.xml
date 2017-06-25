@@ -14,6 +14,7 @@
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -22,7 +23,14 @@
             android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
+                android:value=".activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.RecipeStepsDetailsActivity"
+            android:parentActivityName=".activities.RecipeDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.RecipeDetailsActivity" />
         </activity>
     </application>
 

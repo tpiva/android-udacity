@@ -20,6 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.thiago.bakingapp.utils.Constants.EXTRA_RECIPE_SELECTED;
+
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeAdapter.RecipeClickListener{
 
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         if (recipe != null) {
             // send to activity
             Intent intent = new Intent(this, RecipeDetailsActivity.class);
-            intent.putExtra("recipe_selected", recipe);
+            intent.putExtra(EXTRA_RECIPE_SELECTED, recipe);
             startActivity(intent);
         }
     }
