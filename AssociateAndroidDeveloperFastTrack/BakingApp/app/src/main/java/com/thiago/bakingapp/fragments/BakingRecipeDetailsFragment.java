@@ -116,7 +116,5 @@ public class BakingRecipeDetailsFragment extends Fragment
      */
     public interface OnStepSelected {
         void onStepClicked(Step step);
-
-        void onNextStepClicked(int id);
     }
 }

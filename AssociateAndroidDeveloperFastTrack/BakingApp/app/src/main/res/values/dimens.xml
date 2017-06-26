@@ -22,4 +22,5 @@
     <dimen name="recipe_details_margin_start_end">4dp</dimen>
     <dimen name="divider_margin">2dp</dimen>
     <dimen name="step_details_margin_fragments">6dp</dimen>
+    <dimen name="step_video_size">300dp</dimen>
 </resources>
