@@ -7,6 +7,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -17,10 +18,12 @@ import com.thiago.bakingapp.data.FetchRecipes;
 
 import java.util.List;
 
+import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.thiago.bakingapp.utils.Constants.EXTRA_RECIPE_SELECTED;
+import static com.thiago.bakingapp.utils.Constants.COLUMNS_TABLET;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeAdapter.RecipeClickListener{
@@ -28,10 +31,13 @@ public class MainActivity extends AppCompatActivity
     private static final int BAKING_RECIPE_LOADER_ID = 120;
     @BindView(R.id.recipe_list)
     RecyclerView mRecycleViewRecipes;
+    @BindBool(R.bool.tablet)
+    boolean mIsTablet;
 
     private ProgressDialog mProgressDialog;
     private RecipeAdapter mAdpater;
     private LinearLayoutManager mLinearLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +45,15 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        if (mIsTablet) {
+            mGridLayoutManager = new GridLayoutManager(this, COLUMNS_TABLET);
+        } else {
+            mLinearLayoutManager = new LinearLayoutManager(this);
+            mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        }
 
         mAdpater = new RecipeAdapter(this);
-        mRecycleViewRecipes.setLayoutManager(mLinearLayoutManager);
+        mRecycleViewRecipes.setLayoutManager(mIsTablet ? mGridLayoutManager : mLinearLayoutManager);
         mRecycleViewRecipes.setAdapter(mAdpater);
 
         getSupportLoaderManager().initLoader(BAKING_RECIPE_LOADER_ID, null, this);
