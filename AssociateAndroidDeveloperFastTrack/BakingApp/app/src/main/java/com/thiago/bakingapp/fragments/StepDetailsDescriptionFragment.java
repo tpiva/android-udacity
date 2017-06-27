@@ -1,5 +1,6 @@
 package com.thiago.bakingapp.fragments;
 
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -51,12 +52,20 @@ public class StepDetailsDescriptionFragment extends Fragment {
                     && !"".equals(mCurrentStep.getVideoUrl())) {
                 setPlayer();
             } else {
-                // TODO make for image
                 releasePlayer();
-                mExoPlayerView.setVisibility(View.GONE);
+                String image = mCurrentStep.getThumbnailURL();
+                if (image != null && !"".equals(image)) {
+                    if (!image.endsWith("mp4")) {
+                        // TODO load from picasso
+                    } else {
+                        mExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
+                                (getResources(), R.drawable.default_food_step));
+                    }
+                } else {
+                    mExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
+                            (getResources(), R.drawable.folder_food));
+                }
             }
-        } else {
-            // TODO set some default image on exoPlayer
         }
     }
 
@@ -97,6 +106,12 @@ public class StepDetailsDescriptionFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        releasePlayer();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
         releasePlayer();
     }
 
