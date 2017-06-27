@@ -29,13 +29,15 @@ public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeAdapter.RecipeClickListener{
 
     private static final int BAKING_RECIPE_LOADER_ID = 120;
+    private static final String BAKING_RECIPE_RV_STATE = "recipe_state_rv";
+
     @BindView(R.id.recipe_list)
     RecyclerView mRecycleViewRecipes;
     @BindBool(R.bool.tablet)
     boolean mIsTablet;
 
     private ProgressDialog mProgressDialog;
-    private RecipeAdapter mAdpater;
+    private RecipeAdapter mAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private GridLayoutManager mGridLayoutManager;
 
@@ -45,18 +47,30 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        if (mIsTablet) {
-            mGridLayoutManager = new GridLayoutManager(this, COLUMNS_TABLET);
+        if (savedInstanceState != null) {
+            if (mIsTablet) {
+                mGridLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
+            } else {
+                mLinearLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
+            }
         } else {
-            mLinearLayoutManager = new LinearLayoutManager(this);
-            mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            if (mIsTablet) {
+                mGridLayoutManager = new GridLayoutManager(this, COLUMNS_TABLET);
+            } else {
+                mLinearLayoutManager = new LinearLayoutManager(this);
+                mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            }
         }
 
-        mAdpater = new RecipeAdapter(this);
+        mAdapter = new RecipeAdapter(this);
         mRecycleViewRecipes.setLayoutManager(mIsTablet ? mGridLayoutManager : mLinearLayoutManager);
-        mRecycleViewRecipes.setAdapter(mAdpater);
+        mRecycleViewRecipes.setAdapter(mAdapter);
 
-        getSupportLoaderManager().initLoader(BAKING_RECIPE_LOADER_ID, null, this);
+        if (savedInstanceState == null) {
+            getSupportLoaderManager().initLoader(BAKING_RECIPE_LOADER_ID, null, this);
+        } else {
+            getSupportLoaderManager().restartLoader(BAKING_RECIPE_LOADER_ID, null, this);
+        }
     }
 
     private void showProgress() {
@@ -95,7 +109,7 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<List<Recipe>> loader, List<Recipe> data) {
         if (data != null) {
             hideProgress();
-            mAdpater.setRecipes(data);
+            mAdapter.setRecipes(data);
         }
     }
 
@@ -111,6 +125,24 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, RecipeDetailsActivity.class);
             intent.putExtra(EXTRA_RECIPE_SELECTED, recipe);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(BAKING_RECIPE_RV_STATE,
+                mIsTablet ? mGridLayoutManager.onSaveInstanceState() :
+                        mLinearLayoutManager.onSaveInstanceState());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (mIsTablet) {
+            mGridLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
+        } else {
+            mLinearLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
         }
     }
 }
