@@ -57,9 +57,15 @@ public class RecipeDetailsStepAdapter extends RecyclerView.Adapter<RecipeDetails
         }
 
         public void bind(Step step) {
-            mTextViewDescription.setText("" + (step.getId() + 1) + ": " + step.getShortDescripition());
+            if (step.getId() == 0) {
+                mTextViewDescription.setText(step.getShortDescripition());
+            } else {
+                mTextViewDescription.setText("" + step.getId() + ": " + step.getShortDescripition());
+            }
+
         }
 
+        // TODO replace by ButterKnife
         @Override
         public void onClick(View view) {
             mCallback.onItemClicked(mSteps.get(getAdapterPosition()));
