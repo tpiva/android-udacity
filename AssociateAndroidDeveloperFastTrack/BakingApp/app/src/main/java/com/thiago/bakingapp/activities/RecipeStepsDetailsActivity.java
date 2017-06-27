@@ -1,12 +1,12 @@
 package com.thiago.bakingapp.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.bean.Step;
@@ -17,8 +17,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.thiago.bakingapp.utils.Constants.EXTRA_STEP_SELECTED;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_LIST_STEPS;
+import static com.thiago.bakingapp.utils.Constants.EXTRA_STEP_SELECTED;
 
 public class RecipeStepsDetailsActivity extends AppCompatActivity {
 
@@ -27,9 +27,9 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
 
     @BindView(R.id.step_navigation_previous)
-    Button mBtnPrevious;
+    ImageButton mBtnPrevious;
     @BindView(R.id.step_navigation_next)
-    Button mBtnNext;
+    ImageButton mBtnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
