@@ -8,5 +8,5 @@ public class Constants {
 
     public static final String EXTRA_LIST_STEPS = "list_steps";
 
-    public static final int COLUMNS_TABLET = 4;
+    public static final int COLUMNS_TABLET = 2;
 }
