@@ -17,10 +17,12 @@
     <dimen name="recipe_border_radius">5dp</dimen>
     <dimen name="recipe_details_mark_height">40dp</dimen>
     <dimen name="step_description_margin_top">8dp</dimen>
-    <dimen name="recipe_details_margin_top">6dp</dimen>
+    <dimen name="recipe_details_margin_top">10dp</dimen>
     <dimen name="recipe_details_margin_bottom">6dp</dimen>
     <dimen name="recipe_details_margin_start_end">4dp</dimen>
     <dimen name="divider_margin">2dp</dimen>
     <dimen name="step_details_margin_fragments">6dp</dimen>
     <dimen name="step_video_size">300dp</dimen>
+    <dimen name="recipe_steps_margin">10dp</dimen>
+    <dimen name="recipe_ingredients_margin">8dp</dimen>
 </resources>

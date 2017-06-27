@@ -13,6 +13,8 @@
         android:layout_marginLeft="@dimen/recipe_details_ingredient_mark_end"
         android:layout_marginRight="@dimen/recipe_details_ingredient_mark_end"
         android:layout_marginStart="@dimen/recipe_details_ingredient_mark_end"
+        android:layout_marginBottom="@dimen/recipe_steps_margin"
+        android:layout_marginTop="@dimen/recipe_steps_margin"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@color/colorSecondaryText"
         android:gravity="start"
