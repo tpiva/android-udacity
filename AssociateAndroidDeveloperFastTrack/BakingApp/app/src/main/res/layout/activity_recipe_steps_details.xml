@@ -8,23 +8,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginEnd="@dimen/general_margin"
         android:layout_marginLeft="@dimen/general_margin"
         android:layout_marginRight="@dimen/general_margin"
-        android:layout_marginStart="@dimen/general_margin" >
+        android:layout_marginStart="@dimen/general_margin"
+        android:orientation="vertical">
 
         <FrameLayout
             android:id="@+id/recipe_step_details_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/step_details_margin_fragments"/>
+            android:layout_height="450dp"
+            android:layout_marginBottom="@dimen/step_details_margin_fragments" />
 
-        <FrameLayout
-            android:id="@+id/recipe_step_details_next"
-            android:layout_gravity="bottom"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="50dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/step_navigation_previous"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/previous_step" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <Button
+                android:id="@+id/step_navigation_next"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/next_step" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
