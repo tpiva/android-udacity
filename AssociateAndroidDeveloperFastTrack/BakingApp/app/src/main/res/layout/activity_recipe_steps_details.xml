@@ -31,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
+                android:background="@drawable/selector_clicked_effect_next_previous"
                 android:src="@drawable/ic_navigate_before_black_36dp"/>
 
             <View
@@ -44,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
+                android:background="@drawable/selector_clicked_effect_next_previous"
                 android:src="@drawable/ic_navigate_next_black_36dp"/>
         </LinearLayout>
     </LinearLayout>
