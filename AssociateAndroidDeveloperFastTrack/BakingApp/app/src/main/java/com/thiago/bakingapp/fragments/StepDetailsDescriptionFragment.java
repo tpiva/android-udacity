@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -33,6 +34,8 @@ public class StepDetailsDescriptionFragment extends Fragment {
     SimpleExoPlayerView mExoPlayerView;
     @BindView(R.id.step_description)
     TextView mTextViewDescription;
+    @BindView(R.id.step_image)
+    ImageView mImageView;
 
     private SimpleExoPlayer mExoPlayer;
     private Step mCurrentStep;
@@ -50,20 +53,20 @@ public class StepDetailsDescriptionFragment extends Fragment {
             setDescription();
             if (mCurrentStep.getVideoUrl() != null
                     && !"".equals(mCurrentStep.getVideoUrl())) {
+                mExoPlayerView.setVisibility(View.VISIBLE);
+                mImageView.setVisibility(View.GONE);
                 setPlayer();
             } else {
                 releasePlayer();
                 String image = mCurrentStep.getThumbnailURL();
                 if (image != null && !"".equals(image)) {
+                    mExoPlayerView.setVisibility(View.GONE);
+                    mImageView.setVisibility(View.VISIBLE);
+
                     if (!image.endsWith("mp4")) {
                         // TODO load from picasso
-                    } else {
-                        mExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
-                                (getResources(), R.drawable.default_food_step));
                     }
-                } else {
-                    mExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
-                            (getResources(), R.drawable.folder_food));
+
                 }
             }
         }
