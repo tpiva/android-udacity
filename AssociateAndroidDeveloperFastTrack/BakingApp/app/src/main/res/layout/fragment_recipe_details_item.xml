@@ -7,6 +7,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/general_margin"
+        android:layout_marginLeft="@dimen/general_margin"
+        android:layout_marginRight="@dimen/general_margin"
+        android:layout_marginStart="@dimen/general_margin"
         android:layout_weight="1">
 
         <LinearLayout
@@ -46,6 +50,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/general_margin"
+        android:layout_marginLeft="@dimen/general_margin"
+        android:layout_marginRight="@dimen/general_margin"
+        android:layout_marginStart="@dimen/general_margin"
         android:layout_weight="2"
         android:orientation="vertical">
 
@@ -71,10 +79,10 @@
             android:id="@+id/recipe_details_steps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/recipe_details_margin_top"
             android:layout_marginBottom="@dimen/recipe_details_margin_bottom"
             android:layout_marginEnd="@dimen/recipe_details_margin_start_end"
-            android:layout_marginRight="@dimen/recipe_details_margin_start_end" />
+            android:layout_marginRight="@dimen/recipe_details_margin_start_end"
+            android:layout_marginTop="@dimen/recipe_details_margin_top" />
     </LinearLayout>
 
 

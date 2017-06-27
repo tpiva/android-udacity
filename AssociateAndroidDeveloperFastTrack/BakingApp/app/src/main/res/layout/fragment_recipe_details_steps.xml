@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="3dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@drawable/recipe_details_corner">
 
     <TextView
         android:id="@+id/step_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/recipe_steps_margin"
         android:layout_marginEnd="@dimen/recipe_details_ingredient_mark_end"
         android:layout_marginLeft="@dimen/recipe_details_ingredient_mark_end"
         android:layout_marginRight="@dimen/recipe_details_ingredient_mark_end"
         android:layout_marginStart="@dimen/recipe_details_ingredient_mark_end"
-        android:layout_marginBottom="@dimen/recipe_steps_margin"
         android:layout_marginTop="@dimen/recipe_steps_margin"
+        android:gravity="start"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@color/colorSecondaryText"
-        android:gravity="start"
-        tools:text="Descrition: I do not know."/>
+        tools:text="Descrition: I do not know." />
 
 </FrameLayout>

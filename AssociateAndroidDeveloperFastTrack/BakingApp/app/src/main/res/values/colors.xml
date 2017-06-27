@@ -11,4 +11,5 @@
     <color name="cardview_recipe_color">#448AFF</color>
     <color name="cardview_text_color">#FFFFFF</color>
     <color name="recipe_details_text_color">#FFFFFF</color>
+    <color name="shadow_color">#000000</color>
 </resources>
