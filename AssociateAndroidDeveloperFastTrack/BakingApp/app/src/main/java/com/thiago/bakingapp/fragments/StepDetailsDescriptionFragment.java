@@ -59,14 +59,16 @@ public class StepDetailsDescriptionFragment extends Fragment {
             } else {
                 releasePlayer();
                 String image = mCurrentStep.getThumbnailURL();
+                mExoPlayerView.setVisibility(View.GONE);
+                mImageView.setVisibility(View.VISIBLE);
                 if (image != null && !"".equals(image)) {
-                    mExoPlayerView.setVisibility(View.GONE);
-                    mImageView.setVisibility(View.VISIBLE);
-
                     if (!image.endsWith("mp4")) {
                         // TODO load from picasso
+                    } else {
+                        mImageView.setImageResource(R.drawable.default_food);
                     }
-
+                } else {
+                    mImageView.setImageResource(R.drawable.default_food);
                 }
             }
         }
@@ -104,12 +106,6 @@ public class StepDetailsDescriptionFragment extends Fragment {
             mExoPlayer.release();
             mExoPlayer = null;
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.thiago.bakingapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        if (mIsTablet) {
+        if (mIsTablet ||
+                getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mGridLayoutManager = new GridLayoutManager(this, COLUMNS_TABLET);
         } else {
             mLinearLayoutManager = new LinearLayoutManager(this);
@@ -57,7 +59,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         mAdapter = new RecipeAdapter(this);
-        mRecycleViewRecipes.setLayoutManager(mIsTablet ? mGridLayoutManager : mLinearLayoutManager);
+        mRecycleViewRecipes.setLayoutManager((mIsTablet ||
+                getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ?
+                mGridLayoutManager : mLinearLayoutManager);
         mRecycleViewRecipes.setAdapter(mAdapter);
 
         if (savedInstanceState != null) {
