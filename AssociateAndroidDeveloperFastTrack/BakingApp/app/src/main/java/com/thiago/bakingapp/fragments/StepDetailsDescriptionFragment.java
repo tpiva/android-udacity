@@ -33,6 +33,7 @@ public class StepDetailsDescriptionFragment extends Fragment {
 
     @BindView(R.id.step_video)
     SimpleExoPlayerView mExoPlayerView;
+    @Nullable
     @BindView(R.id.step_description)
     TextView mTextViewDescription;
     @BindView(R.id.step_image)
@@ -52,7 +53,6 @@ public class StepDetailsDescriptionFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TODO Calculate max size of screen on weight
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getActivity().getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -110,7 +110,9 @@ public class StepDetailsDescriptionFragment extends Fragment {
     }
 
     private void setDescription() {
-        mTextViewDescription.setText(mCurrentStep.getDescription());
+        if (mTextViewDescription != null) {
+            mTextViewDescription.setText(mCurrentStep.getDescription());
+        }
     }
 
     /**

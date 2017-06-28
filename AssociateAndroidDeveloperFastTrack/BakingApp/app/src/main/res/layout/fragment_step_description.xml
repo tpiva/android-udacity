@@ -35,7 +35,6 @@
             android:id="@+id/step_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:resize_mode="fill"
             android:visibility="gone"/>
 
         <!-- href='http://www.freepik.com/free-vector/variety-of-food_795816.htm -->

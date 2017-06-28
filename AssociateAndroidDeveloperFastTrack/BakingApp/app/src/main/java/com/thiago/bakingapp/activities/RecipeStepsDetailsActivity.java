@@ -3,10 +3,9 @@ package com.thiago.bakingapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 
 import com.thiago.bakingapp.R;
@@ -18,6 +17,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
 
 import static com.thiago.bakingapp.utils.Constants.EXTRA_LIST_STEPS;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_STEP_SELECTED;
@@ -32,8 +33,10 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity {
     private int mCurrentPosition;
     private StepDetailsDescriptionFragment mFragmentDescription;
 
+    @Nullable
     @BindView(R.id.step_navigation_previous)
     ImageButton mBtnPrevious;
+    @Nullable
     @BindView(R.id.step_navigation_next)
     ImageButton mBtnNext;
 
@@ -71,33 +74,32 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity {
                     .replace(R.id.recipe_step_details_description, mFragmentDescription)
                     .commit();
         }
-
-        mBtnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCurrentPosition < mSteps.size()-1) {
-                    mCurrentPosition++;
-                } else {
-                    // restart
-                    mCurrentPosition = 0;
-                }
-                nextPreviousStep();
-            }
-        });
-
-        mBtnPrevious.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCurrentPosition > 0) {
-                    mCurrentPosition--;
-                } else {
-                    // go back to end, cycle
-                    mCurrentPosition = (mSteps.size() - 1);
-                }
-                nextPreviousStep();
-            }
-        });
     }
+
+    @Optional
+    @OnClick(R.id.step_navigation_next)
+    public void nextStep() {
+        if (mCurrentPosition < mSteps.size()-1) {
+            mCurrentPosition++;
+        } else {
+            // restart
+            mCurrentPosition = 0;
+        }
+        nextPreviousStep();
+    }
+
+    @Optional
+    @OnClick(R.id.step_navigation_previous)
+    public void previousStep() {
+        if (mCurrentPosition > 0) {
+            mCurrentPosition--;
+        } else {
+            // go back to end, cycle
+            mCurrentPosition = (mSteps.size() - 1);
+        }
+        nextPreviousStep();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
