@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.adapter.RecipeAdapter;
@@ -26,7 +27,7 @@ import static com.thiago.bakingapp.utils.Constants.EXTRA_RECIPE_SELECTED;
 import static com.thiago.bakingapp.utils.Constants.COLUMNS_TABLET;
 
 public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeAdapter.RecipeClickListener{
+        implements LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeAdapter.RecipeClickListener {
 
     private static final int BAKING_RECIPE_LOADER_ID = 120;
     private static final String BAKING_RECIPE_RV_STATE = "recipe_state_rv";
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     private RecipeAdapter mAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private GridLayoutManager mGridLayoutManager;
+    private boolean isAlreadyFetching = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,29 +49,23 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        if (savedInstanceState != null) {
-            if (mIsTablet) {
-                mGridLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
-            } else {
-                mLinearLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
-            }
+        if (mIsTablet) {
+            mGridLayoutManager = new GridLayoutManager(this, COLUMNS_TABLET);
         } else {
-            if (mIsTablet) {
-                mGridLayoutManager = new GridLayoutManager(this, COLUMNS_TABLET);
-            } else {
-                mLinearLayoutManager = new LinearLayoutManager(this);
-                mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            }
+            mLinearLayoutManager = new LinearLayoutManager(this);
+            mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         }
 
         mAdapter = new RecipeAdapter(this);
         mRecycleViewRecipes.setLayoutManager(mIsTablet ? mGridLayoutManager : mLinearLayoutManager);
         mRecycleViewRecipes.setAdapter(mAdapter);
 
-        if (savedInstanceState == null) {
-            getSupportLoaderManager().initLoader(BAKING_RECIPE_LOADER_ID, null, this);
-        } else {
+        if (savedInstanceState != null) {
+            mRecycleViewRecipes.getLayoutManager()
+                    .onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
             getSupportLoaderManager().restartLoader(BAKING_RECIPE_LOADER_ID, null, this);
+        } else {
+            getSupportLoaderManager().initLoader(BAKING_RECIPE_LOADER_ID, null, this);
         }
     }
 
@@ -90,12 +86,22 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isAlreadyFetching) {
+            getSupportLoaderManager().restartLoader(BAKING_RECIPE_LOADER_ID, null, this);
+        }
+    }
+
+    @Override
     public Loader<List<Recipe>> onCreateLoader(int id, Bundle args) {
         return new AsyncTaskLoader<List<Recipe>>(this) {
             @Override
             protected void onStartLoading() {
-                showProgress();
-                forceLoad();
+                if (!isAlreadyFetching) {
+                    showProgress();
+                    forceLoad();
+                }
             }
 
             @Override
@@ -107,9 +113,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<List<Recipe>> loader, List<Recipe> data) {
-        if (data != null) {
+        if (data != null
+                && !isAlreadyFetching) {
             hideProgress();
             mAdapter.setRecipes(data);
+            isAlreadyFetching = true;
         }
     }
 
@@ -131,18 +139,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(BAKING_RECIPE_RV_STATE,
-                mIsTablet ? mGridLayoutManager.onSaveInstanceState() :
-                        mLinearLayoutManager.onSaveInstanceState());
+                mRecycleViewRecipes.getLayoutManager().onSaveInstanceState());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (mIsTablet) {
-            mGridLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
-        } else {
-            mLinearLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
-        }
+        mRecycleViewRecipes.getLayoutManager()
+                .onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
     }
 }
