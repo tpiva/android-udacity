@@ -1,8 +1,9 @@
 package com.thiago.bakingapp.fragments;
 
-import android.graphics.BitmapFactory;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,21 @@ public class StepDetailsDescriptionFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // TODO Calculate max size of screen on weight
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
     private void initialize() {
         if (mCurrentStep != null) {
             setDescription();
@@ -83,7 +99,7 @@ public class StepDetailsDescriptionFragment extends Fragment {
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
             mExoPlayerView.setPlayer(mExoPlayer);
-            // Prepare the MediaSource.
+            mExoPlayerView.bringToFront();
             String userAgent = Util.getUserAgent(getContext(), "BakingApp");
             MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mCurrentStep.getVideoUrl()),
                     new DefaultDataSourceFactory(
