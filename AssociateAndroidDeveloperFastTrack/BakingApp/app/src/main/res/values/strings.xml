@@ -8,4 +8,6 @@
     <string name="recipe_details_step_prefix">Step</string>
     <string name="ingredients_title">Ingredients</string>
     <string name="steps_title">Steps</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
