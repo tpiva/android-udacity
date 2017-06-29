@@ -31,6 +31,8 @@ import butterknife.ButterKnife;
 
 public class StepDetailsDescriptionFragment extends Fragment {
 
+    private static final String CURRENT_STEP = "current_step_fragment";
+
     @BindView(R.id.step_video)
     SimpleExoPlayerView mExoPlayerView;
     @Nullable
@@ -46,6 +48,10 @@ public class StepDetailsDescriptionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_step_description, container, false);
         ButterKnife.bind(this, view);
+        if (savedInstanceState != null) {
+            mCurrentStep = savedInstanceState.getParcelable(CURRENT_STEP);
+        }
+
         initialize();
         return view;
     }
@@ -53,6 +59,9 @@ public class StepDetailsDescriptionFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mCurrentStep = savedInstanceState.getParcelable(CURRENT_STEP);
+        }
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getActivity().getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -130,6 +139,12 @@ public class StepDetailsDescriptionFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         releasePlayer();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(CURRENT_STEP, mCurrentStep);
+        super.onSaveInstanceState(outState);
     }
 
     public void setStep(Step step) {
