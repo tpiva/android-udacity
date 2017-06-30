@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.adapter.RecipeAdapter;
@@ -27,8 +26,9 @@ import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.thiago.bakingapp.utils.Constants.EXTRA_RECIPE_SELECTED;
 import static com.thiago.bakingapp.utils.Constants.COLUMNS_TABLET;
+import static com.thiago.bakingapp.utils.Constants.EXTRA_RECIPE_SELECTED;
+import static com.thiago.bakingapp.utils.Constants.EXTRA_WIDGET_ID;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeAdapter.RecipeClickListener {
@@ -47,11 +47,17 @@ public class MainActivity extends AppCompatActivity
     private GridLayoutManager mGridLayoutManager;
     private boolean isAlreadyFetching = false;
 
+    private int mWidgetId = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        if (getIntent().hasExtra(EXTRA_WIDGET_ID)) {
+            mWidgetId = getIntent().getIntExtra(EXTRA_WIDGET_ID, -1);
+        }
 
         if (mIsTablet ||
                 getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -158,10 +164,16 @@ public class MainActivity extends AppCompatActivity
                 .onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
     }
 
-
     private void updateWidget(Recipe recipe) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingAppWidget.class));
+        int[] ids = null;
+        if (mWidgetId != -1) {
+            ids = new int[1];
+            ids[0] = mWidgetId;
+        } else {
+            ids = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingAppWidget.class));
+        }
+
         BakingAppWidget.updateAppWidget(this, appWidgetManager, recipe, ids);
     }
 }

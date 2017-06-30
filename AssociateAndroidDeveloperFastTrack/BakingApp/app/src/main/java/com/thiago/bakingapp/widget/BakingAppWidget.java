@@ -32,6 +32,7 @@ public class BakingAppWidget extends AppWidgetProvider {
         if (recipe == null) {
             // call MainActivity
             intent = new Intent(context, MainActivity.class);
+            intent.putExtra(Constants.EXTRA_WIDGET_ID, appWidgetId);
         } else {
             // call DetailsActivity
             intent = new Intent(context, RecipeDetailsActivity.class);
@@ -39,6 +40,8 @@ public class BakingAppWidget extends AppWidgetProvider {
 
             views.setViewVisibility(R.id.appwidget_recipe_title, View.VISIBLE);
             views.setTextViewText(R.id.appwidget_recipe_title, recipe.getName());
+            views.setViewVisibility(R.id.appwidget_image_button, View.GONE);
+            views.setViewVisibility(R.id.appwidget_image_expandable, View.VISIBLE);
 
             StringBuilder builder = new StringBuilder();
             for (Ingredient ingredient : recipe.getIngredients()) {
@@ -50,6 +53,7 @@ public class BakingAppWidget extends AppWidgetProvider {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.appwidget_image_button, pendingIntent);
+        views.setOnClickPendingIntent(R.id.appwidget_image_expandable, pendingIntent);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }

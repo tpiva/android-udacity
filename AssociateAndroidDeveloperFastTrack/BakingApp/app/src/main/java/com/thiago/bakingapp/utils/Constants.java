@@ -8,5 +8,7 @@ public class Constants {
 
     public static final String EXTRA_LIST_STEPS = "list_steps";
 
+    public static final String EXTRA_WIDGET_ID = "widget_id";
+
     public static final int COLUMNS_TABLET = 2;
 }
