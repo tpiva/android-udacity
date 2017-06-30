@@ -1,6 +1,8 @@
 package com.thiago.bakingapp.activities;
 
 import android.app.ProgressDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.adapter.RecipeAdapter;
 import com.thiago.bakingapp.bean.Recipe;
 import com.thiago.bakingapp.data.FetchRecipes;
+import com.thiago.bakingapp.widget.BakingAppWidget;
 
 import java.util.List;
 
@@ -133,6 +136,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemClicked(Recipe recipe) {
         if (recipe != null) {
+            updateWidget(recipe);
             // send to activity
             Intent intent = new Intent(this, RecipeDetailsActivity.class);
             intent.putExtra(EXTRA_RECIPE_SELECTED, recipe);
@@ -152,5 +156,12 @@ public class MainActivity extends AppCompatActivity
         super.onRestoreInstanceState(savedInstanceState);
         mRecycleViewRecipes.getLayoutManager()
                 .onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
+    }
+
+
+    private void updateWidget(Recipe recipe) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingAppWidget.class));
+        BakingAppWidget.updateAppWidget(this, appWidgetManager, recipe, ids);
     }
 }
