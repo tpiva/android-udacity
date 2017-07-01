@@ -11,8 +11,8 @@
     android:layout_marginStart="@dimen/general_margin"
     android:layout_marginTop="@dimen/general_margin_top"
     app:cardBackgroundColor="@color/cardview_recipe_color"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="12dp">
+    app:cardCornerRadius="@dimen/cardview_radius"
+    app:cardElevation="@dimen/cardview_elevation">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             android:id="@+id/recipe_servings_label_list_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/recip_list_item_margin_top"
             android:text="@string/recipe_serving_label"
             android:textColor="@color/cardview_text_color"
             android:textSize="@dimen/recipe_sub_text"
@@ -48,8 +48,8 @@
             android:id="@+id/recipe_servings_list_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginLeft="@dimen/recipe_list_item_text_margin_start"
+            android:layout_marginStart="@dimen/recipe_list_item_text_margin_start"
             android:textColor="@color/cardview_text_color"
             android:textSize="@dimen/recipe_sub_text"
             app:layout_constraintBottom_toBottomOf="@+id/recipe_servings_label_list_item"
@@ -60,12 +60,12 @@
 
         <ImageView
             android:id="@+id/recipe_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="@dimen/recipe_list_item_image_size"
+            android:layout_height="@dimen/recipe_list_item_image_size"
+            android:layout_marginBottom="@dimen/recipe_list_item_image_margin"
             android:layout_marginLeft="@dimen/general_margin"
             android:layout_marginStart="@dimen/general_margin"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/recipe_list_item_image_margin"
             android:src="@drawable/folder_food"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintLeft_toLeftOf="parent"

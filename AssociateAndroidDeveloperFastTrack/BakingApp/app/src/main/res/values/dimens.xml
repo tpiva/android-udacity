@@ -34,4 +34,14 @@
     <dimen name="general_margin_widget">16dp</dimen>
     <dimen name="widget_expandable_icon_size">24dp</dimen>
     <dimen name="widget_title_margin_end">8dp</dimen>
+    <dimen name="framelayout_height">450dp</dimen>
+    <dimen name="divider_width">1dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="step_description_margin">2dp</dimen>
+    <dimen name="cardview_radius">5dp</dimen>
+    <dimen name="cardview_elevation">12dp</dimen>
+    <dimen name="recip_list_item_margin_top">8dp</dimen>
+    <dimen name="recipe_list_item_text_margin_start">8dp</dimen>
+    <dimen name="recipe_list_item_image_margin">8dp</dimen>
+    <dimen name="recipe_list_item_image_size">100dp</dimen>
 </resources>
