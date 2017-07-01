@@ -18,7 +18,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-            android:id="@+id/step_video"
+            android:id="@+id/step_exo_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"/>

@@ -35,7 +35,7 @@ public class StepDetailsDescriptionFragment extends Fragment {
 
     private static final String CURRENT_STEP = "current_step_fragment";
 
-    @BindView(R.id.step_video)
+    @BindView(R.id.step_exo_video)
     SimpleExoPlayerView mExoPlayerView;
     @Nullable
     @BindView(R.id.step_description)
