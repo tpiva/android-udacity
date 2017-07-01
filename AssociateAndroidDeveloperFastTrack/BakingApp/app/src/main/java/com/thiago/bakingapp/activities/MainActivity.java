@@ -6,8 +6,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -55,15 +53,6 @@ public class MainActivity extends AppCompatActivity
 
     private int mWidgetId = -1;
     private boolean mIsFirstLaunchWidget = false;
-
-    private Handler mHandler = new Handler(Looper.myLooper());
-    private Runnable mFinishActivity = new Runnable() {
-        @Override
-        public void run() {
-            hideProgress();
-            MainActivity.this.finish();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,15 +162,12 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, getString(R.string.widget_added),Toast.LENGTH_LONG).show();
                 mIsFirstLaunchWidget = false;
                 mWidgetId = -1;
-                mHandler.postDelayed(mFinishActivity, 200);
+
+                // dismiss dialog
+                hideProgress();
+                MainActivity.this.finish();
             }
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacks(mFinishActivity);
     }
 
     @Override

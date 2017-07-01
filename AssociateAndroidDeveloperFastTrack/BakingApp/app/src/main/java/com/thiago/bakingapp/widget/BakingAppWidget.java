@@ -33,8 +33,6 @@ public class BakingAppWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.appwidget_text, widgetText);
 
         Intent intent = null;
-        PendingIntent mainPendingIntent = null;
-        PendingIntent detailsPendingIntent = null;
         if (recipe == null && isFirstLaunch) {
             // call MainActivity
             intent = new Intent(context, MainActivity.class);
@@ -42,27 +40,30 @@ public class BakingAppWidget extends AppWidgetProvider {
             bundle.putBoolean(Constants.EXTRA_FIRST_TIME_WIDGET, Boolean.TRUE);
             bundle.putInt(Constants.EXTRA_WIDGET_ID, appWidgetId);
             intent.putExtras(bundle);
-            mainPendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            views.setOnClickPendingIntent(R.id.appwidget_image_button, mainPendingIntent);
+
         } else {
             // call DetailsActivity
             intent = new Intent(context, RecipeDetailsActivity.class);
             intent.putExtra(Constants.EXTRA_RECIPE_SELECTED, recipe);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             views.setViewVisibility(R.id.appwidget_recipe_title, View.VISIBLE);
-            views.setTextViewText(R.id.appwidget_recipe_title, recipe.getName());
+            views.setTextViewText(R.id.appwidget_recipe_title, recipe != null ? recipe.getName() : "");
             views.setViewVisibility(R.id.appwidget_image_button, View.GONE);
             views.setViewVisibility(R.id.appwidget_image_expandable, View.VISIBLE);
 
             StringBuilder builder = new StringBuilder();
-            for (Ingredient ingredient : recipe.getIngredients()) {
-                builder.append(ingredient.getQuantity()).append(" ").append(ingredient.getMeasure())
-                        .append(" ").append(ingredient.getIngredient()).append("\n");
+            if (recipe != null) {
+                for (Ingredient ingredient : recipe.getIngredients()) {
+                    builder.append(ingredient.getQuantity()).append(" ").append(ingredient.getMeasure())
+                            .append(" ").append(ingredient.getIngredient()).append("\n");
+                }
             }
             views.setTextViewText(R.id.appwidget_text, builder.toString());
-            detailsPendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            views.setOnClickPendingIntent(R.id.appwidget_image_expandable, detailsPendingIntent);
         }
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.appwidget_image_button, pendingIntent);
+        views.setOnClickPendingIntent(R.id.appwidget_image_expandable, pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

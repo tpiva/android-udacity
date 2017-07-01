@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/appwidget_image_button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/widget_image_view_size"
+        android:layout_height="@dimen/widget_image_view_size"
         android:layout_above="@+id/appwidget_text"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_playlist_add_black_48dp" />
@@ -17,10 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/appwidget_text"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="@dimen/general_margin_widget"
+        android:layout_marginRight="@dimen/general_margin_widget"
+        android:layout_marginStart="@dimen/general_margin_widget"
+        android:layout_marginLeft="@dimen/general_margin_widget"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:orientation="horizontal">
@@ -29,8 +29,8 @@
             android:id="@+id/appwidget_recipe_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="@dimen/widget_title_margin_end"
+            android:layout_marginRight="@dimen/widget_title_margin_end"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/widget_text_title"
             android:textStyle="bold|italic"
@@ -38,8 +38,8 @@
 
         <ImageView
             android:id="@+id/appwidget_image_expandable"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/widget_expandable_icon_size"
+            android:layout_height="@dimen/widget_expandable_icon_size"
             android:src="@drawable/ic_launch_black_48dp"
             android:visibility="gone"/>
     </LinearLayout>
@@ -51,10 +51,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="@dimen/general_margin_widget"
+        android:layout_marginRight="@dimen/general_margin_widget"
+        android:layout_marginStart="@dimen/general_margin_widget"
+        android:layout_marginLeft="@dimen/general_margin_widget"
         android:text="@string/appwidget_text"
         android:textColor="@color/colorPrimaryText"
         android:textSize="@dimen/widget_text_size"
