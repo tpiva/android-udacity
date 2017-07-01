@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.thiago.bakingapp.R;
@@ -23,6 +24,7 @@ public class RecipeDetailsActivity extends AppCompatActivity
         implements BakingRecipeDetailsFragment.OnStepSelected {
 
     private static final String CURRENT_RECIPE = "current_recipe";
+    private static final String TAG = RecipeDetailsActivity.class.getSimpleName();
 
     private FragmentManager mFragmentManager;
     private Recipe mRecipe;
@@ -37,6 +39,7 @@ public class RecipeDetailsActivity extends AppCompatActivity
         Recipe tempRecipe = null;
         if (intent.hasExtra(EXTRA_RECIPE_SELECTED)) {
             tempRecipe = intent.getParcelableExtra(EXTRA_RECIPE_SELECTED);
+            Log.d(TAG, "Extra recipe id: " + tempRecipe.getId());
         } else {
             // TODO shows error.
         }

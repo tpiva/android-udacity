@@ -6,6 +6,8 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -13,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.adapter.RecipeAdapter;
@@ -27,6 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.thiago.bakingapp.utils.Constants.COLUMNS_TABLET;
+import static com.thiago.bakingapp.utils.Constants.EXTRA_FIRST_TIME_WIDGET;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_RECIPE_SELECTED;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_WIDGET_ID;
 
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final int BAKING_RECIPE_LOADER_ID = 120;
     private static final String BAKING_RECIPE_RV_STATE = "recipe_state_rv";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.recipe_list)
     RecyclerView mRecycleViewRecipes;
@@ -48,6 +54,16 @@ public class MainActivity extends AppCompatActivity
     private boolean isAlreadyFetching = false;
 
     private int mWidgetId = -1;
+    private boolean mIsFirstLaunchWidget = false;
+
+    private Handler mHandler = new Handler(Looper.myLooper());
+    private Runnable mFinishActivity = new Runnable() {
+        @Override
+        public void run() {
+            hideProgress();
+            MainActivity.this.finish();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +71,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        if (getIntent().hasExtra(EXTRA_WIDGET_ID)) {
-            mWidgetId = getIntent().getIntExtra(EXTRA_WIDGET_ID, -1);
+        Intent intent = getIntent();
+        if (intent != null) {
+            Bundle extras = intent.getExtras();
+            if (extras != null ) {
+                mWidgetId = extras.getInt(EXTRA_WIDGET_ID);
+                mIsFirstLaunchWidget = extras.getBoolean(EXTRA_FIRST_TIME_WIDGET);
+            }
         }
 
         if (mIsTablet ||
@@ -93,7 +114,7 @@ public class MainActivity extends AppCompatActivity
     private void hideProgress() {
         if (mProgressDialog != null
                 && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
+            mProgressDialog.dismiss();
             mProgressDialog = null;
         }
     }
@@ -143,11 +164,24 @@ public class MainActivity extends AppCompatActivity
     public void onItemClicked(Recipe recipe) {
         if (recipe != null) {
             updateWidget(recipe);
-            // send to activity
-            Intent intent = new Intent(this, RecipeDetailsActivity.class);
-            intent.putExtra(EXTRA_RECIPE_SELECTED, recipe);
-            startActivity(intent);
+            if (!mIsFirstLaunchWidget) {
+                // send to activity
+                Intent intent = new Intent(this, RecipeDetailsActivity.class);
+                intent.putExtra(EXTRA_RECIPE_SELECTED, recipe);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, getString(R.string.widget_added),Toast.LENGTH_LONG).show();
+                mIsFirstLaunchWidget = false;
+                mWidgetId = -1;
+                mHandler.postDelayed(mFinishActivity, 200);
+            }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(mFinishActivity);
     }
 
     @Override
@@ -174,6 +208,8 @@ public class MainActivity extends AppCompatActivity
             ids = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingAppWidget.class));
         }
 
-        BakingAppWidget.updateAppWidget(this, appWidgetManager, recipe, ids);
+        Log.d(TAG, "widget id: " + mWidgetId);
+
+        BakingAppWidget.updateAppWidget(this, appWidgetManager, ids, recipe);
     }
 }

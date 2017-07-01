@@ -20,14 +20,16 @@
         </activity>
         <activity
             android:name=".activities.RecipeDetailsActivity"
-            android:parentActivityName=".activities.MainActivity">
+            android:parentActivityName=".activities.MainActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
         <activity
             android:name=".activities.RecipeStepsDetailsActivity"
-            android:parentActivityName=".activities.RecipeDetailsActivity">
+            android:parentActivityName=".activities.RecipeDetailsActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.RecipeDetailsActivity" />
