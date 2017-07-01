@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
             mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         }
 
-        mAdapter = new RecipeAdapter(this);
+        mAdapter = new RecipeAdapter(this, this);
         mRecycleViewRecipes.setLayoutManager((mIsTablet ||
                 getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ?
                 mGridLayoutManager : mLinearLayoutManager);

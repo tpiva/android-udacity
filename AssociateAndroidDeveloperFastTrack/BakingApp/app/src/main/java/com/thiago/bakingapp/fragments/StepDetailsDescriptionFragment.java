@@ -23,6 +23,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.bean.Step;
 
@@ -87,11 +88,11 @@ public class StepDetailsDescriptionFragment extends Fragment {
                 mExoPlayerView.setVisibility(View.GONE);
                 mImageView.setVisibility(View.VISIBLE);
                 if (image != null && !"".equals(image)) {
-                    if (!image.endsWith("mp4")) {
-                        // TODO load from picasso
-                    } else {
-                        mImageView.setImageResource(R.drawable.default_food);
-                    }
+                    Picasso.with(getContext())
+                            .load(image)
+                            .placeholder(R.drawable.default_food)
+                            .error(R.drawable.default_food)
+                            .into(mImageView);
                 } else {
                     mImageView.setImageResource(R.drawable.default_food);
                 }
@@ -112,7 +113,7 @@ public class StepDetailsDescriptionFragment extends Fragment {
             String userAgent = Util.getUserAgent(getContext(), "BakingApp");
             MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mCurrentStep.getVideoUrl()),
                     new DefaultDataSourceFactory(
-                    getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+                            getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.setPlayWhenReady(true);
         }

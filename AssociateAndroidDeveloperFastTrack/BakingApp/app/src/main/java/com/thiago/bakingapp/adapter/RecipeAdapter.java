@@ -1,5 +1,6 @@
 package com.thiago.bakingapp.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.bean.Recipe;
 
@@ -19,9 +21,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     private List<Recipe> mRecipes;
     private RecipeClickListener mCallback;
+    private Context mContext;
 
-    public RecipeAdapter(RecipeClickListener recipeClickListener) {
+    public RecipeAdapter(RecipeClickListener recipeClickListener, Context context) {
         this.mCallback = recipeClickListener;
+        this.mContext = context;
     }
 
     @Override
@@ -64,8 +68,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             mTextViewServing.setText(String.valueOf(recipe.getServing()));
             if (recipe.getImage() != null
                     && !"".equals(recipe.getImage())) {
-                // TODO some lib as picasso
-                mImageViewRecipe.setImageResource(0);
+                Picasso.with(mContext)
+                        .load(recipe.getImage())
+                        .placeholder(R.drawable.folder_food)
+                        .error(R.drawable.folder_food)
+                        .into(mImageViewRecipe);
             }
         }
 

@@ -65,7 +65,6 @@ public class RecipeDetailsStepAdapter extends RecyclerView.Adapter<RecipeDetails
 
         }
 
-        // TODO replace by ButterKnife
         @Override
         public void onClick(View view) {
             mCallback.onItemClicked(mSteps.get(getAdapterPosition()));
