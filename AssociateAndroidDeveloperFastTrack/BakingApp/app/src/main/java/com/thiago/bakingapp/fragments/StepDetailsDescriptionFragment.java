@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:45
+ * Copyright (c) 2017. All right reserved.
+ * File StepDetailsDescriptionFragment.java belongs to Project BakingApp
+ *
+ * Last modified 01/07/17 17:00
+ *
+ */
 package com.thiago.bakingapp.fragments;
 
 import android.content.res.Configuration;
@@ -31,6 +39,9 @@ import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Fragments that shows details of each steps like video/image and description.
+ */
 public class StepDetailsDescriptionFragment extends Fragment {
 
     private static final String CURRENT_STEP = "current_step_fragment";
@@ -78,6 +89,9 @@ public class StepDetailsDescriptionFragment extends Fragment {
         }
     }
 
+    /**
+     * Loads and prepare data to be display by fragment view.
+     */
     private void initialize() {
         if (mCurrentStep != null) {
             setDescription();
@@ -123,6 +137,9 @@ public class StepDetailsDescriptionFragment extends Fragment {
         }
     }
 
+    /**
+     * Sets description on belongs view.
+     */
     private void setDescription() {
         if (mTextViewDescription != null) {
             mTextViewDescription.setText(mCurrentStep.getDescription());
@@ -152,6 +169,10 @@ public class StepDetailsDescriptionFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * Set current step to shows for user.
+     * @param step
+     */
     public void setStep(Step step) {
         this.mCurrentStep = step;
     }

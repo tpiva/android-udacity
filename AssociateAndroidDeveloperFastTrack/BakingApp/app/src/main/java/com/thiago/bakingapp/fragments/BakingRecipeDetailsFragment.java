@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:43
+ * Copyright (c) 2017. All right reserved.
+ * File BakingRecipeDetailsFragment.java belongs to Project BakingApp
+ *
+ * Last modified 25/06/17 21:30
+ *
+ */
 package com.thiago.bakingapp.fragments;
 
 import android.content.Context;
@@ -21,6 +29,9 @@ import com.thiago.bakingapp.bean.Step;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Fragments responsible to show information of recipe as steps and ingredients.
+ */
 public class BakingRecipeDetailsFragment extends Fragment
         implements RecipeDetailsStepAdapter.RecipeStepDetailListener{
 
@@ -33,8 +44,6 @@ public class BakingRecipeDetailsFragment extends Fragment
 
     private RecipeDetailsStepAdapter mAdapter;
     private OnStepSelected mCallback;
-
-
 
     @Nullable
     @Override

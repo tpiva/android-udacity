@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:49
+ * Copyright (c) 2017. All right reserved.
+ * File MainActivityTest.java belongs to Project BakingApp
+ *
+ * Last modified 01/07/17 19:50
+ *
+ */
 package com.thiago.bakingapp;
 
 import android.content.res.Resources;
@@ -37,9 +45,9 @@ import static org.hamcrest.Matchers.startsWith;
 
 
 /**
- * Instrumentation test, which will execute on an Android device.
+ * Instrumentation test, which will execute on an Android device for validate Main propose of
+ * BakingApp.
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -116,6 +124,11 @@ public class MainActivityTest {
         onView(allOf(withId(R.id.step_description_details),hasLinks()));
     }
 
+    /**
+     * Helper method to compare content of an row of RecycleView.
+     * @param textToDisplay
+     * @return
+     */
     private static Matcher<RecyclerView.ViewHolder> withContent(final String textToDisplay) {
         return new BoundedMatcher<RecyclerView.ViewHolder, RecipeAdapter.RecipeViewHolder>
                 (RecipeAdapter.RecipeViewHolder.class) {
@@ -132,6 +145,11 @@ public class MainActivityTest {
         };
     }
 
+    /**
+     * Helper method to compare two images.
+     * @param expectedId
+     * @return
+     */
     private static TypeSafeMatcher<View> withImage(final int expectedId) {
         return new TypeSafeMatcher<View>() {
             @Override

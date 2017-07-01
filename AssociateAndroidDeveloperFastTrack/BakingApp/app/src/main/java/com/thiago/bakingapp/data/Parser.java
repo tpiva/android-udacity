@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:42
+ * Copyright (c) 2017. All right reserved.
+ * File Parser.java belongs to Project BakingApp
+ *
+ * Last modified 25/06/17 12:58
+ *
+ */
 package com.thiago.bakingapp.data;
 
 import com.thiago.bakingapp.bean.Ingredient;
@@ -11,8 +19,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parser response data from webservice to java object that represent one recipe.
+ */
 public class Parser {
 
+    /**
+     * Parser string response from webservice to recipe object.
+     * @param responseStream
+     * @return
+     * @throws JSONException
+     */
     public static List<Recipe> parserJsonToRecipes(String responseStream) throws JSONException {
         List<Recipe> recipes = new ArrayList<>();
 

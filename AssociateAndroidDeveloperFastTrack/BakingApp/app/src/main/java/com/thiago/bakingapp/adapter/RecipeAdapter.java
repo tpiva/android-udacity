@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:39
+ * Copyright (c) 2017. All right reserved.
+ * File RecipeAdapter.java belongs to Project BakingApp
+ *
+ * Last modified 01/07/17 16:18
+ *
+ */
 package com.thiago.bakingapp.adapter;
 
 import android.content.Context;
@@ -17,6 +25,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Adapter of main list of recipes that bind recipes and action of click for user choice one step
+ * to see its details.
+ */
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private List<Recipe> mRecipes;

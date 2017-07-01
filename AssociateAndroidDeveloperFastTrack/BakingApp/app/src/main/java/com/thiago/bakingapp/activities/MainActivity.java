@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:33
+ * Copyright (c) 2017. All right reserved.
+ * File MainActivity.java belongs to Project BakingApp
+ *
+ * Last modified 01/07/17 20:23
+ *
+ */
 package com.thiago.bakingapp.activities;
 
 import android.app.ProgressDialog;
@@ -38,6 +46,10 @@ import static com.thiago.bakingapp.utils.Constants.EXTRA_FIRST_TIME_WIDGET;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_RECIPE_SELECTED;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_WIDGET_ID;
 
+/**
+ * Main activity to show list/grid of recipes, start communication with server to get recipes and
+ * handler user actions.
+ */
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeAdapter.RecipeClickListener {
 
@@ -111,6 +123,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Shows process during consulting webservice.
+     */
     private void showProgress() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
@@ -119,6 +134,9 @@ public class MainActivity extends AppCompatActivity
         mProgressDialog.show();
     }
 
+    /**
+     * Hides process dialog after finish consulting webservices.
+     */
     private void hideProgress() {
         if (mProgressDialog != null
                 && mProgressDialog.isShowing()) {
@@ -127,11 +145,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Shows error message in case of no network available.
+     */
     private void showError() {
         mRecycleViewRecipes.setVisibility(View.GONE);
         mErrorTextView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Shows content in case of network available.
+     */
     private void showContent() {
         if (mRecycleViewRecipes.getVisibility() == View.GONE) {
             mRecycleViewRecipes.setVisibility(View.VISIBLE);
@@ -220,6 +244,10 @@ public class MainActivity extends AppCompatActivity
         mRecipes = savedInstanceState.getParcelableArrayList(BAKING_RECIPES_STATE);
     }
 
+    /**
+     * Updates content of widget.
+     * @param recipe
+     */
     private void updateWidget(Recipe recipe) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] ids = null;

@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:41
+ * Copyright (c) 2017. All right reserved.
+ * File Recipe.java belongs to Project BakingApp
+ *
+ * Last modified 23/06/17 20:25
+ *
+ */
 package com.thiago.bakingapp.bean;
 
 import android.os.Parcel;
@@ -5,6 +13,9 @@ import android.os.Parcelable;
 
 import java.util.List;
 
+/**
+ * Bean represents on recipe.
+ */
 public class Recipe implements Parcelable{
     private int id;
     private String name;

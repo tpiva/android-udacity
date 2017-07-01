@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:39
+ * Copyright (c) 2017. All right reserved.
+ * File RecipeDetailsStepAdapter.java belongs to Project BakingApp
+ *
+ * Last modified 01/07/17 11:58
+ *
+ */
 package com.thiago.bakingapp.adapter;
 
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +22,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Adapter of step details that bind video/image and description of each step.
+ */
 public class RecipeDetailsStepAdapter extends RecyclerView.Adapter<RecipeDetailsStepAdapter.RecipeStepViewHolder> {
 
     private List<Step> mSteps;

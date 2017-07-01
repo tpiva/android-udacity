@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:31
+ * Copyright (c) 2017. All right reserved.
+ * File RecipeDetailsActivity.java belongs to Project BakingApp
+ *
+ * Last modified 01/07/17 20:25
+ *
+ */
 package com.thiago.bakingapp.activities;
 
 import android.content.Intent;
@@ -20,6 +28,10 @@ import static com.thiago.bakingapp.utils.Constants.EXTRA_LIST_STEPS;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_RECIPE_SELECTED;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_STEP_SELECTED;
 
+/**
+ * Recipe details class shows recipe details like ingredients and steps. Moreover, allows user to
+ * select and see details of steps.
+ */
 public class RecipeDetailsActivity extends AppCompatActivity
         implements BakingRecipeDetailsFragment.OnStepSelected {
 
@@ -40,8 +52,6 @@ public class RecipeDetailsActivity extends AppCompatActivity
         if (intent.hasExtra(EXTRA_RECIPE_SELECTED)) {
             tempRecipe = intent.getParcelableExtra(EXTRA_RECIPE_SELECTED);
             Log.d(TAG, "Extra recipe id: " + tempRecipe.getId());
-        } else {
-            // TODO shows error.
         }
 
         if (findViewById(R.id.recipe_details_steps_two_panel) != null) {

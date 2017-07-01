@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:47
+ * Copyright (c) 2017. All right reserved.
+ * File BakingAppWidget.java belongs to Project BakingApp
+ *
+ * Last modified 01/07/17 11:29
+ *
+ */
 package com.thiago.bakingapp.widget;
 
 import android.app.PendingIntent;
@@ -24,6 +32,14 @@ public class BakingAppWidget extends AppWidgetProvider {
 
     private static final String TAG = BakingAppWidget.class.getSimpleName();
 
+    /**
+     * Update in facts widget content.
+     * @param context
+     * @param appWidgetManager
+     * @param appWidgetId
+     * @param recipe
+     * @param isFirstLaunch It identify if is necessary to load intent of details on widget.
+     */
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId, Recipe recipe, boolean isFirstLaunch) {
 
@@ -69,6 +85,13 @@ public class BakingAppWidget extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
+    /**
+     * Initial update of widget after user choices recipe to load on it widget.
+     * @param context
+     * @param appWidgetManager
+     * @param ids widget ids
+     * @param recipe current recipe choice by user.
+     */
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int[] ids, Recipe recipe) {
         for (Integer id : ids) {
             updateAppWidget(context, appWidgetManager, id, recipe, false);

@@ -1,8 +1,19 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:40
+ * Copyright (c) 2017. All right reserved.
+ * File Ingredient.java belongs to Project BakingApp
+ *
+ * Last modified 23/06/17 20:25
+ *
+ */
 package com.thiago.bakingapp.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Bean represents ingredient.
+ */
 public class Ingredient implements Parcelable{
 
     private int quantity;

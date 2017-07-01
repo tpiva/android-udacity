@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:47
+ * Copyright (c) 2017. All right reserved.
+ * File Utility.java belongs to Project BakingApp
+ *
+ * Last modified 01/07/17 20:05
+ *
+ */
 package com.thiago.bakingapp.utils;
 
 import android.content.Context;
@@ -5,9 +13,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by Thiago on 01/07/2017.
+ * Utils class for BakingApp.
  */
-
 public class Utility {
 
     /**

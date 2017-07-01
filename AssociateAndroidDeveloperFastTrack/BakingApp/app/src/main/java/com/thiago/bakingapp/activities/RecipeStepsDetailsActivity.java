@@ -1,3 +1,11 @@
+/*
+ * Create by Thiago Piva Magalhães on  01/07/17 20:36
+ * Copyright (c) 2017. All right reserved.
+ * File RecipeStepsDetailsActivity.java belongs to Project BakingApp
+ *
+ * Last modified 28/06/17 19:49
+ *
+ */
 package com.thiago.bakingapp.activities;
 
 import android.content.Intent;
@@ -23,6 +31,9 @@ import butterknife.Optional;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_LIST_STEPS;
 import static com.thiago.bakingapp.utils.Constants.EXTRA_STEP_SELECTED;
 
+/**
+ * Class responsible to shows steps information as video or image and description of each step.
+ */
 public class RecipeStepsDetailsActivity extends AppCompatActivity {
 
     private static final String STATE_CURRENT_POSITION = "current_position";
@@ -133,6 +144,9 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity {
                 .commit();
     }
 
+    /**
+     * Changes for next or previous steps when user click on previous/next steps.
+     */
     private void nextPreviousStep() {
         mFragmentDescription = new StepDetailsDescriptionFragment();
         mFragmentDescription.setStep(mSteps.get(mCurrentPosition));
