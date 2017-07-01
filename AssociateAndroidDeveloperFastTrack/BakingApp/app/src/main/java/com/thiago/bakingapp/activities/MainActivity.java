@@ -14,12 +14,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.adapter.RecipeAdapter;
 import com.thiago.bakingapp.bean.Recipe;
 import com.thiago.bakingapp.data.FetchRecipes;
+import com.thiago.bakingapp.utils.Utility;
 import com.thiago.bakingapp.widget.BakingAppWidget;
 
 import java.util.List;
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     private static final String BAKING_RECIPE_RV_STATE = "recipe_state_rv";
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    @BindView(R.id.error_message)
+    TextView mErrorTextView;
     @BindView(R.id.recipe_list)
     RecyclerView mRecycleViewRecipes;
     @BindBool(R.bool.tablet)
@@ -83,12 +88,16 @@ public class MainActivity extends AppCompatActivity
                 mGridLayoutManager : mLinearLayoutManager);
         mRecycleViewRecipes.setAdapter(mAdapter);
 
-        if (savedInstanceState != null) {
-            mRecycleViewRecipes.getLayoutManager()
-                    .onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
-            getSupportLoaderManager().restartLoader(BAKING_RECIPE_LOADER_ID, null, this);
+        if (Utility.isOnline(this)) {
+            if (savedInstanceState != null) {
+                mRecycleViewRecipes.getLayoutManager()
+                        .onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
+                getSupportLoaderManager().restartLoader(BAKING_RECIPE_LOADER_ID, null, this);
+            } else {
+                getSupportLoaderManager().initLoader(BAKING_RECIPE_LOADER_ID, null, this);
+            }
         } else {
-            getSupportLoaderManager().initLoader(BAKING_RECIPE_LOADER_ID, null, this);
+            showError();
         }
     }
 
@@ -105,6 +114,18 @@ public class MainActivity extends AppCompatActivity
                 && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
             mProgressDialog = null;
+        }
+    }
+
+    private void showError() {
+        mRecycleViewRecipes.setVisibility(View.GONE);
+        mErrorTextView.setVisibility(View.VISIBLE);
+    }
+
+    private void showContent() {
+        if (mRecycleViewRecipes.getVisibility() == View.GONE) {
+            mRecycleViewRecipes.setVisibility(View.VISIBLE);
+            mErrorTextView.setVisibility(View.GONE);
         }
     }
 
@@ -163,6 +184,8 @@ public class MainActivity extends AppCompatActivity
                 mIsFirstLaunchWidget = false;
                 mWidgetId = -1;
 
+                // in case of network error shows content.
+                showContent();
                 // dismiss dialog
                 hideProgress();
                 MainActivity.this.finish();
