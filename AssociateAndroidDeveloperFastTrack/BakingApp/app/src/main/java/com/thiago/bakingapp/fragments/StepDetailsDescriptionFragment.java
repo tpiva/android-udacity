@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import com.thiago.bakingapp.R;
 import com.thiago.bakingapp.bean.Step;
 
+import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -41,6 +42,8 @@ public class StepDetailsDescriptionFragment extends Fragment {
     TextView mTextViewDescription;
     @BindView(R.id.step_image)
     ImageView mImageView;
+    @BindBool(R.bool.tablet)
+    boolean mIsTable;
 
     private SimpleExoPlayer mExoPlayer;
     private Step mCurrentStep;
@@ -63,7 +66,8 @@ public class StepDetailsDescriptionFragment extends Fragment {
         if (savedInstanceState != null) {
             mCurrentStep = savedInstanceState.getParcelable(CURRENT_STEP);
         }
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+                && !mIsTable) {
             getActivity().getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
