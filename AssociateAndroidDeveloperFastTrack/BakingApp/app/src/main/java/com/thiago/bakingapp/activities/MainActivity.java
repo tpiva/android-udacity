@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -25,6 +26,7 @@ import com.thiago.bakingapp.data.FetchRecipes;
 import com.thiago.bakingapp.utils.Utility;
 import com.thiago.bakingapp.widget.BakingAppWidget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindBool;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final int BAKING_RECIPE_LOADER_ID = 120;
     private static final String BAKING_RECIPE_RV_STATE = "recipe_state_rv";
+    private static final String BAKING_RECIPES_STATE = "recipe_states";
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.error_message)
@@ -58,6 +61,8 @@ public class MainActivity extends AppCompatActivity
 
     private int mWidgetId = -1;
     private boolean mIsFirstLaunchWidget = false;
+
+    private List<Recipe> mRecipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +97,12 @@ public class MainActivity extends AppCompatActivity
             if (savedInstanceState != null) {
                 mRecycleViewRecipes.getLayoutManager()
                         .onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
-                getSupportLoaderManager().restartLoader(BAKING_RECIPE_LOADER_ID, null, this);
+                mRecipes = savedInstanceState.getParcelableArrayList(BAKING_RECIPES_STATE);
+                if (mRecipes != null && !mRecipes.isEmpty()) {
+                    mAdapter.setRecipes(mRecipes);
+                } else {
+                    getSupportLoaderManager().restartLoader(BAKING_RECIPE_LOADER_ID, null, this);
+                }
             } else {
                 getSupportLoaderManager().initLoader(BAKING_RECIPE_LOADER_ID, null, this);
             }
@@ -159,6 +169,7 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<List<Recipe>> loader, List<Recipe> data) {
         if (data != null
                 && !isAlreadyFetching) {
+            mRecipes = data;
             hideProgress();
             mAdapter.setRecipes(data);
             isAlreadyFetching = true;
@@ -197,6 +208,7 @@ public class MainActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(BAKING_RECIPE_RV_STATE,
                 mRecycleViewRecipes.getLayoutManager().onSaveInstanceState());
+        outState.putParcelableArrayList(BAKING_RECIPES_STATE, (ArrayList<? extends Parcelable>) mRecipes);
         super.onSaveInstanceState(outState);
     }
 
@@ -205,6 +217,7 @@ public class MainActivity extends AppCompatActivity
         super.onRestoreInstanceState(savedInstanceState);
         mRecycleViewRecipes.getLayoutManager()
                 .onRestoreInstanceState(savedInstanceState.getParcelable(BAKING_RECIPE_RV_STATE));
+        mRecipes = savedInstanceState.getParcelableArrayList(BAKING_RECIPES_STATE);
     }
 
     private void updateWidget(Recipe recipe) {
