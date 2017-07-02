@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity
                 getSupportLoaderManager().initLoader(BAKING_RECIPE_LOADER_ID, null, this);
             }
         } else {
+            hideProgress();
             showError();
         }
     }
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity
         return new AsyncTaskLoader<List<Recipe>>(this) {
             @Override
             protected void onStartLoading() {
-                if (!isAlreadyFetching) {
+                if (!isAlreadyFetching && Utility.isOnline(getContext())) {
                     showProgress();
                     forceLoad();
                 }
