@@ -66,9 +66,13 @@ public class StepDetailsDescriptionFragment extends Fragment {
         if (savedInstanceState != null) {
             mCurrentStep = savedInstanceState.getParcelable(CURRENT_STEP);
         }
-
-        initialize();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initialize();
     }
 
     @Override
@@ -158,8 +162,14 @@ public class StepDetailsDescriptionFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         releasePlayer();
     }
 

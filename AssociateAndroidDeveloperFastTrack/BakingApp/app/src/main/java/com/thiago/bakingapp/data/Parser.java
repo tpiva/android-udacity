@@ -22,7 +22,9 @@ import java.util.List;
 /**
  * Parser response data from webservice to java object that represent one recipe.
  */
-public class Parser {
+final class Parser {
+
+    private Parser() {}
 
     /**
      * Parser string response from webservice to recipe object.
