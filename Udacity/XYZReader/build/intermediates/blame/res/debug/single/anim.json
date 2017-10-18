@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "C:\\Users\\Thiago\\Documents\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
+        "source": "C:\\Users\\Thiago\\.android\\build-cache\\6bf4c7fae887ce59f90218d0ad09a65ee7213e9a\\output\\res\\anim\\abc_slide_out_top.xml"
+    },
+    {
+        "merged": "C:\\Users\\Thiago\\Documents\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
+        "source": "C:\\Users\\Thiago\\.android\\build-cache\\6bf4c7fae887ce59f90218d0ad09a65ee7213e9a\\output\\res\\anim\\abc_fade_out.xml"
+    },
+    {
+        "merged": "C:\\Users\\Thiago\\Documents\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
+        "source": "C:\\Users\\Thiago\\.android\\build-cache\\6bf4c7fae887ce59f90218d0ad09a65ee7213e9a\\output\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\Thiago\\Documents\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
+        "source": "C:\\Users\\Thiago\\.android\\build-cache\\6bf4c7fae887ce59f90218d0ad09a65ee7213e9a\\output\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "C:\\Users\\Thiago\\Documents\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
+        "source": "C:\\Users\\Thiago\\.android\\build-cache\\6bf4c7fae887ce59f90218d0ad09a65ee7213e9a\\output\\res\\anim\\abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\Thiago\\Documents\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
+        "source": "C:\\Users\\Thiago\\.android\\build-cache\\6bf4c7fae887ce59f90218d0ad09a65ee7213e9a\\output\\res\\anim\\abc_slide_in_top.xml"
+    },
+    {
+        "merged": "C:\\Users\\Thiago\\Documents\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
+        "source": "C:\\Users\\Thiago\\.android\\build-cache\\6bf4c7fae887ce59f90218d0ad09a65ee7213e9a\\output\\res\\anim\\abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\Thiago\\Documents\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
+        "source": "C:\\Users\\Thiago\\.android\\build-cache\\6bf4c7fae887ce59f90218d0ad09a65ee7213e9a\\output\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+    }
+]
