@@ -23,4 +23,6 @@
     <color name="theme_accent">#651fff</color>
     <color name="colorAccent">#651fff</color>
     <color name="ltgray">#ffe0e0e0</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#484848</color>
 </resources>
