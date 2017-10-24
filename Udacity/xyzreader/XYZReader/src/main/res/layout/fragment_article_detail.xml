@@ -21,15 +21,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:minHeight="112dp"
                 android:background="@color/photo_placeholder">
                 <!--suppress AndroidLintContentDescription -->
                 <ImageView
                     android:id="@+id/photo"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitStart"
-                    android:adjustViewBounds="true"/>
+                    android:layout_height="304dp"
+                    android:scaleType="centerCrop"/>
 
             </FrameLayout>
 
