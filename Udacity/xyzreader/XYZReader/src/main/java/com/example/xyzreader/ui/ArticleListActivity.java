@@ -7,13 +7,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -133,8 +137,24 @@ public class ArticleListActivity extends ActionBarActivity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                    long itemId = getItemId(vh.getAdapterPosition());
+                    Intent chooseDetails = new Intent(Intent.ACTION_VIEW,
+                            ItemsContract.Items.buildItemUri(itemId));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        // dynamic transition name to get correct item of recycler view
+                        vh.thumbnailView.setTransitionName(
+                                getString(R.string.transition_name_photo_article) + itemId);
+                        getWindow().setExitTransition(TransitionInflater.from(
+                                ArticleListActivity.this).inflateTransition(android.R.transition.explode));
+                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                ArticleListActivity.this,
+                                vh.thumbnailView,
+                                vh.thumbnailView.getTransitionName()).toBundle();
+                        startActivity(chooseDetails, bundle);
+                    } else {
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                ItemsContract.Items.buildItemUri(itemId)));
+                    }
                 }
             });
             return vh;
