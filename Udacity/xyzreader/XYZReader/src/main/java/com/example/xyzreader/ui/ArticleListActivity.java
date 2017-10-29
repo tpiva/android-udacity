@@ -145,7 +145,9 @@ public class ArticleListActivity extends ActionBarActivity implements
                         vh.thumbnailView.setTransitionName(
                                 getString(R.string.transition_name_photo_article) + itemId);
                         getWindow().setExitTransition(TransitionInflater.from(
-                                ArticleListActivity.this).inflateTransition(android.R.transition.explode));
+                                ArticleListActivity.this).inflateTransition(android.R.transition.slide_top));
+                        getWindow().setReenterTransition(TransitionInflater.from(
+                                ArticleListActivity.this).inflateTransition(android.R.transition.slide_bottom));
                         Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                 ArticleListActivity.this,
                                 vh.thumbnailView,
