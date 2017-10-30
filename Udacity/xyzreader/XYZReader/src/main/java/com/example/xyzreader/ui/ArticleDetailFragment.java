@@ -125,6 +125,14 @@ public class ArticleDetailFragment extends Fragment implements
         });
 
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (isVisible()) {
+                // dynamic transition name to get correct item of recycler view
+                mPhotoView.setTransitionName(
+                        getString(R.string.transition_name_photo_article) + mItemId);
+            }
+        }
+
         mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
 
         mStatusBarColorDrawable = new ColorDrawable(0);
@@ -207,11 +215,6 @@ public class ArticleDetailFragment extends Fragment implements
                                 Palette p = Palette.generate(bitmap, 12);
                                 mMutedColor = p.getDarkMutedColor(0xFF333333);
                                 mPhotoView.setImageBitmap(imageContainer.getBitmap());
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    // dynamic transition name to get correct item of recycleview
-                                    mPhotoView.setTransitionName(
-                                            getString(R.string.transition_name_photo_article) + mItemId);
-                                }
                                 mRootView.findViewById(R.id.meta_bar)
                                         .setBackgroundColor(mMutedColor);
                                 updateStatusBar();
