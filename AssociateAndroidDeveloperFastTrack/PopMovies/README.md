@@ -21,9 +21,13 @@ Step 2 Features
 
 Screens
 -----
+- Phone's screen
+
 ![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/PopMovies/pictures/grid_movies.png "Main scrren")
 ![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/PopMovies/pictures/movies_details_1.png "Details 1")
 ![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/PopMovies/pictures/movie_details_2.png "Details 2")
+
+- Tablet's screen
 
 How run it
 ------
