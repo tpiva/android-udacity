@@ -263,9 +263,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                         null,
                         null,
                         null);
-                if (!cursor.moveToFirst()) {
-                    return null;
-                } else {
+                if (cursor.moveToFirst()){
                     do {
                         Movie movie = new Movie();
                         movie.setId(cursor.getInt(COL_MOVIE_MOVIE_ID));
