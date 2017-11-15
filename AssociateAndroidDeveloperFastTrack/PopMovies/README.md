@@ -33,8 +33,8 @@ After your API key, it's necessary to set variable **MyTheMovieDBKey="your_api_k
 Libraries
 ------
 This project use the following libraries:
-[Picasso]http://square.github.io/picasso/
-[OkHttp]http://square.github.io/okhttp/
+- [Picasso](http://square.github.io/picasso/)
+- [OkHttp](http://square.github.io/okhttp/)
 
 License
 ------
