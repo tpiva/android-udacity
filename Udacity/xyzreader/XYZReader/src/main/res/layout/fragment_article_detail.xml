@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -16,30 +16,29 @@
                 android:id="@+id/photo_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:background="@color/photo_placeholder">
+                android:background="@color/photo_placeholder"
+                android:layout_gravity="center_horizontal|top|start">
                 <!--suppress AndroidLintContentDescription -->
                 <ImageView
                     android:id="@+id/photo"
                     android:layout_width="match_parent"
-                    android:layout_height="304dp"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"/>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="304dp"
+                    android:background="@drawable/photo_background_protection" />
             </FrameLayout>
 
             <com.example.xyzreader.ui.MaxWidthLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/photo_container"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_horizontal|bottom|end"
                 android:background="#fff"
-                android:elevation="2dp"
+                android:elevation="6dp"
                 android:maxWidth="@dimen/detail_card_max_width"
+                android:layout_marginTop="304dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -89,7 +88,7 @@
                     android:textSize="@dimen/detail_body_text_size" />
 
             </com.example.xyzreader.ui.MaxWidthLinearLayout>
-        </RelativeLayout>
+        </FrameLayout>
     </com.example.xyzreader.ui.ObservableScrollView>
 
     <ImageButton

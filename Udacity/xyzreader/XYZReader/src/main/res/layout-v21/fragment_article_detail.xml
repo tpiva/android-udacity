@@ -29,8 +29,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="304dp"
                     android:background="@drawable/photo_background_protection" />
-
-
             </FrameLayout>
 
             <com.example.xyzreader.ui.MaxWidthLinearLayout
@@ -38,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom|end"
                 android:background="#fff"
-                android:elevation="2dp"
+                android:elevation="6dp"
                 android:maxWidth="@dimen/detail_card_max_width"
                 android:layout_marginTop="304dp"
                 android:orientation="vertical">
