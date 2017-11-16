@@ -29,6 +29,9 @@ Screens
 
 - Tablet's screen
 
+![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/PopMovies/pictures/main_screen_tablet.png "Main scrren")
+![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/PopMovies/pictures/details_screen_tablet.png "Details")
+
 How run it
 ------
 It's necessary a API of [The movie DB](https://www.themoviedb.org/documentation/api). You can create an key with free account.
