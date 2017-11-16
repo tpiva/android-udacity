@@ -7,5 +7,15 @@
     <dimen name="fab_elevation">2dp</dimen>
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+    <dimen name="button_up_back">56dp</dimen>
+    <dimen name="list_side_padding">70dp</dimen>
+    <dimen name="app_bar_elevation">8dp</dimen>
+    <dimen name="photo_placeholder_details_size">304dp</dimen>
+    <dimen name="fab_width">56dp</dimen>
+    <dimen name="fab_height">56dp</dimen>
+    <dimen name="details_max_width_elevation">8dp</dimen>
+    <dimen name="cardview_list_item_margin">4dp</dimen>
+    <dimen name="general_padding">16dp</dimen>
+    <dimen name="cardview_bottom_text_title_padding">4dp</dimen>
 
 </resources>

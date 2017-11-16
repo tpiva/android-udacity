@@ -25,4 +25,6 @@
     <color name="ltgray">#ffe0e0e0</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#484848</color>
+    <color name="colorAuthorText">#8fff</color>
+    <color name="colorHeaderDetails">#333</color>
 </resources>

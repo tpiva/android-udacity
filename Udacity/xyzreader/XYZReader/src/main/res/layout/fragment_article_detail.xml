@@ -16,19 +16,19 @@
                 android:id="@+id/photo_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/photo_placeholder"
-                android:layout_gravity="center_horizontal|top|start">
+                android:layout_gravity="center_horizontal|top|start"
+                android:background="@color/photo_placeholder">
                 <!--suppress AndroidLintContentDescription -->
                 <ImageView
                     android:id="@+id/photo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitStart"
-                    android:adjustViewBounds="true"/>
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitStart" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="304dp"
+                    android:layout_height="@dimen/photo_placeholder_details_size"
                     android:background="@drawable/photo_background_protection" />
             </FrameLayout>
 
@@ -36,10 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom|end"
-                android:background="#fff"
-                android:elevation="6dp"
+                android:layout_marginTop="@dimen/photo_placeholder_details_size"
+                android:background="@android:color/white"
                 android:maxWidth="@dimen/detail_card_max_width"
-                android:layout_marginTop="304dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -48,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/detail_metabar_vert_padding"
-                    android:background="#333"
+                    android:background="@color/colorHeaderDetails"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/detail_metabar_vert_padding"
                     android:paddingLeft="@dimen/detail_inner_horiz_margin"
@@ -63,7 +62,7 @@
                         android:fontFamily="sans-serif-condensed"
                         android:lineSpacingMultiplier="0.9"
                         android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-                        android:textColor="#fff"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/detail_title_text_size"
                         android:textStyle="bold" />
 
@@ -72,7 +71,7 @@
                         style="?android:attr/textAppearanceSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#8fff" />
+                        android:textColor="@color/colorAuthorText"/>
                 </LinearLayout>
 
                 <TextView
@@ -94,15 +93,13 @@
 
     <ImageButton
         android:id="@+id/share_fab"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="@dimen/fab_width"
+        android:layout_height="@dimen/fab_height"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
         android:background="@drawable/add_fab_background"
         android:contentDescription="@string/action_share"
-        android:elevation="@dimen/fab_elevation"
-        android:src="@drawable/ic_share"
-        android:stateListAnimator="@anim/fab_state_list_anim" />
+        android:src="@drawable/ic_share"/>
 
 </com.example.xyzreader.ui.DrawInsetsFrameLayout>
