@@ -23,8 +23,10 @@ Screens
 
 - Phone landscape's screens
 
-![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_details_landscape.png "Recipe Details")
-![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_steps_landscape.png "Recipe Step full screen")
+<p align="center">
+  <img src="https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_details_landscape.png">
+  <img src="https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_steps_landscape.png">
+</p>
 
 Libraries
 ------
