@@ -36,13 +36,15 @@ Screens
 
 Libraries
 ------
-[Butter Knife](http://jakewharton.github.io/butterknife/)
+This project use the following libraries:
 
-[OkHttp](http://square.github.io/okhttp/)
+- [Butter Knife](http://jakewharton.github.io/butterknife/)
 
-[ExoPlayer](https://github.com/google/ExoPlayer)
+- [OkHttp](http://square.github.io/okhttp/)
 
-[Espresso](https://developer.android.com/training/testing/espresso/index.html)
+- [ExoPlayer](https://github.com/google/ExoPlayer)
+
+- [Espresso](https://developer.android.com/training/testing/espresso/index.html)
 
 License
 ------
