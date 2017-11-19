@@ -28,6 +28,12 @@ Screens
   <img src="https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_steps_landscape.png">
 </p>
 
+- Tablet's screens
+<p align="center">
+  <img src="https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/main_screen_tablet.png">
+  <img src="https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_details_steps_tablet.png">
+</p>
+
 Libraries
 ------
 [Butter Knife](http://jakewharton.github.io/butterknife/)
