@@ -5,14 +5,26 @@ The main objective of this project is to develop an app that shows recipes using
 
 Features
 ------
-- Differents UI based on tablet and phone using Fragments
-- Differents libraries since fetch data to help on UI.
-- Adapters for lists
-- Widget for each recipe
+- Differents UI based on tablet and phone using Fragments;
+- Differents libraries since fetch data to help on UI;
+- PLay videos with ExoPlayer;
+- Complexity layouts;
+- Adapters for lists;
+- Widget for each recipe;
 - UI tests
 
 Screens
 ------
+- Phone portrait's screens
+
+![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/main_screen.png "Main scrren")
+![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_details.png "Recipe Details")
+![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_steps.png "Recipe Steps")
+
+- Phone landscape's screens
+
+![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_details_landscape.png "Recipe Details")
+![alt text](https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_steps_landscape.png "Recipe Step full screen")
 
 Libraries
 ------
