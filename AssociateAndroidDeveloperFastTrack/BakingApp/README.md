@@ -28,15 +28,23 @@ Screens
   <img src="https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_steps_landscape.png">
 </p>
 
+- Tablet's screens
+<p align="center">
+  <img src="https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/main_screen_tablet.png">
+  <img src="https://github.com/tpiva/Android/blob/master/AssociateAndroidDeveloperFastTrack/BakingApp/pictures/recipe_details_steps_tablet.png">
+</p>
+
 Libraries
 ------
-[Butter Knife](http://jakewharton.github.io/butterknife/)
+This project use the following libraries:
 
-[OkHttp](http://square.github.io/okhttp/)
+- [Butter Knife](http://jakewharton.github.io/butterknife/)
 
-[ExoPlayer](https://github.com/google/ExoPlayer)
+- [OkHttp](http://square.github.io/okhttp/)
 
-[Espresso](https://developer.android.com/training/testing/espresso/index.html)
+- [ExoPlayer](https://github.com/google/ExoPlayer)
+
+- [Espresso](https://developer.android.com/training/testing/espresso/index.html)
 
 License
 ------
